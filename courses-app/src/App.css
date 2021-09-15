@@ -1,9 +1,11 @@
 .App {
   text-align: center;
+  background-color: #ffffff;
+
 }
 
 .App-header {
-  background-color: #ffffff;
+
   border: red solid 2px;
   display: flex;
   flex-direction: column;
@@ -14,7 +16,7 @@
 }
 
 .Content {
-  background-color: #ffffff;
+  
   border: blue solid 2px;
   margin: 30px;
   display: flex;
@@ -26,7 +28,7 @@
 }
 
 .Search {
-  background-color: #ffffff;
+  
   border: purple solid 2px;
   margin: 30px;
   display: flex;
@@ -38,7 +40,7 @@
 }
 
 .Courses {
-  background-color: #ffffff;
+  
   border: green solid 2px;
   margin: 30px;
   display: flex;
