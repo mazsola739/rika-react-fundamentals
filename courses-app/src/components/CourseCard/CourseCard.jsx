@@ -1,12 +1,7 @@
 import React from 'react';
 
 const CourseCard = () => {
-	return (
-		<div>
-			Lore ipsumLore ipsumLore ipsumLore ipsumLore ipsumLore ipsumLore ipsumLore
-			ipsumLore ipsumLore ipsum
-		</div>
-	);
+	return <div className='CourseCard'>Lore ipsum</div>;
 };
 
 export default CourseCard;

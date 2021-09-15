@@ -8,10 +8,6 @@ function App() {
 		<div className='App'>
 			<Header></Header>
 			<Courses></Courses>
-			<div className='Content'>
-				<p className='Search'>search button test</p>
-				<p className='Courses'>courses</p>
-			</div>
 		</div>
 	);
 }

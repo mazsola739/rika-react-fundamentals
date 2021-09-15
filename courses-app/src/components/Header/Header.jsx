@@ -4,7 +4,7 @@ import Button from '../Button/Button';
 
 const Header = () => {
 	return (
-		<header>
+		<header className='Header'>
 			<Logo></Logo>
 			<Button></Button>
 		</header>

@@ -1,52 +1,37 @@
 .App {
+  background-color: white;
+  color: black;
   text-align: center;
-  background-color: #ffffff;
-
 }
 
-.App-header {
-
+.Header {
   border: red solid 2px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: rgb(0, 0, 0);
+  flex-direction: row;
+  margin: 20px;
 }
 
-.Content {
-  
-  border: blue solid 2px;
-  margin: 30px;
+.Logo {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: rgb(0, 0, 0);
+  flex-direction: row;
 }
 
-.Search {
-  
+img {
+ width: 50px;
+}
+
+.Button {
   border: purple solid 2px;
-  margin: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: rgb(0, 0, 0);
+  height: 30px;
+  background-color: white;
 }
 
 .Courses {
-  
+  border: blue solid 2px;
+  margin: 20px;
+}
+
+.CourseCard {
   border: green solid 2px;
-  margin: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: rgb(0, 0, 0);
+  margin: 20px;
 }
