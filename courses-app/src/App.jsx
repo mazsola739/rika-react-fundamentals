@@ -10,7 +10,7 @@ function App() {
         </p>
       </header>
       <div className="Content">
-      <p className="Search">search button teest</p>
+      <p className="Search">search button test</p>
       <p className="Courses">courses</p>
       </div>
     </div>
