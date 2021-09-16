@@ -4,34 +4,6 @@
   text-align: center;
 }
 
-.Header {
-  border: red solid 2px;
-  display: flex;
-  flex-direction: row;
-  margin: 20px;
-}
-
-.Logo {
-  display: flex;
-  flex-direction: row;
-}
-
 img {
  width: 50px;
-}
-
-.Button {
-  border: purple solid 2px;
-  height: 30px;
-  background-color: white;
-}
-
-.Courses {
-  border: blue solid 2px;
-  margin: 20px;
-}
-
-.CourseCard {
-  border: green solid 2px;
-  margin: 20px;
 }

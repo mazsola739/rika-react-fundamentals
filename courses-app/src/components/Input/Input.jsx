@@ -1,14 +1,14 @@
 import React from 'react';
-import Button from '../Button/Button';
 
-const Input = () => {
-	return (
-		<div>
-			<input className='Input'></input>
-			<Button></Button>
-			<Button></Button>
-		</div>
-	);
+const inputStyle = {
+	border: 'peru solid 2px',
+	margin: 'auto',
+	height: '25px',
+	minWidth: '250px',
 };
+
+const Input = () => (
+	<input style={inputStyle} placeholder='Enter lore ipsum...'></input>
+);
 
 export default Input;

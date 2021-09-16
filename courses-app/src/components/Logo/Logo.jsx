@@ -1,13 +1,16 @@
 import React from 'react';
 import logo from './logo.jpg';
 
-const Logo = () => {
-	return (
-		<div className='Logo'>
-			<img src={logo} alt='courses-logo.jpg' />
-			<p>Courses</p>
-		</div>
-	);
+const logoStyle = {
+	display: 'flex',
+	flexDirection: 'row',
 };
+
+const Logo = () => (
+	<div style={logoStyle}>
+		<img src={logo} alt='courses-logo.jpg' />
+		<p>Courses</p>
+	</div>
+);
 
 export default Logo;

@@ -1,14 +1,34 @@
 import React from 'react';
-import Input from '../Input/Input';
+import Search from '../Search/Search';
 import CourseCard from '../CourseCard/CourseCard';
+import Button from '../Button/Button';
 
-const Courses = () => {
-	return (
-		<div className='Courses'>
-			<Input></Input>
-			<CourseCard></CourseCard>
-		</div>
-	);
+const coursesStyle = {
+	border: 'blue solid 2px',
+	margin: '20px',
+	display: 'flex',
+	flexDirection: 'column',
 };
+const topStyle = {
+	display: 'flex',
+	flexDirection: 'row',
+	justifyContent: 'space-between',
+};
+const cardsStyle = {
+	display: 'flex',
+	flexDirection: 'column',
+};
+
+const Courses = () => (
+	<div style={coursesStyle}>
+		<div style={topStyle}>
+			<Search />
+			<Button />
+		</div>
+		<div style={cardsStyle}>
+			<CourseCard />
+		</div>
+	</div>
+);
 
 export default Courses;

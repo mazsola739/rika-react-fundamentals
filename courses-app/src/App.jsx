@@ -1,15 +1,17 @@
 import React from 'react';
+import './App.css';
 import Header from './components/Header/Header';
 import Courses from './components/Courses/Courses';
-import './App.css';
+import CreateCourse from './components/CreateCourse/CreateCourse';
 
-function App() {
+const App = () => {
 	return (
 		<div className='App'>
 			<Header></Header>
 			<Courses></Courses>
+			<CreateCourse></CreateCourse>
 		</div>
 	);
-}
+};
 
 export default App;
