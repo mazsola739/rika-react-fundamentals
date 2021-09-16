@@ -8,8 +8,8 @@ const authorStyle = {
 
 const Author = () => (
 	<div style={authorStyle}>
-		<p>Someone Important</p>
-		<Button />
+		<p>Author name</p>
+		<Button buttonText='Add author' />
 	</div>
 );
 

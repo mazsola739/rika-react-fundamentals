@@ -3,12 +3,13 @@ import React from 'react';
 const inputStyle = {
 	border: 'peru solid 2px',
 	margin: 'auto',
-	height: '25px',
-	minWidth: '250px',
+	paddingLeft: '10px',
+	height: '24px',
+	minWidth: '350px',
 };
 
-const Input = () => (
-	<input style={inputStyle} placeholder='Enter lore ipsum...'></input>
+const Input = ({ placeholderText }) => (
+	<input style={inputStyle} placeholder={placeholderText}></input>
 );
 
 export default Input;

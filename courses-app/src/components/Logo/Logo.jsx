@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.jpg';
+import logo from '../../resources/images/logo.jpg';
 
 const logoStyle = {
 	display: 'flex',
@@ -9,7 +9,7 @@ const logoStyle = {
 const Logo = () => (
 	<div style={logoStyle}>
 		<img src={logo} alt='courses-logo.jpg' />
-		<p>Courses</p>
+		<h3>Courses</h3>
 	</div>
 );
 

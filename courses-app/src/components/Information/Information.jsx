@@ -7,7 +7,6 @@ const informationsStyle = {
 	border: 'black solid 2px',
 	display: 'flex',
 	flexDirection: 'row',
-	justifyContent: 'space-between',
 	margin: '20px',
 };
 const leftStyle = {
@@ -24,16 +23,16 @@ const Information = () => (
 		<div style={leftStyle}>
 			<div>
 				<h3>Add Authors</h3>
-				<div className='AddAuthor'>
+				<div>
 					<p>Author name</p>
-					<Input />
-					<Button />
+					<Input placeholderText='Enter author name...' />
+					<Button buttonText='Create author' />
 				</div>
 			</div>
 			<div>
 				<h3>Duration</h3>
 				<p>Duration</p>
-				<Input />
+				<Input placeholderText='Enter duration in minutes...' />
 				<p>
 					Duration <b>00:00</b> hours
 				</p>

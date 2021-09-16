@@ -9,7 +9,7 @@ const navigationStyle = {
 const Navigation = () => (
 	<nav style={navigationStyle}>
 		<p>Username</p>
-		<Button />
+		<Button buttonText='Logout' />
 	</nav>
 );
 
