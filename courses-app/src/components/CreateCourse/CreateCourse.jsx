@@ -3,11 +3,6 @@ import Input from '../Input/Input';
 import Button from '../Button/Button';
 import Information from '../Information/Information';
 
-const newCourseStyle = {
-	border: 'blue solid 2px',
-	margin: '20px',
-	textAlign: 'left',
-};
 const textAreaStyle = {
 	border: 'gold solid 2px',
 	minWidth: '97%',
@@ -30,7 +25,7 @@ const descriptionStyle = {
 };
 
 const CreateCourse = () => (
-	<div style={newCourseStyle}>
+	<div>
 		<div style={tittleTopStyle}>
 			<h3>Title</h3>
 			<div style={titleStyle}>

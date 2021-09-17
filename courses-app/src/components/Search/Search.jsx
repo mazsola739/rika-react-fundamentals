@@ -9,10 +9,11 @@ const searchStyle = {
 };
 
 const Search = () => {
+	const handleClick = () => console.log('Im Batman');
 	return (
 		<div style={searchStyle}>
 			<Input placeholderText='Enter course name or id...' />
-			<Button buttonText='Search' />
+			<Button {...{ buttonText: 'Search', handleClick }} />
 		</div>
 	);
 };

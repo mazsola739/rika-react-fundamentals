@@ -6,11 +6,11 @@ const logoStyle = {
 	flexDirection: 'row',
 };
 
-const Logo = () => (
+const HeaderLogo = () => (
 	<div style={logoStyle}>
 		<img src={logo} alt='courses-logo.jpg' />
 		<h3>Courses</h3>
 	</div>
 );
 
-export default Logo;
+export default HeaderLogo;

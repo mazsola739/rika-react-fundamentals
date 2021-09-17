@@ -23,18 +23,19 @@ const courseDataStyle = {
 	textAlign: 'left',
 };
 
-const CourseCard = ({ title, description }) => {
-	const AuthorName = ({ author }) => {
-		return mockedAuthorsList.name;
-	};
-	const DurationTime = ({ duration }) => {
-		let hours = Math.floor(duration / 60);
-		let minutes = duration % 60;
-		return hours + ':' + minutes;
-	};
-	const CreationDate = ({ creationDate }) => {
-		return 'datedate';
-	};
+const CourseCard = ({
+	title,
+	description,
+	authors,
+	duration,
+	creationDate,
+}) => {
+	const nameID = JSON.parse(JSON.stringify(mockedAuthorsList)).map(
+		(el) => el.id
+	);
+	const name = JSON.parse(JSON.stringify(mockedAuthorsList)).map(
+		(el) => el.name
+	);
 	return (
 		<div style={courseCardStyle}>
 			<div style={courseInfoStyle}>
@@ -43,13 +44,17 @@ const CourseCard = ({ title, description }) => {
 			</div>
 			<div style={courseDataStyle}>
 				<p>
-					<b>Authors:</b> <AuthorName />
+					<b>Authors:</b>
+					{authors.map((el, i) => {
+						return el === nameID[i] ? name[i] : 'hiba';
+					})}
 				</p>
 				<p>
-					<b>Duration:</b> <DurationTime />
+					<b>Duration:</b>{' '}
+					{`${Math.floor(duration / 60)}:${+duration % 60} hours`}
 				</p>
 				<p>
-					<b>Created:</b> <CreationDate />
+					<b>Created:</b> {creationDate.replaceAll('/', '.')}
 				</p>
 				<Button buttonText='Show course' />
 			</div>

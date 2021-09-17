@@ -10,8 +10,12 @@ const buttonStyle = {
 	width: '150px',
 };
 
-const Button = ({ buttonText }) => {
-	return <button style={buttonStyle}>{buttonText}</button>;
+const Button = ({ buttonText, handleClick }) => {
+	return (
+		<button style={buttonStyle} onClick={handleClick}>
+			{buttonText}
+		</button>
+	);
 };
 
 export default Button;

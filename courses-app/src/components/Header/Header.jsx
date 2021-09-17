@@ -1,6 +1,6 @@
 import React from 'react';
-import Logo from '../Logo/Logo';
-import Navigation from '../Navigation/Navigation';
+import HeaderLogo from '../HeaderLogo/HeaderLogo';
+import HeaderLogin from '../HeaderLogin/HeaderLogin';
 
 const headerStyle = {
 	border: 'red solid 2px',
@@ -13,10 +13,10 @@ const headerStyle = {
 const Header = () => (
 	<header style={headerStyle}>
 		<div>
-			<Logo />
+			<HeaderLogo />
 		</div>
 		<div>
-			<Navigation />
+			<HeaderLogin />
 		</div>
 	</header>
 );
