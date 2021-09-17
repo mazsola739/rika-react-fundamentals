@@ -8,8 +8,8 @@ const inputStyle = {
 	minWidth: '350px',
 };
 
-const Input = ({ placeholderText }) => (
-	<input style={inputStyle} placeholder={placeholderText}></input>
+const Input = ({ inputId, placeholderText }) => (
+	<input id={inputId} style={inputStyle} placeholder={placeholderText}></input>
 );
 
 export default Input;

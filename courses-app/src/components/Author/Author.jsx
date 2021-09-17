@@ -6,10 +6,10 @@ const authorStyle = {
 	flexDirection: 'row',
 };
 
-const Author = () => (
-	<div style={authorStyle}>
-		<p>Author name</p>
-		<Button buttonText='Add author' />
+const Author = ({ authorName, id, buttonText }) => (
+	<div id={id} style={authorStyle}>
+		<p>{authorName}</p>
+		<Button buttonText={buttonText} />
 	</div>
 );
 

@@ -13,8 +13,12 @@ const BodySection = () => {
 	return (
 		<div style={bodyStyle}>
 			<SearchSection />
-			<Courses />
-			<CreateCourse />
+			<div id='courses'>
+				<Courses />
+			</div>
+			<div id='createCourses'>
+				<CreateCourse />
+			</div>
 		</div>
 	);
 };

@@ -8,3 +8,11 @@ img {
  width: 60px;
  height: 60px;
 }
+
+#courses {
+  display: block;
+}
+
+#createCourses {
+  display: none;
+}

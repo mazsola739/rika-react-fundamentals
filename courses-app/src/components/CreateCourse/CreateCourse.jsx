@@ -12,6 +12,7 @@ const tittleTopStyle = {
 	margin: ' 20px',
 	display: 'flex',
 	flexDirection: 'column',
+	textAlign: 'left',
 };
 const titleStyle = {
 	display: 'flex',
@@ -22,6 +23,7 @@ const descriptionStyle = {
 	margin: ' 20px',
 	display: 'flex',
 	flexDirection: 'column',
+	textAlign: 'left',
 };
 
 const CreateCourse = () => (
@@ -41,7 +43,7 @@ const CreateCourse = () => (
 			<h3>Description</h3>
 			<textarea
 				style={textAreaStyle}
-				placeholder='Enter lore ipsum...'
+				placeholder='Enter description'
 			></textarea>
 		</div>
 		<Information />

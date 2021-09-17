@@ -8,14 +8,32 @@ const sectionStyle = {
 	justifyContent: 'space-between',
 };
 
+const rightStyle = {
+	margin: 'auto',
+};
+
+const handleClick = () => {
+	const x = document.getElementById('createCourses');
+	const y = document.getElementById('courses');
+	if (x.style.display === 'none') {
+		x.style.display = 'block';
+	} else {
+		x.style.display = 'none';
+	}
+	if (y.style.display === 'block') {
+		y.style.display = 'none';
+	} else {
+		y.style.display = 'block';
+	}
+};
+
 const SearchSection = () => {
-	const handleClick = () => console.log('Im Batman');
 	return (
 		<div style={sectionStyle}>
 			<div>
 				<Search />
 			</div>
-			<div>
+			<div style={rightStyle}>
 				<Button {...{ buttonText: 'Add new course', handleClick }} />
 			</div>
 		</div>
