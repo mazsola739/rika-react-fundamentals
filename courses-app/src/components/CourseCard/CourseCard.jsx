@@ -1,26 +1,9 @@
 import React from 'react';
 import Button from '../Button/Button';
-import { mockedAuthorsList } from '../../resources/CoursesInfo/AuthorsList';
+import { mockedAuthorsList } from '../../CoursesInfo/AuthorsList';
 
-const courseCardStyle = {
-	border: 'green solid 2px',
-	margin: '20px',
-	display: 'flex',
-	flexDirection: 'row',
-};
-const courseInfoStyle = {
-	display: 'flex',
-	flexDirection: 'column',
-	margin: '20px',
-	width: '70%',
-	textAlign: 'left',
-};
-const courseDataStyle = {
-	width: '30%',
-	display: 'flex',
-	flexDirection: 'column',
-	margin: '20px',
-	textAlign: 'left',
+const cardStyle = {
+	maxHeight: '200px',
 };
 
 const CourseCard = ({
@@ -38,28 +21,38 @@ const CourseCard = ({
 	})}`;
 
 	return (
-		<div id='card' style={courseCardStyle}>
-			<div style={courseInfoStyle}>
-				<h1 id={id}>{title}</h1>
-				<p>
-					{description.length > 200
-						? description.substring(0, 200) + '...'
-						: description}
-				</p>
-			</div>
-			<div style={courseDataStyle}>
-				<p>
-					<b>Authors:</b>{' '}
-					{author.length > 20 ? author.substring(0, 20) + '...' : author}
-				</p>
-				<p>
-					<b>Duration:</b>{' '}
-					{`${Math.floor(duration / 60)}:${duration % 60} hours`}
-				</p>
-				<p>
-					<b>Created:</b> {creationDate.replaceAll('/', '.')}
-				</p>
-				<Button buttonText='Show course' />
+		<div
+			style={cardStyle}
+			className='border border-success border-2 rounded-1 align-items-center p-4 my-2'
+		>
+			<div className='row'>
+				<div className='text-truncate col-sm-8'>
+					<h3 id={id}>{title}</h3>
+					<span id='overflow'>{description}</span>
+				</div>
+
+				<div className='text-truncate col-sm-4'>
+					<div className='row p-1'>
+						<span id='overflow'>
+							<b>Authors: </b> {author}
+						</span>
+					</div>
+					<div className='row p-1'>
+						<span>
+							<b>Duration: </b>
+							{`${Math.floor(duration / 60)}:${duration % 60} hours`}
+						</span>
+					</div>
+					<div className='row p-1'>
+						<span>
+							<b>Created: </b>
+							{creationDate.replaceAll('/', '.')}
+						</span>
+					</div>
+					<div className='row p-1'>
+						<Button buttonText='Show course' />
+					</div>
+				</div>
 			</div>
 		</div>
 	);

@@ -35,16 +35,20 @@ a type specimen book.`,
 	},
 	{
 		id: 'de5aaa60-90f5-4dbc-b8a9-aaf205c551ba',
-		title: 'teszt',
-		description: `Lorem Ipsum is simply dummy text of the printing and
-typesetting industry. teszteléééééés   but also the leap into
-electronic typesetting, remaining essentially u
-nchanged.`,
+		title: 'Zombie Ipsum',
+		description: `Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. 
+De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo vel maleficia? 
+De apocalypsi gorger omero undead survivor dictum mauris. Hi mindless mortuis soulless 
+creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat cerebella viventium. 
+Qui animated corpse, cricket bat max brucks terribilem incessu zomby. The voodoo sacerdos 
+flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum 
+defunctis go lum cerebro. Nescio brains an Undead zombies. Sicut malus putrid voodoo horror. 
+Nigh tofth eliv ingdead.`,
 		creationDate: '8/8/2008',
 		duration: 240,
 		authors: [
 			'27cc3006-e93a-4748-8ca8-73d06aa93b6d',
-			'f762978b-61eb-4096-812b-ebde22838167',
+			'095a1817-d45b-4ed7-9cf7-b2417bcbf748',
 		],
 	},
 ];

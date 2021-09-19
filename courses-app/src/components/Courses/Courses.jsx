@@ -1,16 +1,38 @@
 import React from 'react';
 import CourseCard from '../CourseCard/CourseCard';
-import { mockedCoursesList } from '../../resources/CoursesInfo/CoursesList';
-
-const cardsStyle = {
-	display: 'flex',
-	flexDirection: 'column',
-};
+import Button from '../Button/Button';
+import Search from '../Search/Search';
+import { mockedCoursesList } from '../../CoursesInfo/CoursesList';
 
 const Courses = () => {
+	const handleClick = () => {
+		const courses = document.getElementById('createCourses');
+		const createCourse = document.getElementById('courses');
+		if (courses.style.display === 'none') {
+			courses.style.display = 'block';
+		} else {
+			courses.style.display = 'none';
+		}
+		if (createCourse.style.display === 'block') {
+			createCourse.style.display = 'none';
+		} else {
+			createCourse.style.display = 'block';
+		}
+	};
+
 	return (
-		<div>
-			<div style={cardsStyle}>
+		<div className='border border-primary border-2 rounded-1 p-4 my-3'>
+			<div className=' py-2'>
+				<div className='row align-items-center'>
+					<div className='col-sm-8'>
+						<Search />
+					</div>
+					<div className='col-sm-4'>
+						<Button {...{ buttonText: 'Add new course', handleClick }} />
+					</div>
+				</div>
+			</div>
+			<div className='row align-items-center'>
 				{mockedCoursesList.map((course) => {
 					return <CourseCard key={course.id} {...course} />;
 				})}

@@ -1,24 +1,25 @@
 import React from 'react';
-import HeaderLogo from '../HeaderLogo/HeaderLogo';
-import HeaderLogin from '../HeaderLogin/HeaderLogin';
+import Button from '../Button/Button';
+import logo from '../../images/logo.jpg';
 
-const headerStyle = {
-	border: 'red solid 2px',
-	display: 'flex',
-	flexDirection: 'row',
-	justifyContent: 'space-between',
-	margin: '20px',
+const imgStyle = {
+	width: '50px',
+	height: '50px',
 };
 
 const Header = () => (
-	<header style={headerStyle}>
-		<div>
-			<HeaderLogo />
+	<div className='border border-danger border-2 rounded-1'>
+		<div className='row'>
+			<div className='col-sm-8'>
+				<img style={imgStyle} src={logo} alt='courses-logo.jpg' />
+				<span>Courses Logo</span>
+			</div>
+			<div className='col-sm-4'>
+				<span>Rika</span>
+				<Button {...{ buttonText: 'Logout' }} />
+			</div>
 		</div>
-		<div>
-			<HeaderLogin />
-		</div>
-	</header>
+	</div>
 );
 
 export default Header;

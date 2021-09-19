@@ -1,15 +1,14 @@
 import React from 'react';
 import Button from '../Button/Button';
 
-const authorStyle = {
-	display: 'flex',
-	flexDirection: 'row',
-};
-
 const Author = ({ authorName, id, buttonText }) => (
-	<div id={id} style={authorStyle}>
-		<p>{authorName}</p>
-		<Button buttonText={buttonText} />
+	<div className='row p-1' id={id}>
+		<div className='col text-end'>
+			<span>{authorName} </span>
+		</div>
+		<div className='col'>
+			<Button buttonText={buttonText} />
+		</div>
 	</div>
 );
 

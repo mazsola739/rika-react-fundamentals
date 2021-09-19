@@ -2,12 +2,6 @@ import React from 'react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 
-const searchStyle = {
-	display: 'flex',
-	flexDirection: 'row',
-	margin: '20px',
-};
-
 const Search = () => {
 	const searchCourse = () => {
 		let input = document.getElementById('searchInput');
@@ -28,15 +22,20 @@ const Search = () => {
 	};
 
 	const handleClick = () => searchCourse();
+
 	return (
-		<div style={searchStyle}>
-			<Input
-				{...{
-					inputId: 'searchInput',
-					placeholderText: 'Enter course name or id...',
-				}}
-			/>
-			<Button {...{ buttonText: 'Search', handleClick }} />
+		<div className='row align-items-center'>
+			<div className='col'>
+				<Input
+					{...{
+						inputId: 'searchInput',
+						placeholderText: 'Enter course name or id...',
+					}}
+				/>
+			</div>{' '}
+			<div className='col'>
+				<Button {...{ buttonText: 'Search', handleClick }} />
+			</div>
 		</div>
 	);
 };

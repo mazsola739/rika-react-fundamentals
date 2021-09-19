@@ -1,18 +1,16 @@
 import React from 'react';
 
 const buttonStyle = {
-	margin: 'auto 10px',
-	verticalAlign: 'middle',
-	textAlign: 'center',
-	border: 'purple solid 2px',
-	background: 'white',
-	height: '30px',
 	width: '150px',
 };
 
 const Button = ({ buttonText, handleClick }) => {
 	return (
-		<button style={buttonStyle} onClick={handleClick}>
+		<button
+			style={buttonStyle}
+			className='btn btn-sm border border-info border-2 rounded-1'
+			onClick={handleClick}
+		>
 			{buttonText}
 		</button>
 	);
