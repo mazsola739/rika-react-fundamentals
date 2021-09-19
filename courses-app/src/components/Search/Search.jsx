@@ -1,41 +1,52 @@
-import React from 'react';
+import React, { useRef, useContext, useEffect } from 'react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
+import { AppContext } from '../Context/AppContext';
+
+const noop = () => {};
+
+const isCardMatch = (card, filterText) =>
+	card.toUpperCase().indexOf(filterText) >= 0;
+
+const isMatch = (cardByTitle, cardById, filterText) =>
+	isCardMatch(cardByTitle, filterText) || isCardMatch(cardById, filterText);
 
 const Search = () => {
-	const searchCourse = () => {
-		let input = document.getElementById('searchInput');
-		let filterText = input.value.toUpperCase();
-		let allCard = document.querySelectorAll('h3');
-		let cardByTitle, cardById;
-		for (let i = 0; i < allCard.length; i++) {
-			cardByTitle = allCard[i].innerText;
-			cardById = allCard[i].id;
-			let isMatchingTitle = cardByTitle.toUpperCase().indexOf(filterText);
-			let isMatchingId = cardById.toUpperCase().indexOf(filterText);
-			if (isMatchingTitle >= 0 || isMatchingId >= 0) {
-				allCard[i].parentElement.parentElement.parentElement.style.display = '';
-			} else {
-				allCard[i].parentElement.parentElement.parentElement.style.display =
-					'none';
-			}
-		}
-	};
+	const context = useContext(AppContext);
+	useEffect(() => {
+		console.log(context.username);
+	}, [context]);
 
-	const handleClick = () => searchCourse();
+	const searchInputRef = useRef(null);
+
+	const searchCourseHandler = () => {
+		const input = searchInputRef.current,
+			filterText = input.value.toUpperCase();
+		let matchdCards = [];
+
+		context.allCards.forEach((card) => {
+			const match = isMatch(card.title, card.id, filterText);
+			if (match) {
+				matchdCards.push(card);
+			}
+		});
+		context.setCards(matchdCards);
+	};
+	const searchChangeHandler = ({ target: { value } }) =>
+		!value ? context.setCards(context.allCards) : noop();
 
 	return (
 		<div className='row align-items-center'>
 			<div className='col'>
 				<Input
-					{...{
-						inputId: 'searchInput',
-						placeholderText: 'Enter course name or id...',
-					}}
+					ref={searchInputRef}
+					inputId='searchInput'
+					placeholderText='Enter course name or id...'
+					changeHandler={searchChangeHandler}
 				/>
-			</div>{' '}
+			</div>
 			<div className='col'>
-				<Button {...{ buttonText: 'Search', handleClick }} />
+				<Button buttonText='Search' handleClick={searchCourseHandler} />
 			</div>
 		</div>
 	);

@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../Button/Button';
 import { mockedAuthorsList } from '../../CoursesInfo/AuthorsList';
+import './CourseCard.css';
 
 const cardStyle = {
 	maxHeight: '200px',
@@ -14,11 +15,14 @@ const CourseCard = ({
 	duration,
 	creationDate,
 }) => {
-	const author = `${authors.map((el) => {
-		let author = el;
-		mockedAuthorsList.map((el) => (el.id === author ? (author = el.name) : ''));
-		return author;
-	})}`;
+	const authorList = `${authors.map((authorId) => {
+		let foundAuthor = authorId;
+		mockedAuthorsList.map(
+			(author) =>
+				(foundAuthor = author.id === authorId ? author.name : foundAuthor)
+		);
+		return foundAuthor;
+	})}`.replaceAll(',', ', ');
 
 	return (
 		<div
@@ -26,15 +30,21 @@ const CourseCard = ({
 			className='border border-success border-2 rounded-1 align-items-center p-4 my-2'
 		>
 			<div className='row'>
-				<div className='text-truncate col-sm-8'>
+				<div className='col-sm-8'>
 					<h3 id={id}>{title}</h3>
-					<span id='overflow'>{description}</span>
+					<span className='description' title={description} id='overflow'>
+						{description}
+					</span>
 				</div>
 
-				<div className='text-truncate col-sm-4'>
+				<div className='col-sm-4'>
 					<div className='row p-1'>
-						<span id='overflow'>
-							<b>Authors: </b> {author}
+						<span
+							className='author'
+							title={`Authors: ${authorList}`}
+							id='overflow'
+						>
+							<b>Authors: </b> {authorList}
 						</span>
 					</div>
 					<div className='row p-1'>

@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import CourseCard from '../CourseCard/CourseCard';
 import Button from '../Button/Button';
 import Search from '../Search/Search';
-import { mockedCoursesList } from '../../CoursesInfo/CoursesList';
+
+import { AppContext } from '../Context/AppContext';
 
 const Courses = () => {
+	const { cards } = useContext(AppContext);
+
 	const handleClick = () => {
 		const courses = document.getElementById('createCourses');
 		const createCourse = document.getElementById('courses');
@@ -30,7 +33,7 @@ const Courses = () => {
 				</div>
 			</div>
 			<div className='row align-items-center'>
-				{mockedCoursesList.map((course) => {
+				{cards.map((course) => {
 					return <CourseCard key={course.id} {...course} />;
 				})}
 			</div>
