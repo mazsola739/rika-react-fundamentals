@@ -1,10 +1,11 @@
 .description, .author {
     display: -webkit-box;
+    /* autoprefixer: off */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
-}
+    }
 
 .description {
     -webkit-line-clamp: 4;
