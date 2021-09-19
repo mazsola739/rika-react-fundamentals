@@ -6,7 +6,7 @@ const Search = () => {
 	const searchCourse = () => {
 		let input = document.getElementById('searchInput');
 		let filterText = input.value.toUpperCase();
-		let allCard = document.querySelectorAll('h1');
+		let allCard = document.querySelectorAll('h3');
 		let cardByTitle, cardById;
 		for (let i = 0; i < allCard.length; i++) {
 			cardByTitle = allCard[i].innerText;
@@ -14,9 +14,10 @@ const Search = () => {
 			let isMatchingTitle = cardByTitle.toUpperCase().indexOf(filterText);
 			let isMatchingId = cardById.toUpperCase().indexOf(filterText);
 			if (isMatchingTitle >= 0 || isMatchingId >= 0) {
-				allCard[i].parentElement.parentElement.style.display = 'flex';
+				allCard[i].parentElement.parentElement.parentElement.style.display = '';
 			} else {
-				allCard[i].parentElement.parentElement.style.display = 'none';
+				allCard[i].parentElement.parentElement.parentElement.style.display =
+					'none';
 			}
 		}
 	};

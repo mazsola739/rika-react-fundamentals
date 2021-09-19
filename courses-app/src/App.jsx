@@ -13,7 +13,7 @@ const App = () => {
 			<div id='courses'>
 				<Courses />
 			</div>
-			<div id='createCourse'>
+			<div id='createCourses'>
 				<CreateCourse />
 			</div>
 		</div>

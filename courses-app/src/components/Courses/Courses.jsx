@@ -10,12 +10,9 @@ const Courses = () => {
 		const createCourse = document.getElementById('courses');
 		if (courses.style.display === 'none') {
 			courses.style.display = 'block';
-		} else {
-			courses.style.display = 'none';
-		}
-		if (createCourse.style.display === 'block') {
 			createCourse.style.display = 'none';
 		} else {
+			courses.style.display = 'none';
 			createCourse.style.display = 'block';
 		}
 	};
