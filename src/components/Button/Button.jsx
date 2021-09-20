@@ -4,14 +4,6 @@ const buttonStyle = {
 	width: '150px',
 };
 
-/*function FancyButton(props) {
-	return (
-	  <button className="FancyButton">
-		{props.children}
-	  </button>
-	);
-  }*/
-
 const Button = ({ buttonText, handleClick }) => {
 	return (
 		<button

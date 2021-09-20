@@ -1,3 +1,3 @@
-const Alert = () => alert('Please, fill in all fields!');
+const Alert = console.log('semmisenemmegy');
 
 export default Alert;

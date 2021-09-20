@@ -1,13 +1,13 @@
 .App {
-  background-color: white;
-  color: black;
-  font-family: 'Roboto', sans-serif;
+	background-color: white;
+	color: black;
+	font-family: "Roboto", sans-serif;
 }
 
 #courses {
-  display: block;
+	display: block;
 }
 
 #createCourse {
-  display: none;
+	display: none;
 }

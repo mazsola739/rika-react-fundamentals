@@ -14,9 +14,9 @@ const Header = () => (
 				<img style={imgStyle} src={logo} alt='courses-logo.jpg' />
 				<span>Courses Logo</span>
 			</div>
-			<div className='col-sm-4'>
+			<div className='col-sm-4 align-items-center'>
 				<span>Rika</span>
-				<Button {...{ buttonText: 'Logout' }} />
+				<Button buttonText='Logout' />
 			</div>
 		</div>
 	</div>

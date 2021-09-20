@@ -1,16 +1,17 @@
-.description, .author {
-    display: -webkit-box;
-    /* autoprefixer: off */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    }
+.description,
+.author {
+	display: -webkit-box;
+	/* autoprefixer: off */
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: normal;
+}
 
 .description {
-    -webkit-line-clamp: 4;
+	-webkit-line-clamp: 4;
 }
 
 .author {
-    -webkit-line-clamp: 1;
+	-webkit-line-clamp: 1;
 }

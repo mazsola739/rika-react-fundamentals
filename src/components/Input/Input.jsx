@@ -4,9 +4,10 @@ const inputStyle = {
 	width: '90%',
 };
 
-const Input = ({ inputId, placeholderText, changeHandler }, ref) => {
+const Input = ({ inputId, placeholderText, changeHandler, value }, ref) => {
 	return (
 		<input
+			value={value}
 			ref={ref}
 			style={inputStyle}
 			className='col-form-label-sm border border-2 border-warning rounded-1'

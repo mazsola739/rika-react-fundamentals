@@ -1,57 +1,94 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
-import Author from '../Author/Author';
+import DisplayAuthor from '../CreateCourse/DisplayAuthor';
 import { mockedAuthorsList } from '../../CoursesInfo/AuthorsList';
-//import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
-//const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid');
 
 const textareaStyle = {
 	height: '100px',
 };
 
-const CreateCourse = () => {
-	const [addClick] = useState({
-		handleClick: () => {
-			console.log('batman');
-		},
-	});
-	const [deleteClick] = useState({
-		handleClick: () => {
-			console.log('superman');
-		},
-	});
+const newCourse = [];
+let displayHours = '';
+const CreateCourse = ({ backToCourse, setCards, cards }) => {
+	//const [newTitleValue, setNewTitleValue] = useState('');
+	//const [newDescriptionValue, setNewDescriptionValue] = useState('');
+	//const [newAuthorValue, setNewAuthorValue] = useState('');
+	//const [newDurationValue, setDurationValue] = useState('');
 
-	const handleClick = () => {
-		const courses = document.getElementById('createCourses');
-		const createCourse = document.getElementById('courses');
-		if (createCourse.style.display === 'none') {
-			createCourse.style.display = 'block';
-			courses.style.display = 'none';
-		} else {
-			createCourse.style.display = 'none';
-			courses.style.display = 'block';
-		}
+	const inputTitleRef = useRef();
+	const inputDescriptionRef = useRef();
+	const inputAuthorRef = useRef();
+	const inputDurationRef = useRef();
+
+	const handleChangeTitle = (e) => {
+		console.log(e.target.value);
 	};
+	const handleChangeDescription = (e) => {
+		console.log(e.target.value);
+	};
+	const handleChangeAuthor = (e) => {
+		console.log(e.target.value);
+	};
+	const handleChangeDuration = (e) => {
+		const newDuration = +inputDurationRef.current.value;
+		const showDuration = `${Math.floor(newDuration / 60)}:${newDuration % 60}`;
+		displayHours += showDuration;
+		console.log(displayHours);
+	};
+
+	const handleClick = (e) => {
+		e.preventDefault();
+		const newTitle = inputTitleRef.current.value;
+		const newDescription = inputDescriptionRef.current.value;
+		const newAuthor = inputAuthorRef.current.value;
+		const newDuration = inputDurationRef.current.value;
+
+		if (!newTitle || !newDescription || !newAuthor || !newDuration) {
+			alert('Please, fill in all fields');
+		} else {
+			const newObject = {
+				id: 4, //uuid
+				title: newTitle,
+				description: newDescription,
+				authors: [newAuthor],
+				duration: newDuration,
+			};
+
+			setCards([...cards, newObject]);
+			backToCourse(true);
+		}
+		console.log(newCourse);
+	};
+
 	return (
 		<div className='border border-primary border-2 rounded-1 p-3 my-3'>
 			<div className='row'>
 				<div className='col'>
 					<p>Title</p>
-					<Input placeholderText='Enter title...' />
+					<Input
+						ref={inputTitleRef}
+						changeHandler={handleChangeTitle}
+						inputId='inputTitle'
+						placeholderText='Enter title...'
+					/>
 				</div>
 				<div className='col'>
-					<Button {...{ handleClick, buttonText: 'Create course' }} />
+					<Button handleClick={handleClick} buttonText='Create course' />
 				</div>
 			</div>
 			<div className='row p-2 my-3'>
 				<p>Description</p>
 				<textarea
+					ref={inputDescriptionRef}
+					onChange={handleChangeDescription}
 					style={textareaStyle}
 					className='border border-secondary border-2 form-control'
 					placeholder='Enter description'
-				></textarea>
+				/>
 			</div>
 			<div className='border border-dark border-2 rounded-1 p-2'>
 				<div className='row'>
@@ -59,28 +96,28 @@ const CreateCourse = () => {
 						<h5 className='text-center'>Add Authors</h5>
 						<div>
 							<p>Author name</p>
-							<Input placeholderText='Enter author name...' />
+							<Input
+								changeHandler={handleChangeAuthor}
+								inputId='inputAuthor'
+								ref={inputAuthorRef}
+								placeholderText='Enter author name...'
+							/>
 						</div>
 						<div className='col p-2 text-center'>
-							<Button {...{ buttonText: 'Create author' }} />
+							<Button buttonText='Create author' />
 						</div>
 					</div>
 					<div className='col'>
 						<h5 className='text-center'>Authors</h5>
 						<div>
-							{mockedAuthorsList.map((author) => {
-								return (
-									<Author
-										key={author.id}
-										{...{
-											authorName: author.name,
-											id: author.id,
-											onClick: addClick,
-											buttonText: 'Add author',
-										}}
-									/>
-								);
-							})}
+							{mockedAuthorsList.map((author) => (
+								<DisplayAuthor
+									key={author.id}
+									authorName={author.name}
+									id={author.id}
+									buttonText='Add author'
+								/>
+							))}
 						</div>
 					</div>
 				</div>
@@ -88,9 +125,14 @@ const CreateCourse = () => {
 					<div className='col'>
 						<h5 className='text-center'>Duration</h5>
 						<p>Duration</p>
-						<Input placeholderText='Enter duration in minutes...' />
+						<Input
+							changeHandler={handleChangeDuration}
+							inputId='inputDuration'
+							ref={inputDurationRef}
+							placeholderText='Enter duration in minutes...'
+						/>
 						<p>
-							Duration <b>00:00</b> hours
+							Duration <b>{displayHours}</b> hours
 						</p>
 					</div>
 					<div className='col'>
@@ -98,19 +140,14 @@ const CreateCourse = () => {
 						<div className='text-center'>
 							<span>Author list is empty</span>
 						</div>
-						{mockedAuthorsList.map((author) => {
-							return (
-								<Author
-									key={author.id}
-									{...{
-										authorName: author.name,
-										id: author.id,
-										onClick: deleteClick,
-										buttonText: 'Delete author',
-									}}
-								/>
-							);
-						})}
+						{mockedAuthorsList.map((author) => (
+							<DisplayAuthor
+								key={author.id}
+								authorName={author.name}
+								id={author.id}
+								buttonText='Delete author'
+							/>
+						))}
 					</div>
 				</div>
 			</div>

@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useEffect } from 'react';
+import React, { useRef, useContext } from 'react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { AppContext } from '../Context/AppContext';
@@ -12,10 +12,8 @@ const isMatch = (cardByTitle, cardById, filterText) =>
 	isCardMatch(cardByTitle, filterText) || isCardMatch(cardById, filterText);
 
 const Search = () => {
+	//propok card
 	const context = useContext(AppContext);
-	useEffect(() => {
-		console.log(context.username);
-	}, [context]);
 
 	const searchInputRef = useRef(null);
 
