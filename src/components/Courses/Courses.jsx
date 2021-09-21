@@ -8,17 +8,17 @@ const Courses = ({ goToCreateCourse, cards }) => {
 	const handleClick = () => {
 		goToCreateCourse(false);
 	};
-	/*cards, setcards a searchnek  
-	const value = useMemo(
-		() => ({ cards, setCards, allCards }),
-		[cards, allCards]
-	);*/
+
 	return (
 		<div className='border border-primary border-2 rounded-1 p-4 my-3'>
 			<div className=' py-2'>
 				<div className='row align-items-center'>
 					<div className='col-sm-8'>
-						<Search cards={cards} search={setSearchCards} />
+						<Search
+							cards={cards}
+							searchCards={searchCards}
+							setSearchCards={setSearchCards}
+						/>
 					</div>
 					<div className='col-sm-4'>
 						<Button buttonText='Add new course' handleClick={handleClick} />
@@ -26,7 +26,7 @@ const Courses = ({ goToCreateCourse, cards }) => {
 				</div>
 			</div>
 			<div className='row align-items-center'>
-				{cards.map((course) => {
+				{searchCards.map((course) => {
 					return <CourseCard key={course.id} {...course} />;
 				})}
 			</div>

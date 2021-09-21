@@ -3,8 +3,6 @@ import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
 
-// const { v4: uuidv4 } = require('uuid');
-
 const textareaStyle = {
 	height: '100px',
 };
@@ -17,48 +15,52 @@ const CreateCourse = ({
 	authors,
 	setAuthors,
 }) => {
-	const [displayAuthors, setDisplayAuthors] = useState(true);
-
-	//const [newTitleValue, setNewTitleValue] = useState('');
-	//const [newDescriptionValue, setNewDescriptionValue] = useState('');
-	//const [newAuthorValue, setNewAuthorValue] = useState('');
-	//const [newDurationValue, setDurationValue] = useState('');
+	const [durationDisplay, setDurationDisplay] = useState('00:00');
+	const [displayAuthor, setDisplayAuthor] = useState(authors);
 
 	const inputTitleRef = useRef();
 	const inputDescriptionRef = useRef();
 	const inputAuthorRef = useRef();
 	const inputDurationRef = useRef();
 
-	const handleChangeTitle = (e) => {
-		console.log(e.target.value);
-	};
-	const handleChangeDescription = (e) => {
-		console.log(e.target.value);
-	};
-	const handleChangeAuthor = (e) => {
-		console.log(e.target.value);
-	};
+	let displayDuration;
 	const handleChangeDuration = (e) => {
-		const newDuration = +inputDurationRef.current.value;
-		const showDuration = `${Math.floor(newDuration / 60)}:${newDuration % 60}`;
-		console.log(showDuration.length);
+		const regex = /^[0-9\b]+$/;
+		let preval = e.target.value;
+		let duration;
+		if (regex.test(e.target.value)) {
+			duration = e.target.value;
+		} else {
+			e.target.value = preval.substring(0, preval.length - 1);
+			duration = e.target.value;
+		}
+		let hours = Math.floor(duration / 60);
+		let minutes = duration % 60;
+		displayDuration = `${hours < 10 ? '0' + hours : hours}:${
+			minutes < 10 ? '0' + minutes : minutes
+		}`;
+		setDurationDisplay(displayDuration);
 	};
 
+	let newAuthors = {};
 	const handleClickCreateAuthor = (e) => {
 		e.preventDefault();
 		const newAuthorName = inputAuthorRef.current.value;
-		const newAuthorUuid = (key = uuidv4());
-		const newAuthors = {
-			id: newAuthorUuid,
-			name: newAuthorName,
-		};
-		setAuthors([...authors, newAuthors]);
+		if (newAuthorName.length >= 2) {
+			const newAuthorUuid = (key = uuidv4());
+			newAuthors = {
+				id: newAuthorUuid,
+				name: newAuthorName,
+			};
+			setAuthors([...authors, newAuthors]);
+		}
 	};
 
-	const handleAddAuthor = (e) => console.log('batman');
-	const handleDeleteAuthor = (e) => console.log('superman');
-
-	//const choosedAuthours = [];
+	const handleDeleteAuthor = (e) => {};
+	const handleAddAuthor = (id) => {
+		const newList = authors.filter((author) => author.id !== id);
+		setDisplayAuthor(newList);
+	};
 
 	const saveNewCourse = (e) => {
 		e.preventDefault();
@@ -68,11 +70,7 @@ const CreateCourse = ({
 		const newCourseUuid = (key = uuidv4());
 		const newCreationDate = new Date().toLocaleDateString();
 
-		if (
-			!newTitle ||
-			newDescription.length < 2 ||
-			/*!newAuthorName ||*/ !newDuration
-		) {
+		if (!newTitle || newDescription.length < 2 || !newDuration) {
 			alert('Please, fill in all fields');
 		} else {
 			const newCourse = {
@@ -95,7 +93,6 @@ const CreateCourse = ({
 					<p>Title</p>
 					<Input
 						ref={inputTitleRef}
-						changeHandler={handleChangeTitle}
 						inputId='inputTitle'
 						placeholderText='Enter title...'
 					/>
@@ -108,7 +105,6 @@ const CreateCourse = ({
 				<p>Description</p>
 				<textarea
 					ref={inputDescriptionRef}
-					onChange={handleChangeDescription}
 					style={textareaStyle}
 					className='border border-secondary border-2 form-control'
 					placeholder='Enter description'
@@ -121,7 +117,6 @@ const CreateCourse = ({
 						<div>
 							<p>Author name</p>
 							<Input
-								changeHandler={handleChangeAuthor}
 								inputId='inputAuthor'
 								ref={inputAuthorRef}
 								placeholderText='Enter author name...'
@@ -139,15 +134,16 @@ const CreateCourse = ({
 						<div className='text-center'>
 							<span>Author list is empty</span>
 
-							{authors.map((author) => (
+							{displayAuthor.map((author) => (
 								<div className='row' key={author.id} id={author.id}>
 									<div className='start col'>
 										<span>{author.name} </span>
 									</div>
 									<div className='start col'>
 										<Button
+											id={author.id}
 											buttonText='Add Author'
-											handleClick={handleAddAuthor}
+											handleClick={() => handleAddAuthor(author.id)}
 										/>
 									</div>
 								</div>
@@ -166,7 +162,7 @@ const CreateCourse = ({
 							placeholderText='Enter duration in minutes...'
 						/>
 						<p>
-							Duration <b></b> hours
+							Duration <b>{durationDisplay}</b> hours
 						</p>
 					</div>
 					<div className='col'>
@@ -181,6 +177,7 @@ const CreateCourse = ({
 									</div>
 									<div className='start col'>
 										<Button
+											id={author.id}
 											buttonText='Delete Author'
 											handleClick={handleDeleteAuthor}
 										/>

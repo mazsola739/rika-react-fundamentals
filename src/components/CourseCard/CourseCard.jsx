@@ -25,6 +25,11 @@ const CourseCard = ({
 		);
 		return foundAuthor;
 	})}`.replaceAll(',', ', ');
+	const hours = Math.floor(duration / 60);
+	const minutes = duration % 60;
+	const displayDuration = `${hours < 10 ? '0' + hours : hours}:${
+		minutes < 10 ? '0' + minutes : minutes
+	} hours`;
 
 	return (
 		<div
@@ -52,7 +57,7 @@ const CourseCard = ({
 					<div className='row p-1'>
 						<span>
 							<b>Duration: </b>
-							{`${Math.floor(duration / 60)}:${duration % 60} hours`}
+							{displayDuration}
 						</span>
 					</div>
 					<div className='row p-1'>
