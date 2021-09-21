@@ -1,7 +1,6 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useState } from 'react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
-import { AppContext } from '../Context/AppContext';
 
 const noop = () => {};
 
@@ -11,10 +10,9 @@ const isCardMatch = (card, filterText) =>
 const isMatch = (cardByTitle, cardById, filterText) =>
 	isCardMatch(cardByTitle, filterText) || isCardMatch(cardById, filterText);
 
-const Search = () => {
-	//propok card
-	const context = useContext(AppContext);
-
+const Search = ({ cards, search }) => {
+	const [showCards, setShowCards] = useState(cards);
+	console.log(showCards);
 	const searchInputRef = useRef(null);
 
 	const searchCourseHandler = () => {
@@ -22,16 +20,16 @@ const Search = () => {
 			filterText = input.value.toUpperCase();
 		let matchdCards = [];
 
-		context.allCards.forEach((card) => {
+		cards.forEach((card) => {
 			const match = isMatch(card.title, card.id, filterText);
 			if (match) {
 				matchdCards.push(card);
 			}
 		});
-		context.setCards(matchdCards);
+		setShowCards(matchdCards);
 	};
 	const searchChangeHandler = ({ target: { value } }) =>
-		!value ? context.setCards(context.allCards) : noop();
+		!value ? showCards : noop();
 
 	return (
 		<div className='row align-items-center'>
@@ -42,6 +40,7 @@ const Search = () => {
 					placeholderText='Enter course name or id...'
 					changeHandler={searchChangeHandler}
 				/>
+				)
 			</div>
 			<div className='col'>
 				<Button buttonText='Search' handleClick={searchCourseHandler} />

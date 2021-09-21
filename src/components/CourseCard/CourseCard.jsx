@@ -15,16 +15,17 @@ const CourseCard = ({
 	duration,
 	creationDate,
 }) => {
-	/*const authorList = `${authors.map((authorId) => {
+	//const [newAuthors, setNewAuthors] = useState(mockedAuthorsList);
+
+	const authorList = `${authors.map((authorId) => {
 		let foundAuthor = authorId;
 		mockedAuthorsList.map(
 			(author) =>
 				(foundAuthor = author.id === authorId ? author.name : foundAuthor)
 		);
 		return foundAuthor;
-	})}`.replaceAll(',', ', ');*/
-	const authorList = [];
-	console.log(id, title, description, authors, duration, creationDate);
+	})}`.replaceAll(',', ', ');
+
 	return (
 		<div
 			style={cardStyle}

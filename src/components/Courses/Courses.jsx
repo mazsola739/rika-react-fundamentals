@@ -1,31 +1,24 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import CourseCard from '../CourseCard/CourseCard';
 import Button from '../Button/Button';
 import Search from '../Search/Search';
-import { AppContext } from '../Context/AppContext';
 
 const Courses = ({ goToCreateCourse, cards }) => {
-	//const { cards } = useContext(AppContext);
-
+	const [searchCards, setSearchCards] = useState(cards);
 	const handleClick = () => {
 		goToCreateCourse(false);
-		/*const courses = document.getElementById('createCourses');
-		const createCourse = document.getElementById('courses');
-		if (courses.style.display === 'none') {
-			courses.style.display = 'block';
-			createCourse.style.display = 'none';
-		} else {
-			courses.style.display = 'none';
-			createCourse.style.display = 'block';
-		}*/
 	};
-	/*cards, setcards a searchnek*/
+	/*cards, setcards a searchnek  
+	const value = useMemo(
+		() => ({ cards, setCards, allCards }),
+		[cards, allCards]
+	);*/
 	return (
 		<div className='border border-primary border-2 rounded-1 p-4 my-3'>
 			<div className=' py-2'>
 				<div className='row align-items-center'>
 					<div className='col-sm-8'>
-						<Search />
+						<Search cards={cards} search={setSearchCards} />
 					</div>
 					<div className='col-sm-4'>
 						<Button buttonText='Add new course' handleClick={handleClick} />
@@ -34,7 +27,6 @@ const Courses = ({ goToCreateCourse, cards }) => {
 			</div>
 			<div className='row align-items-center'>
 				{cards.map((course) => {
-					console.log('itt vagyunk:', course);
 					return <CourseCard key={course.id} {...course} />;
 				})}
 			</div>
