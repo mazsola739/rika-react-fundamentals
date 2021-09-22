@@ -11,15 +11,12 @@ const CreateCourse = ({
 	backToCourse,
 	setCards,
 	cards,
-	key,
 	authors,
+	key,
 	setAuthors,
 }) => {
 	const [durationDisplay, setDurationDisplay] = useState('00:00');
-	const [displayAuthor] = useState(authors);
-	const [courseAuthor, setCourseAuthor] = useState(
-		displayAuthor.map((author) => ({ ...author, active: false }))
-	);
+	const [courseAuthor, setCourseAuthor] = useState([]);
 
 	const inputTitleRef = useRef();
 	const inputDescriptionRef = useRef();
@@ -45,17 +42,16 @@ const CreateCourse = ({
 		setDurationDisplay(displayDuration);
 	};
 
-	let newAuthors = {};
 	const handleClickCreateAuthor = (e) => {
 		e.preventDefault();
 		const newAuthorName = inputAuthorRef.current.value;
 		if (newAuthorName.length >= 2) {
 			const newAuthorUuid = (key = uuidv4());
-			newAuthors = {
+			const newAuthors = {
 				id: newAuthorUuid,
 				name: newAuthorName,
 			};
-			displayAuthor([...authors, newAuthors]);
+			setAuthors([...authors, newAuthors]);
 		}
 	};
 
@@ -142,8 +138,9 @@ const CreateCourse = ({
 						<div className='text-center'>
 							<span>Author list is empty</span>
 
-							{courseAuthor.map((author) =>
-								author.active === false ? (
+							{authors
+								.filter((author) => author.id)
+								.map((author) => (
 									<div className='row' key={author.id} id={author.id}>
 										<div className='start col'>
 											<span>{author.name} </span>
@@ -153,21 +150,15 @@ const CreateCourse = ({
 												id={author.id}
 												buttonText='Add Author'
 												handleClick={() =>
-													setCourseAuthor(
-														courseAuthor.map((author) =>
-															author.active === false
-																? (author.active = true)
-																: (author.active = false)
-														)
-													)
+													setCourseAuthor((authors) => [
+														...authors,
+														{ name: author.name, id: author.id },
+													])
 												}
 											/>
 										</div>
 									</div>
-								) : (
-									<></>
-								)
-							)}
+								))}
 						</div>
 					</div>
 				</div>
@@ -188,10 +179,8 @@ const CreateCourse = ({
 					<div className='col'>
 						<h5 className='text-center'>Course authors</h5>
 						<div className='text-center'>
-							<span>Author list is empty</span>
-
-							{courseAuthor.map((author) =>
-								author.active === true ? (
+							{courseAuthor.length ? (
+								courseAuthor.map((author) => (
 									<div className='row' key={author.id} id={author.id}>
 										<div className='start col'>
 											<span>{author.name} </span>
@@ -200,21 +189,13 @@ const CreateCourse = ({
 											<Button
 												id={author.id}
 												buttonText='Delete Author'
-												handleClick={() =>
-													setCourseAuthor(
-														courseAuthor.map((author) =>
-															author.active
-																? (author.active = false)
-																: (author.active = true)
-														)
-													)
-												}
+												handleClick={() => console.log('superman')}
 											/>
 										</div>
 									</div>
-								) : (
-									<></>
-								)
+								))
+							) : (
+								<span>Author list is empty</span>
 							)}
 						</div>
 					</div>
