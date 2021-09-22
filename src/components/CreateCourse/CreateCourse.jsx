@@ -15,31 +15,24 @@ const CreateCourse = ({
 	key,
 	setAuthors,
 }) => {
-	const [durationDisplay, setDurationDisplay] = useState('00:00');
 	const [courseAuthor, setCourseAuthor] = useState([]);
+	const [durationValue, setDurationValue] = useState('');
 
 	const inputTitleRef = useRef();
 	const inputDescriptionRef = useRef();
 	const inputAuthorRef = useRef();
-	const inputDurationRef = useRef();
 
-	let displayDuration;
 	const handleChangeDuration = (e) => {
-		const regex = /^[0-9\b]+$/;
-		let preval = e.target.value;
-		let duration;
-		if (regex.test(e.target.value)) {
-			duration = e.target.value;
-		} else {
-			e.target.value = preval.substring(0, preval.length - 1);
-			duration = e.target.value;
-		}
-		let hours = Math.floor(duration / 60);
-		let minutes = duration % 60;
-		displayDuration = `${hours < 10 ? '0' + hours : hours}:${
+		const duration = e.target.value;
+		setDurationValue(() => duration);
+	};
+
+	const displayDuration = (inputvalue) => {
+		let hours = Math.floor(inputvalue / 60);
+		let minutes = inputvalue % 60;
+		return `${hours < 10 ? '0' + hours : hours}:${
 			minutes < 10 ? '0' + minutes : minutes
 		}`;
-		setDurationDisplay(displayDuration);
 	};
 
 	const handleClickCreateAuthor = (e) => {
@@ -55,26 +48,20 @@ const CreateCourse = ({
 		}
 	};
 
-	/*const addAuthorToCourse = (e) => {
-		e.preventDefault();
-		setCourseAuthor(
-			courseAuthor.map((author) =>
-				author.active === false
-					? (author.active = true)
-					: (author.active = false)
-			)
-		);
-	};*/
-
 	const saveNewCourse = (e) => {
 		e.preventDefault();
 		const newTitle = inputTitleRef.current.value;
 		const newDescription = inputDescriptionRef.current.value;
-		const newDuration = inputDurationRef.current.value;
+		const newDuration = durationValue;
 		const newCourseUuid = (key = uuidv4());
 		const newCreationDate = new Date().toLocaleDateString();
 
-		if (!newTitle || newDescription.length < 2 || !newDuration) {
+		if (
+			!newTitle ||
+			newDescription.length < 2 ||
+			!newDuration ||
+			courseAuthor
+		) {
 			alert('Please, fill in all fields');
 		} else {
 			const newCourse = {
@@ -82,7 +69,7 @@ const CreateCourse = ({
 				title: newTitle,
 				creationDate: newCreationDate,
 				description: newDescription,
-				authors: ['newAuthorUuid'],
+				authors: [courseAuthor.map((author) => author.name)],
 				duration: newDuration,
 			};
 			setCards([...cards, newCourse]);
@@ -96,6 +83,7 @@ const CreateCourse = ({
 				<div className='col'>
 					<p>Title</p>
 					<Input
+						type='text'
 						ref={inputTitleRef}
 						inputId='inputTitle'
 						placeholderText='Enter title...'
@@ -136,10 +124,13 @@ const CreateCourse = ({
 					<div className='col'>
 						<h5 className='text-center'>Authors</h5>
 						<div className='text-center'>
-							<span>Author list is empty</span>
-
 							{authors
-								.filter((author) => author.id)
+								.filter(
+									(author) =>
+										!courseAuthor.some((item) => {
+											return author.id === item.id;
+										})
+								)
 								.map((author) => (
 									<div className='row' key={author.id} id={author.id}>
 										<div className='start col'>
@@ -149,12 +140,15 @@ const CreateCourse = ({
 											<Button
 												id={author.id}
 												buttonText='Add Author'
-												handleClick={() =>
+												handleClick={() => {
 													setCourseAuthor((authors) => [
 														...authors,
 														{ name: author.name, id: author.id },
-													])
-												}
+													]);
+													authors.filter((author) =>
+														courseAuthor.includes(author.id)
+													);
+												}}
 											/>
 										</div>
 									</div>
@@ -167,13 +161,14 @@ const CreateCourse = ({
 						<h5 className='text-center'>Duration</h5>
 						<p>Duration</p>
 						<Input
+							type='number'
+							value={durationValue}
 							changeHandler={handleChangeDuration}
 							inputId='inputDuration'
-							ref={inputDurationRef}
 							placeholderText='Enter duration in minutes...'
 						/>
 						<p>
-							Duration <b>{durationDisplay}</b> hours
+							Duration <b>{displayDuration(durationValue)}</b> hours
 						</p>
 					</div>
 					<div className='col'>
@@ -189,7 +184,13 @@ const CreateCourse = ({
 											<Button
 												id={author.id}
 												buttonText='Delete Author'
-												handleClick={() => console.log('superman')}
+												handleClick={() =>
+													setCourseAuthor((prevCourseAuthors) =>
+														prevCourseAuthors.filter(
+															(item) => author.id !== item.id
+														)
+													)
+												}
 											/>
 										</div>
 									</div>

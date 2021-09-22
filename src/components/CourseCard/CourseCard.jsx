@@ -15,8 +15,6 @@ const CourseCard = ({
 	duration,
 	creationDate,
 }) => {
-	//const [newAuthors, setNewAuthors] = useState(mockedAuthorsList);
-
 	const authorList = `${authors.map((authorId) => {
 		let foundAuthor = authorId;
 		mockedAuthorsList.map(

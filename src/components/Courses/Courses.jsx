@@ -21,7 +21,11 @@ const Courses = ({ goToCreateCourse, cards }) => {
 						/>
 					</div>
 					<div className='col-sm-4'>
-						<Button buttonText='Add new course' handleClick={handleClick} />
+						<Button
+							buttonText='Add new course'
+							handleClick={handleClick}
+							id='add'
+						/>
 					</div>
 				</div>
 			</div>

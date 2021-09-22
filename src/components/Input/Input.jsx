@@ -4,9 +4,13 @@ const inputStyle = {
 	width: '90%',
 };
 
-const Input = ({ inputId, placeholderText, changeHandler, value }, ref) => {
+const Input = (
+	{ inputId, placeholderText, changeHandler, value, type = 'text' },
+	ref
+) => {
 	return (
 		<input
+			type={type}
 			value={value}
 			ref={ref}
 			style={inputStyle}

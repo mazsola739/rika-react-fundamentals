@@ -26,7 +26,7 @@ const App = () => {
 				{!showCourses && (
 					<div id='createCourses'>
 						<CreateCourse
-							key={uuidv4(/*authors.map((author) => authors.indexOf(author))*/)}
+							key={uuidv4()}
 							backToCourse={setShowCourses}
 							setCards={setCards}
 							cards={cards}
