@@ -16,7 +16,10 @@ const CreateCourse = ({
 	setAuthors,
 }) => {
 	const [durationDisplay, setDurationDisplay] = useState('00:00');
-	const [displayAuthor, setDisplayAuthor] = useState(authors);
+	const [displayAuthor] = useState(authors);
+	const [courseAuthor, setCourseAuthor] = useState(
+		displayAuthor.map((author) => ({ ...author, active: false }))
+	);
 
 	const inputTitleRef = useRef();
 	const inputDescriptionRef = useRef();
@@ -52,15 +55,20 @@ const CreateCourse = ({
 				id: newAuthorUuid,
 				name: newAuthorName,
 			};
-			setAuthors([...authors, newAuthors]);
+			displayAuthor([...authors, newAuthors]);
 		}
 	};
 
-	const handleDeleteAuthor = (e) => {};
-	const handleAddAuthor = (id) => {
-		const newList = authors.filter((author) => author.id !== id);
-		setDisplayAuthor(newList);
-	};
+	/*const addAuthorToCourse = (e) => {
+		e.preventDefault();
+		setCourseAuthor(
+			courseAuthor.map((author) =>
+				author.active === false
+					? (author.active = true)
+					: (author.active = false)
+			)
+		);
+	};*/
 
 	const saveNewCourse = (e) => {
 		e.preventDefault();
@@ -134,20 +142,32 @@ const CreateCourse = ({
 						<div className='text-center'>
 							<span>Author list is empty</span>
 
-							{displayAuthor.map((author) => (
-								<div className='row' key={author.id} id={author.id}>
-									<div className='start col'>
-										<span>{author.name} </span>
+							{courseAuthor.map((author) =>
+								author.active === false ? (
+									<div className='row' key={author.id} id={author.id}>
+										<div className='start col'>
+											<span>{author.name} </span>
+										</div>
+										<div className='start col'>
+											<Button
+												id={author.id}
+												buttonText='Add Author'
+												handleClick={() =>
+													setCourseAuthor(
+														courseAuthor.map((author) =>
+															author.active === false
+																? (author.active = true)
+																: (author.active = false)
+														)
+													)
+												}
+											/>
+										</div>
 									</div>
-									<div className='start col'>
-										<Button
-											id={author.id}
-											buttonText='Add Author'
-											handleClick={() => handleAddAuthor(author.id)}
-										/>
-									</div>
-								</div>
-							))}
+								) : (
+									<></>
+								)
+							)}
 						</div>
 					</div>
 				</div>
@@ -170,20 +190,32 @@ const CreateCourse = ({
 						<div className='text-center'>
 							<span>Author list is empty</span>
 
-							{authors.map((author) => (
-								<div className='row' key={author.id} id={author.id}>
-									<div className='start col'>
-										<span>{author.name} </span>
+							{courseAuthor.map((author) =>
+								author.active === true ? (
+									<div className='row' key={author.id} id={author.id}>
+										<div className='start col'>
+											<span>{author.name} </span>
+										</div>
+										<div className='start col'>
+											<Button
+												id={author.id}
+												buttonText='Delete Author'
+												handleClick={() =>
+													setCourseAuthor(
+														courseAuthor.map((author) =>
+															author.active
+																? (author.active = false)
+																: (author.active = true)
+														)
+													)
+												}
+											/>
+										</div>
 									</div>
-									<div className='start col'>
-										<Button
-											id={author.id}
-											buttonText='Delete Author'
-											handleClick={handleDeleteAuthor}
-										/>
-									</div>
-								</div>
-							))}
+								) : (
+									<></>
+								)
+							)}
 						</div>
 					</div>
 				</div>

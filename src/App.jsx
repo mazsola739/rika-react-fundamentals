@@ -12,11 +12,6 @@ const App = () => {
 	const [cards, setCards] = useState(mockedCoursesList);
 	const [authors, setAuthors] = useState(mockedAuthorsList);
 
-	/* goToCreateCourse={() => { setShowCourses(false)}} courses */
-	/* backToCourse={() => { setShowCourses(true)}} addCourse={(newCourse)=> {
-	setCourses((currentCourse) => { currentCourse.push(newCourse)})
-	}} */
-
 	return (
 		<div className='App container py-4'>
 			<div>
@@ -31,7 +26,7 @@ const App = () => {
 				{!showCourses && (
 					<div id='createCourses'>
 						<CreateCourse
-							key={uuidv4()}
+							key={uuidv4(/*authors.map((author) => authors.indexOf(author))*/)}
 							backToCourse={setShowCourses}
 							setCards={setCards}
 							cards={cards}
