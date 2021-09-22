@@ -56,7 +56,12 @@ const CreateCourse = ({
 		const newCourseUuid = (key = uuidv4());
 		const newCreationDate = new Date().toLocaleDateString();
 
-		if (!newTitle || newDescription.length < 2 || !newDuration) {
+		if (
+			!newTitle ||
+			newDescription.length < 2 ||
+			+newDuration < 0 ||
+			courseAuthor.length < 1
+		) {
 			alert('Please, fill in all fields');
 		} else {
 			const newCourse = {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import { mockedCoursesList } from './CoursesInfo/CoursesList';
 import { mockedAuthorsList } from './CoursesInfo/AuthorsList';
@@ -26,7 +25,6 @@ const App = () => {
 				{!showCourses && (
 					<div id='createCourses'>
 						<CreateCourse
-							key={uuidv4()}
 							backToCourse={setShowCourses}
 							setCards={setCards}
 							cards={cards}
