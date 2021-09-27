@@ -40,7 +40,7 @@ const Registration = () => {
 				/>
 
 				<br />
-				<Link to='/courses'>
+				<Link to='/login'>
 					<Button
 						buttonText={'Registration'}
 						handleClick={undefined}

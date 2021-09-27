@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import './App.css';
-import { mockedCoursesList } from './components/CourseInfo/CoursesList';
-import { mockedAuthorsList } from './components/CourseInfo/AuthorsList';
-import Header from './components/Header/Header';
-import Login from './components/Login/Login';
-import Registration from './components/Registration/Registration';
-import Courses from './components/Courses/Courses';
-import CreateCourse from './components/CreateCourse/CreateCourse';
 import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
 	Redirect,
 } from 'react-router-dom';
+import { mockedCoursesList } from './components/CourseInfo/CoursesList';
+import { mockedAuthorsList } from './components/CourseInfo/AuthorsList';
+import './App.css';
+import Header from './components/Header/Header';
+import Login from './components/Login/Login';
+import Registration from './components/Registration/Registration';
+import Courses from './components/Courses/Courses';
+import CourseInfo from 'components/CourseInfo/CourseInfo';
+import CreateCourse from './components/CreateCourse/CreateCourse';
 
 const App = () => {
 	return (
@@ -33,6 +34,9 @@ const App = () => {
 					</Route>
 					<Route path='/registration'>
 						<RegistrationPage />
+					</Route>
+					<Route path='/courseInfo'>
+						<CourseInfoPage />
 					</Route>
 				</Switch>
 			</div>
@@ -80,6 +84,20 @@ const RegistrationPage = () => {
 	return (
 		<div>
 			<Registration />
+		</div>
+	);
+};
+
+const CourseInfoPage = () => {
+	return (
+		<div>
+			<CourseInfo
+				authorList={undefined}
+				title={undefined}
+				description={undefined}
+				id={undefined}
+				displayDuration={undefined}
+			/>
 		</div>
 	);
 };

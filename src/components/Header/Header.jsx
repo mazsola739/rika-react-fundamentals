@@ -8,27 +8,31 @@ const imgStyle = {
 	height: '50px',
 };
 
-const Header = () => (
-	<div className='border border-danger border-2 rounded-1'>
-		<div className='row'>
-			<div className='col-sm-8'>
-				<img style={imgStyle} src={logo} alt='courses-logo.jpg' />
-				<span>Courses Logo</span>
-			</div>
-			<div className='col-sm-4 align-items-center'>
-				<div>
-					<span>Rika </span>
-					<Link to='/'>
-						<Button
-							buttonText='Logout'
-							handleClick={undefined}
-							id={undefined}
-						/>
-					</Link>
+const Header = () => {
+	return (
+		<div className='border border-danger border-2 rounded-1'>
+			<div className='row'>
+				<div className='col-sm-8'>
+					<img style={imgStyle} src={logo} alt='courses-logo.jpg' />
+					<span>Courses</span>
 				</div>
+				<Logout />
 			</div>
 		</div>
-	</div>
-);
+	);
+};
+
+const Logout = () => {
+	return (
+		<div className='row col-sm-4 align-items-center'>
+			<div className='col-sm-2'>Rika</div>
+			<div className='col-sm-2'>
+				<Link to='/'>
+					<Button buttonText='Logout' handleClick={undefined} id={undefined} />
+				</Link>
+			</div>
+		</div>
+	);
+};
 
 export default Header;
