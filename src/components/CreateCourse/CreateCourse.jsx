@@ -37,6 +37,7 @@ const CreateCourse = ({
 
 	const handleClickCreateAuthor = (e) => {
 		e.preventDefault();
+		// @ts-ignore
 		const newAuthorName = inputAuthorRef.current.value;
 		if (newAuthorName.length >= 2) {
 			const newAuthorUuid = (key = uuidv4());
@@ -50,7 +51,9 @@ const CreateCourse = ({
 
 	const saveNewCourse = (e) => {
 		e.preventDefault();
+		// @ts-ignore
 		const newTitle = inputTitleRef.current.value;
+		// @ts-ignore
 		const newDescription = inputDescriptionRef.current.value;
 		const newDuration = durationValue;
 		const newCourseUuid = (key = uuidv4());
@@ -87,10 +90,16 @@ const CreateCourse = ({
 						ref={inputTitleRef}
 						inputId='inputTitle'
 						placeholderText='Enter title...'
+						changeHandler={undefined}
+						value={undefined}
 					/>
 				</div>
 				<div className='col'>
-					<Button handleClick={saveNewCourse} buttonText='Create course' />
+					<Button
+						handleClick={saveNewCourse}
+						buttonText='Create course'
+						id={undefined}
+					/>
 				</div>
 			</div>
 			<div className='row p-2 my-3'>
@@ -112,12 +121,15 @@ const CreateCourse = ({
 								inputId='inputAuthor'
 								ref={inputAuthorRef}
 								placeholderText='Enter author name...'
+								changeHandler={undefined}
+								value={undefined}
 							/>
 						</div>
 						<div className='col p-2 text-center'>
 							<Button
 								buttonText='Create author'
 								handleClick={handleClickCreateAuthor}
+								id={undefined}
 							/>
 						</div>
 					</div>
@@ -127,23 +139,21 @@ const CreateCourse = ({
 							{authors
 								.filter(
 									(author) =>
-										!courseAuthor.some((item) => {
-											return author.id === item.id;
-										})
+										!courseAuthor.some((item) => author.id === item.id)
 								)
-								.map((author) => (
-									<div className='row' key={author.id} id={author.id}>
+								.map(({ name, id }) => (
+									<div className='row' key={id} id={id}>
 										<div className='start col'>
-											<span>{author.name} </span>
+											<span>{name} </span>
 										</div>
 										<div className='start col'>
 											<Button
-												id={author.id}
+												id={id}
 												buttonText='Add Author'
 												handleClick={() => {
 													setCourseAuthor((authors) => [
 														...authors,
-														{ name: author.name, id: author.id },
+														{ name: name, id: id },
 													]);
 													authors.filter((author) =>
 														courseAuthor.includes(author.id)
@@ -175,20 +185,18 @@ const CreateCourse = ({
 						<h5 className='text-center'>Course authors</h5>
 						<div className='text-center'>
 							{courseAuthor.length ? (
-								courseAuthor.map((author) => (
-									<div className='row' key={author.id} id={author.id}>
+								courseAuthor.map(({ name, id }) => (
+									<div className='row' key={id} id={id}>
 										<div className='start col'>
-											<span>{author.name} </span>
+											<span>{name} </span>
 										</div>
 										<div className='start col'>
 											<Button
-												id={author.id}
+												id={id}
 												buttonText='Delete Author'
 												handleClick={() =>
 													setCourseAuthor((prevCourseAuthors) =>
-														prevCourseAuthors.filter(
-															(item) => author.id !== item.id
-														)
+														prevCourseAuthors.filter((item) => id !== item.id)
 													)
 												}
 											/>

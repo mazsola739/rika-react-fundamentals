@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../Button/Button';
-import { mockedAuthorsList } from '../../CoursesInfo/AuthorsList';
+import { mockedAuthorsList } from '../CourseInfo/AuthorsList';
 import './CourseCard.css';
 
 const cardStyle = {
@@ -15,14 +15,16 @@ const CourseCard = ({
 	duration,
 	creationDate,
 }) => {
-	const authorList = `${authors.map((authorId) => {
-		let foundAuthor = authorId;
-		mockedAuthorsList.map(
-			(author) =>
-				(foundAuthor = author.id === authorId ? author.name : foundAuthor)
-		);
-		return foundAuthor;
-	})}`.replaceAll(',', ', ');
+	const authorList = authors
+		.map((authorId) => {
+			let foundAuthor = authorId;
+			mockedAuthorsList.map(
+				(author) =>
+					(foundAuthor = author.id === authorId ? author.name : foundAuthor)
+			);
+			return foundAuthor;
+		})
+		.join(', ');
 	const hours = Math.floor(duration / 60);
 	const minutes = duration % 60;
 	const displayDuration = `${hours < 10 ? '0' + hours : hours}:${
@@ -65,7 +67,11 @@ const CourseCard = ({
 						</span>
 					</div>
 					<div className='row p-1'>
-						<Button buttonText='Show course' />
+						<Button
+							buttonText='Show course'
+							handleClick={undefined}
+							id={undefined}
+						/>
 					</div>
 				</div>
 			</div>

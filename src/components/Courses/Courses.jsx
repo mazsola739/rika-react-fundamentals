@@ -5,9 +5,7 @@ import Search from '../Search/Search';
 
 const Courses = ({ goToCreateCourse, cards }) => {
 	const [searchCards, setSearchCards] = useState(cards);
-	const handleClick = () => {
-		goToCreateCourse(false);
-	};
+	const handleClick = () => goToCreateCourse(false);
 
 	return (
 		<div className='border border-primary border-2 rounded-1 p-4 my-3'>
@@ -30,9 +28,9 @@ const Courses = ({ goToCreateCourse, cards }) => {
 				</div>
 			</div>
 			<div className='row align-items-center'>
-				{searchCards.map((course) => {
-					return <CourseCard key={course.id} {...course} />;
-				})}
+				{searchCards.map((course) => (
+					<CourseCard key={course.id} {...course} />
+				))}
 			</div>
 		</div>
 	);

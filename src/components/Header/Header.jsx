@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../Button/Button';
 import logo from '../../images/logo.jpg';
+import { Link } from 'react-router-dom';
 
 const imgStyle = {
 	width: '50px',
@@ -15,8 +16,16 @@ const Header = () => (
 				<span>Courses Logo</span>
 			</div>
 			<div className='col-sm-4 align-items-center'>
-				<span>Rika</span>
-				<Button buttonText='Logout' />
+				<div>
+					<span>Rika </span>
+					<Link to='/'>
+						<Button
+							buttonText='Logout'
+							handleClick={undefined}
+							id={undefined}
+						/>
+					</Link>
+				</div>
 			</div>
 		</div>
 	</div>

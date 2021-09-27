@@ -14,17 +14,17 @@ const Search = ({ setSearchCards, searchCards, cards }) => {
 	const searchCourseHandler = () => {
 		const input = searchInputRef.current,
 			filterText = input.value.toUpperCase();
-		let matchdCards = [];
+		let matchedCards = [];
 
 		searchCards.forEach((card) => {
 			const match = isMatch(card.title, card.id, filterText);
 			if (match) {
-				matchdCards.push(card);
+				matchedCards.push(card);
 			}
 		});
 
-		setSearchCards([...matchdCards]);
-		matchdCards = [];
+		setSearchCards([...matchedCards]);
+		matchedCards = [];
 	};
 
 	const searchChangeHandler = ({ target: { value } }) =>
@@ -38,10 +38,15 @@ const Search = ({ setSearchCards, searchCards, cards }) => {
 					inputId='searchInput'
 					placeholderText='Enter course name or id...'
 					changeHandler={searchChangeHandler}
+					value={undefined}
 				/>
 			</div>
 			<div className='col'>
-				<Button buttonText='Search' handleClick={searchCourseHandler} />
+				<Button
+					buttonText='Search'
+					handleClick={searchCourseHandler}
+					id={undefined}
+				/>
 			</div>
 		</div>
 	);
