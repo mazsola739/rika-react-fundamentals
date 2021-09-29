@@ -4,31 +4,34 @@ import { Link, Redirect } from 'react-router-dom';
 import Form from 'components/Form/Form';
 import Button from 'components/Button/Button';
 
-const Login = () => {
-	const [loginUser, setLoginUser] = useState(false);
+const Login = ({ login }) => {
+	const [userStatus, setUserStatus] = useState(false);
 
 	const formOnSubmit = (e) => {
 		e.preventDefault();
 		const form = new FormData(e.target);
 		const userData = JSON.stringify({
-			name: '',
 			email: form.get('email'),
 			password: form.get('password'),
 		});
 
 		async function fetchData() {
-			const response = await fetch('http://localhost:3000/register', {
+			const response = await fetch('http://localhost:3000/login', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: userData,
 			});
 			const answer = await response.json();
-			console.log(answer);
+
+			login(answer);
+			localStorage.setItem('token', answer.result);
+			setUserStatus(answer.successful);
 		}
 
 		fetchData();
 	};
-	if (loginUser === true) {
+
+	if (userStatus === true) {
 		return <Redirect to='/courses' />;
 	}
 	return (
@@ -65,7 +68,7 @@ const Login = () => {
 
 Login.propTypes = {
 	formOnSubmit: PropTypes.any,
-	userName: PropTypes.any,
+	userName: PropTypes.string,
 };
 
 export default Login;

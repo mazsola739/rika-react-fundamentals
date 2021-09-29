@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';
 import logo from '../../images/logo.jpg';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const imgStyle = {
 	width: '50px',
@@ -10,6 +10,7 @@ const imgStyle = {
 };
 
 const Header = ({ user, isLogged, setIsLogged }) => {
+	setIsLogged(user.successful === true ? true : false);
 	return (
 		<div className='border border-danger border-2 rounded-1'>
 			<div className='row'>
@@ -18,7 +19,20 @@ const Header = ({ user, isLogged, setIsLogged }) => {
 					<span>Courses</span>
 				</div>
 				{isLogged ? (
-					<Logout username={user.user.name} setIsLogged={setIsLogged} />
+					<div className='row col-sm-4 align-items-center'>
+						<div className='col-sm-2'>{user.user.name}</div>
+						<div className='col-sm-2'>
+							<Link to='/login'>
+								<Button
+									buttonText='Logout'
+									buttonClickHandler={() => {
+										localStorage.removeItem('token');
+										setIsLogged(false);
+									}}
+								/>
+							</Link>
+						</div>
+					</div>
 				) : (
 					<></>
 				)}
@@ -27,28 +41,8 @@ const Header = ({ user, isLogged, setIsLogged }) => {
 	);
 };
 
-const Logout = ({ username }) => {
-	return (
-		<div className='row col-sm-4 align-items-center'>
-			<div className='col-sm-2'>{username}</div>
-			<div className='col-sm-2'>
-				<Button
-					buttonText='Logout'
-					buttonClickHandler={() => {
-						localStorage.removeItem('token');
-						setIsLogged(false);
-						<Redirect to='/' />;
-					}}
-				/>
-			</div>
-		</div>
-	);
-};
-
 Header.propTypes = {
-	username: PropTypes.any,
-	logo: PropTypes.any,
-	imgStyle: PropTypes.any,
+	username: PropTypes.string,
 };
 
 export default Header;

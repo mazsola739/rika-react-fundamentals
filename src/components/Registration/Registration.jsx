@@ -15,7 +15,6 @@ const Registration = () => {
 			email: form.get('email'),
 			password: form.get('password'),
 		});
-		//setUserName(`${form.get('name')}`);
 		async function fetchData() {
 			const response = await fetch('http://localhost:3000/register', {
 				method: 'POST',

@@ -20,7 +20,7 @@ const Button = ({ buttonText, buttonClickHandler }) => {
 Button.propTypes = {
 	buttonStyle: PropTypes.any,
 	buttonClickHandler: PropTypes.any,
-	buttonText: PropTypes.any,
+	buttonText: PropTypes.string,
 };
 
 export default Button;

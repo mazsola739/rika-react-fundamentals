@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Button from '../Button/Button';
+
 import './CourseCard.css';
+
+import Button from '../Button/Button';
 
 const cardStyle = {
 	maxHeight: '200px',
@@ -69,7 +71,7 @@ const CourseCard = ({
 						</span>
 					</div>
 					<div className='row p-1'>
-						<Link to='/courses/:courseId'>
+						<Link to={`/courses/${id}`}>
 							<Button buttonText='Show course' buttonClickHandler={undefined} />
 						</Link>
 					</div>

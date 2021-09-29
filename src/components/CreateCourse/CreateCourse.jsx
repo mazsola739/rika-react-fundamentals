@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
@@ -8,17 +9,10 @@ const textareaStyle = {
 	height: '100px',
 };
 
-const CreateCourse = ({
-	backToCourse,
-	setCards,
-	cards,
-	authors,
-	key,
-	setAuthors,
-	authorNames,
-}) => {
+const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 	const [courseAuthor, setCourseAuthor] = useState([]);
 	const [durationValue, setDurationValue] = useState('');
+	const [finished, setFinished] = useState(false);
 
 	const inputTitleRef = useRef();
 	const inputDescriptionRef = useRef();
@@ -47,7 +41,7 @@ const CreateCourse = ({
 				id: newAuthorUuid,
 				name: newAuthorName,
 			};
-			setAuthors([...authors, newAuthors]);
+			setAuthors([...authorNames, newAuthors]);
 		}
 	};
 
@@ -78,9 +72,14 @@ const CreateCourse = ({
 				duration: newDuration,
 			};
 			setCards([...cards, newCourse]);
-			backToCourse(true);
+			setFinished(true);
 		}
+		<Redirect to='/courses' />;
 	};
+
+	if (finished === true) {
+		return <Redirect to='/courses' />;
+	}
 
 	return (
 		<div className='border border-primary border-2 rounded-1 p-3 my-3'>
@@ -137,7 +136,7 @@ const CreateCourse = ({
 					<div className='col'>
 						<h5 className='text-center'>Authors</h5>
 						<div className='text-center'>
-							{authors
+							{authorNames
 								.filter(
 									(author) =>
 										!courseAuthor.some((item) => author.id === item.id)
@@ -155,7 +154,7 @@ const CreateCourse = ({
 														...authors,
 														{ name: name, id: id },
 													]);
-													authors.filter((author) =>
+													authorNames.filter((author) =>
 														courseAuthor.includes(author.id)
 													);
 												}}

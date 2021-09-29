@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CourseCard from '../CourseCard/CourseCard';
 import Button from '../Button/Button';
 import Search from '../Search/Search';
 
-const Courses = ({ goToCreateCourse, cards, authorNames }) => {
+const Courses = ({ cards, authorNames }) => {
 	const [searchCards, setSearchCards] = useState([]);
-	const handleClick = () => goToCreateCourse(false);
 
 	return (
 		<div className='border border-primary border-2 rounded-1 p-4 my-3'>
@@ -20,10 +20,9 @@ const Courses = ({ goToCreateCourse, cards, authorNames }) => {
 						/>
 					</div>
 					<div className='col-sm-4'>
-						<Button
-							buttonText='Add new course'
-							buttonClickHandler={handleClick}
-						/>
+						<Link to='/courses/add'>
+							<Button buttonText='Add new course' />
+						</Link>
 					</div>
 				</div>
 			</div>
