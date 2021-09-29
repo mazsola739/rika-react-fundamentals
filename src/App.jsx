@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
 	Redirect,
 } from 'react-router-dom';
-import { mockedCoursesList } from './components/CourseInfo/CoursesList';
-import { mockedAuthorsList } from './components/CourseInfo/AuthorsList';
 import './App.css';
 import Header from './components/Header/Header';
 import Login from './components/Login/Login';
@@ -16,6 +14,38 @@ import CourseInfo from 'components/CourseInfo/CourseInfo';
 import CreateCourse from './components/CreateCourse/CreateCourse';
 
 const App = () => {
+	const [showCourses, setShowCourses] = useState(true);
+	const [getCoursesData, setGetCoursesData] = useState([]);
+	const getCourses = () => {
+		fetch('http://localhost:3000/courses/all', {
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
+		})
+			.then((response) => response.json())
+			.then((myJson) => {
+				setGetCoursesData(myJson.result);
+			});
+	};
+	useEffect(() => {
+		getCourses();
+	}, []);
+	const [getAuthorsData, setGetAuthorsData] = useState([]);
+	const getAuthors = () => {
+		fetch('http://localhost:3000/authors/all', {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+			.then((response) => response.json())
+			.then((myJson) => setGetAuthorsData(myJson.result));
+	};
+	useEffect(() => {
+		getAuthors();
+	}, []);
+	//console.log(getAuthorsData, getCoursesData);
+
 	return (
 		<Router>
 			<div className='App container py-4'>
@@ -23,82 +53,50 @@ const App = () => {
 					<Header />
 				</div>
 				<Switch>
-					<Route path='/' exact>
-						<Redirect to='/login' />
+					<Route path='/login'>
+						<div>
+							<Login />
+						</div>
 					</Route>
 					<Route path='/courses'>
-						<CoursesPage />
-					</Route>
-					<Route path='/login'>
-						<LoginPage />
+						<div>
+							{showCourses && (
+								<div>
+									<Courses
+										goToCreateCourse={setShowCourses}
+										cards={getCoursesData}
+										authorNames={getAuthorsData}
+									/>
+								</div>
+							)}
+							{!showCourses && (
+								<div>
+									<CreateCourse
+										backToCourse={setShowCourses}
+										key={''}
+										setCards={undefined}
+										authorNames={getAuthorsData}
+									/>
+								</div>
+							)}
+						</div>
 					</Route>
 					<Route path='/registration'>
-						<RegistrationPage />
+						<div>
+							<Registration />
+						</div>
 					</Route>
-					<Route path='/courseInfo'>
-						<CourseInfoPage />
+					<Route path='/courses/:courseId'>
+						<div>
+							<CourseInfo />
+						</div>
+					</Route>
+					<Route path='/' exact>
+						<Redirect to='/login' />
 					</Route>
 				</Switch>
 			</div>
 		</Router>
-	);
-};
-
-const CoursesPage = () => {
-	const [showCourses, setShowCourses] = useState(true);
-	const [cards, setCards] = useState(mockedCoursesList);
-	const [authors, setAuthors] = useState(mockedAuthorsList);
-
-	return (
-		<div>
-			{showCourses && (
-				<div id='courses'>
-					<Courses goToCreateCourse={setShowCourses} cards={cards} />
-				</div>
-			)}
-			{!showCourses && (
-				<div id='createCourses'>
-					<CreateCourse
-						backToCourse={setShowCourses}
-						setCards={setCards}
-						cards={cards}
-						authors={authors}
-						setAuthors={setAuthors}
-						key={''}
-					/>
-				</div>
-			)}
-		</div>
-	);
-};
-
-const LoginPage = () => {
-	return (
-		<div>
-			<Login />
-		</div>
-	);
-};
-
-const RegistrationPage = () => {
-	return (
-		<div>
-			<Registration />
-		</div>
-	);
-};
-
-const CourseInfoPage = () => {
-	return (
-		<div>
-			<CourseInfo
-				authorList={undefined}
-				title={undefined}
-				description={undefined}
-				id={undefined}
-				displayDuration={undefined}
-			/>
-		</div>
 	);
 };
 

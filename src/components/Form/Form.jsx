@@ -1,30 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 
-const Form = ({
-	reason,
-	labelText,
-	placeholderText,
-	type = 'text',
-	value,
-	changeHandler,
-}) => {
+const Form = ({ labelFor, labelText, inputPlaceholderText, inputName }) => {
 	return (
-		<form>
-			<label htmlFor={reason} placeholder={placeholderText}>
-				{labelText}
-			</label>
+		<>
+			<label htmlFor={labelFor}>{labelText}</label>
 			<br />
 			<Input
-				type={type}
 				inputId={undefined}
-				placeholderText={undefined}
-				changeHandler={undefined}
-				value={value}
+				inputPlaceholderText={inputPlaceholderText}
+				inputChangeHandler={undefined}
+				inputValue={undefined}
+				inputName={inputName}
 			/>
 			<br />
-		</form>
+		</>
 	);
+};
+
+Form.propTypes = {
+	labelFor: PropTypes.any,
+	labelText: PropTypes.any,
+	inputPlaceholderText: PropTypes.any,
+	inputName: PropTypes.any,
 };
 
 export default Form;

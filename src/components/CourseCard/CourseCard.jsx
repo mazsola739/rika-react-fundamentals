@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Button from '../Button/Button';
-import { mockedAuthorsList } from '../CourseInfo/AuthorsList';
 import './CourseCard.css';
 
 const cardStyle = {
@@ -14,11 +15,12 @@ const CourseCard = ({
 	authors,
 	duration,
 	creationDate,
+	authorNames,
 }) => {
 	const authorList = authors
 		.map((authorId) => {
 			let foundAuthor = authorId;
-			mockedAuthorsList.map(
+			authorNames.map(
 				(author) =>
 					(foundAuthor = author.id === authorId ? author.name : foundAuthor)
 			);
@@ -67,16 +69,23 @@ const CourseCard = ({
 						</span>
 					</div>
 					<div className='row p-1'>
-						<Button
-							buttonText='Show course'
-							handleClick={undefined}
-							id={undefined}
-						/>
+						<Link to='/courses/:courseId'>
+							<Button buttonText='Show course' buttonClickHandler={undefined} />
+						</Link>
 					</div>
 				</div>
 			</div>
 		</div>
 	);
+};
+
+CourseCard.propTypes = {
+	id: PropTypes.any,
+	title: PropTypes.any,
+	description: PropTypes.any,
+	authors: PropTypes.any,
+	duration: PropTypes.any,
+	creationDate: PropTypes.any,
 };
 
 export default CourseCard;

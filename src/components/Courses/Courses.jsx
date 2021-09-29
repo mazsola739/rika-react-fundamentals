@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import CourseCard from '../CourseCard/CourseCard';
 import Button from '../Button/Button';
 import Search from '../Search/Search';
 
-const Courses = ({ goToCreateCourse, cards }) => {
-	const [searchCards, setSearchCards] = useState(cards);
+const Courses = ({ goToCreateCourse, cards, authorNames }) => {
+	const [searchCards, setSearchCards] = useState([]);
 	const handleClick = () => goToCreateCourse(false);
 
 	return (
@@ -21,19 +22,25 @@ const Courses = ({ goToCreateCourse, cards }) => {
 					<div className='col-sm-4'>
 						<Button
 							buttonText='Add new course'
-							handleClick={handleClick}
-							id='add'
+							buttonClickHandler={handleClick}
 						/>
 					</div>
 				</div>
 			</div>
 			<div className='row align-items-center'>
-				{searchCards.map((course) => (
-					<CourseCard key={course.id} {...course} />
-				))}
+				{cards.map((course) => {
+					return (
+						<CourseCard key={course.id} {...course} authorNames={authorNames} />
+					);
+				})}
 			</div>
 		</div>
 	);
+};
+
+Courses.propTypes = {
+	goToCreateCourse: PropTypes.any,
+	cards: PropTypes.any,
 };
 
 export default Courses;

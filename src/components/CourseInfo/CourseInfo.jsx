@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Button from '../Button/Button';
 import { Link } from 'react-router-dom';
 
@@ -9,13 +10,23 @@ const CourseInfo = ({
 	displayDuration,
 	authorList,
 }) => {
+	const [getCourse, setGetCourse] = useState([]);
+
+	const getCourseInfo = async () => {
+		const response = await fetch('./CoursesList.js');
+		const course = await response.json();
+		setGetCourse(course);
+	};
+
+	useEffect(() => {
+		getCourseInfo();
+	}, []);
 	return (
 		<div className='border border-primary border-2 rounded-1 p-4 my-3'>
 			<Link to='/courses'>
 				<Button
 					buttonText='&lt; Back to courses'
-					handleClick={undefined}
-					id={undefined}
+					buttonClickHandler={undefined}
 				/>
 			</Link>
 			<h2 className='text-center'>{title}</h2>
@@ -30,6 +41,14 @@ const CourseInfo = ({
 			</div>
 		</div>
 	);
+};
+
+CourseInfo.propTypes = {
+	id: PropTypes.any,
+	title: PropTypes.any,
+	description: PropTypes.any,
+	authorList: PropTypes.any,
+	displayDuration: PropTypes.any,
 };
 
 export default CourseInfo;

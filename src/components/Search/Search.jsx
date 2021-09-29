@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 
@@ -36,20 +37,23 @@ const Search = ({ setSearchCards, searchCards, cards }) => {
 				<Input
 					ref={searchInputRef}
 					inputId='searchInput'
-					placeholderText='Enter course name or id...'
-					changeHandler={searchChangeHandler}
-					value={undefined}
+					inputPlaceholderText='Enter course name or id...'
+					inputChangeHandler={searchChangeHandler}
+					inputValue={undefined}
+					inputName={undefined}
 				/>
 			</div>
 			<div className='col'>
-				<Button
-					buttonText='Search'
-					handleClick={searchCourseHandler}
-					id={undefined}
-				/>
+				<Button buttonText='Search' buttonClickHandler={searchCourseHandler} />
 			</div>
 		</div>
 	);
+};
+
+Search.propTypes = {
+	setSearchCards: PropTypes.any,
+	searchCards: PropTypes.any,
+	cards: PropTypes.any,
 };
 
 export default Search;

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,6 +15,7 @@ const CreateCourse = ({
 	authors,
 	key,
 	setAuthors,
+	authorNames,
 }) => {
 	const [courseAuthor, setCourseAuthor] = useState([]);
 	const [durationValue, setDurationValue] = useState('');
@@ -86,19 +88,18 @@ const CreateCourse = ({
 				<div className='col'>
 					<p>Title</p>
 					<Input
-						type='text'
 						ref={inputTitleRef}
 						inputId='inputTitle'
-						placeholderText='Enter title...'
-						changeHandler={undefined}
-						value={undefined}
+						inputPlaceholderText='Enter title...'
+						inputChangeHandler={undefined}
+						inputValue={undefined}
+						inputName={undefined}
 					/>
 				</div>
 				<div className='col'>
 					<Button
-						handleClick={saveNewCourse}
+						buttonClickHandler={saveNewCourse}
 						buttonText='Create course'
-						id={undefined}
 					/>
 				</div>
 			</div>
@@ -120,16 +121,16 @@ const CreateCourse = ({
 							<Input
 								inputId='inputAuthor'
 								ref={inputAuthorRef}
-								placeholderText='Enter author name...'
-								changeHandler={undefined}
-								value={undefined}
+								inputPlaceholderText='Enter author name...'
+								inputChangeHandler={undefined}
+								inputValue={undefined}
+								inputName={undefined}
 							/>
 						</div>
 						<div className='col p-2 text-center'>
 							<Button
 								buttonText='Create author'
-								handleClick={handleClickCreateAuthor}
-								id={undefined}
+								buttonClickHandler={handleClickCreateAuthor}
 							/>
 						</div>
 					</div>
@@ -148,9 +149,8 @@ const CreateCourse = ({
 										</div>
 										<div className='start col'>
 											<Button
-												id={id}
 												buttonText='Add Author'
-												handleClick={() => {
+												buttonClickHandler={() => {
 													setCourseAuthor((authors) => [
 														...authors,
 														{ name: name, id: id },
@@ -171,11 +171,12 @@ const CreateCourse = ({
 						<h5 className='text-center'>Duration</h5>
 						<p>Duration</p>
 						<Input
-							type='number'
-							value={durationValue}
-							changeHandler={handleChangeDuration}
+							inputType='number'
+							inputValue={durationValue}
+							inputChangeHandler={handleChangeDuration}
 							inputId='inputDuration'
-							placeholderText='Enter duration in minutes...'
+							inputPlaceholderText='Enter duration in minutes...'
+							inputName={undefined}
 						/>
 						<p>
 							Duration <b>{displayDuration(durationValue)}</b> hours
@@ -192,9 +193,8 @@ const CreateCourse = ({
 										</div>
 										<div className='start col'>
 											<Button
-												id={id}
 												buttonText='Delete Author'
-												handleClick={() =>
+												buttonClickHandler={() =>
 													setCourseAuthor((prevCourseAuthors) =>
 														prevCourseAuthors.filter((item) => id !== item.id)
 													)
@@ -212,6 +212,14 @@ const CreateCourse = ({
 			</div>
 		</div>
 	);
+};
+
+CreateCourse.propTypes = {
+	backToCourse: PropTypes.any,
+	setCards: PropTypes.any,
+	cards: PropTypes.any,
+	authors: PropTypes.any,
+	setAuthors: PropTypes.any,
 };
 
 export default CreateCourse;
