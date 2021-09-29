@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';
 import logo from '../../images/logo.jpg';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 const imgStyle = {
 	width: '50px',
 	height: '50px',
 };
 
-const Header = () => {
+const Header = ({ user, isLogged, setIsLogged }) => {
 	return (
 		<div className='border border-danger border-2 rounded-1'>
 			<div className='row'>
@@ -17,7 +17,11 @@ const Header = () => {
 					<img style={imgStyle} src={logo} alt='courses-logo.jpg' />
 					<span>Courses</span>
 				</div>
-				<Logout username={undefined} />
+				{isLogged ? (
+					<Logout username={user.user.name} setIsLogged={setIsLogged} />
+				) : (
+					<></>
+				)}
 			</div>
 		</div>
 	);
@@ -28,9 +32,14 @@ const Logout = ({ username }) => {
 		<div className='row col-sm-4 align-items-center'>
 			<div className='col-sm-2'>{username}</div>
 			<div className='col-sm-2'>
-				<Link to='/'>
-					<Button buttonText='Logout' buttonClickHandler={undefined} />
-				</Link>
+				<Button
+					buttonText='Logout'
+					buttonClickHandler={() => {
+						localStorage.removeItem('token');
+						setIsLogged(false);
+						<Redirect to='/' />;
+					}}
+				/>
 			</div>
 		</div>
 	);
