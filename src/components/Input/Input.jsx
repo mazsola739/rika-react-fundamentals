@@ -1,45 +1,45 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
-const inputStyle = {
+/*const inputStyle = {
 	width: '90%',
-};
+};*/
 
 const Input = (
 	{
-		inputId,
-		inputPlaceholderText,
-		inputChangeHandler,
-		inputValue,
-		inputType = 'text',
 		inputName,
+		inputValue,
+		changeHandler,
+		labelText,
+		placeholderText,
+		inputType = 'text',
+		inputId,
 	},
 	inputRef
 ) => {
 	return (
-		<input
-			style={inputStyle}
-			className='col-form-label-sm border border-2 border-warning rounded-1'
-			ref={inputRef}
-			type={inputType}
-			value={inputValue}
-			name={inputName}
-			id={inputId}
-			placeholder={inputPlaceholderText}
-			onChange={inputChangeHandler}
-		/>
+		<div className='input-group mb-3'>
+			<div className='bg-warning bg-opacity-25 input-group-text col-form-label-sm border-end-0 border-2 border-warning rounded-end-1'>
+				{labelText}
+			</div>
+			<input
+				id={inputId}
+				name={inputName}
+				value={inputValue}
+				onChange={changeHandler}
+				ref={inputRef}
+				type={inputType}
+				className='bg-warning bg-opacity-10 form-control col-form-label-sm border-start-0 border-2 border-warning rounded-start-1'
+				placeholder={placeholderText}
+			/>
+		</div>
 	);
 };
 
 const forwardedRef = forwardRef(Input);
 
 forwardedRef.propTypes = {
-	inputName: PropTypes.any,
 	inputType: PropTypes.any,
-	inputValue: PropTypes.any,
-	inputId: PropTypes.any,
-	inputPlaceholderText: PropTypes.any,
-	inputChangeHandler: PropTypes.any,
 };
 
 export default forwardedRef;

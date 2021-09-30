@@ -28,7 +28,10 @@ const CourseCard = ({
 			);
 			return foundAuthor;
 		})
-		.join(', ');
+		.join()
+		.replaceAll(',', ', ');
+
+	console.log(authorList);
 	const hours = Math.floor(duration / 60);
 	const minutes = duration % 60;
 	const displayDuration = `${hours < 10 ? '0' + hours : hours}:${
@@ -38,23 +41,19 @@ const CourseCard = ({
 	return (
 		<div
 			style={cardStyle}
-			className='border border-success border-2 rounded-1 align-items-center p-4 my-2'
+			className='bg-success bg-opacity-10 border border-success border-2 rounded-1 p-4 my-2'
 		>
 			<div className='row'>
 				<div className='col-sm-8'>
 					<h3 id={id}>{title}</h3>
-					<span className='description' title={description} id='overflow'>
+					<span className='description' title={description}>
 						{description}
 					</span>
 				</div>
 
 				<div className='col-sm-4'>
 					<div className='row p-1'>
-						<span
-							className='author'
-							title={`Authors: ${authorList}`}
-							id='overflow'
-						>
+						<span className='author' title={`${authorList}`}>
 							<b>Authors: </b> {authorList}
 						</span>
 					</div>
@@ -70,10 +69,26 @@ const CourseCard = ({
 							{creationDate && creationDate.replaceAll('/', '.')}
 						</span>
 					</div>
-					<div className='row p-1'>
+					<div className='col p-1'>
 						<Link to={`/courses/${id}`}>
-							<Button buttonText='Show course' buttonClickHandler={undefined} />
+							<Button
+								buttonText='Show course'
+								buttonClickHandler={undefined}
+								icon={undefined}
+							/>
 						</Link>
+						<Button
+							size={{ width: '50px' }}
+							buttonText={undefined}
+							buttonClickHandler={undefined}
+							icon='fa fa-trash'
+						/>
+						<Button
+							size={{ width: '50px' }}
+							buttonText={undefined}
+							buttonClickHandler={undefined}
+							icon='fa fa-edit'
+						/>
 					</div>
 				</div>
 			</div>
@@ -82,12 +97,7 @@ const CourseCard = ({
 };
 
 CourseCard.propTypes = {
-	id: PropTypes.any,
-	title: PropTypes.any,
-	description: PropTypes.any,
-	authors: PropTypes.any,
-	duration: PropTypes.any,
-	creationDate: PropTypes.any,
+	id: PropTypes.string,
 };
 
 export default CourseCard;

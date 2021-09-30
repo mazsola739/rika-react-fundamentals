@@ -4,46 +4,43 @@ import PropTypes from 'prop-types';
 
 import Button from '../Button/Button';
 
+const formatDuration = (duration) => {
+	const hours = Math.floor(duration / 60);
+	const minutes = duration % 60;
+	const displayDuration = `${hours < 10 ? '0' + hours : hours}:${
+		minutes < 10 ? '0' + minutes : minutes
+	} hours`;
+	return displayDuration;
+};
+
 const CourseInfo = ({ courses, authorNames }) => {
 	const pathParam = useParams();
-	let thisCourseId = Object.values(pathParam).join();
-	let thisCourse = {};
-	courses.map((course) => {
-		if (course.id === thisCourseId) {
-			const hours = Math.floor(course.duration / 60);
-			const minutes = course.duration % 60;
-			const displayDuration = `${hours < 10 ? '0' + hours : hours}:${
-				minutes < 10 ? '0' + minutes : minutes
-			} hours`;
-			const authorList = course.authors
-				.map((authorId) => {
-					let foundAuthor = authorId;
-					authorNames.map(
-						(author) =>
-							(foundAuthor = author.id === authorId ? author.name : foundAuthor)
-					);
-					return foundAuthor;
-				})
-				.join(', ');
-			const created = course.creationDate.replaceAll('/', '.');
-			thisCourse = {
-				id: course.id,
-				title: course.title,
-				creationDate: created,
-				description: course.description,
-				authors: authorList,
-				duration: displayDuration,
-			};
-		}
-		return console.log(course);
-	});
+	const thisCourseId = Object.values(pathParam).join();
+
+	const thisCourse = courses.find((course) => course.id === thisCourseId);
+
+	const authorList = thisCourse.authors
+		.map((authorId) => {
+			let foundAuthor = authorId;
+			authorNames.map(
+				(author) =>
+					(foundAuthor = author.id === authorId ? author.name : foundAuthor)
+			);
+			return foundAuthor;
+		})
+		.join(', ');
+
+	const created = thisCourse.creationDate.replaceAll('/', '.');
+	thisCourse.creationDate = created;
 
 	return (
-		<div className='border border-primary border-2 rounded-1 p-4 my-3'>
+		<div className='bg-primary bg-opacity-10 border border-primary border-2 rounded-1 p-4 my-3'>
 			<Link to='/courses'>
 				<Button
+					size={{ width: '200px' }}
 					buttonText='&lt; Back to courses'
 					buttonClickHandler={undefined}
+					icon={undefined}
 				/>
 			</Link>
 			<h2 className='text-center'>{thisCourse.title}</h2>
@@ -51,9 +48,9 @@ const CourseInfo = ({ courses, authorNames }) => {
 				<div className='col-sm-8'>{thisCourse.description}</div>
 				<div className='col-sm-4'>
 					<p>ID: {thisCourse.id}</p>
-					<p>Duration: {thisCourse.duration}</p>
+					<p>Duration: {formatDuration(thisCourse.duration)}</p>
 					<p>Created: {thisCourse.creationDate}</p>
-					<p>Authors: {thisCourse.authors}</p>
+					<p>Authors: {authorList}</p>
 				</div>
 			</div>
 		</div>

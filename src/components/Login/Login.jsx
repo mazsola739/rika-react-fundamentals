@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
-import Form from 'components/Form/Form';
+import Input from '../Input/Input';
 import Button from 'components/Button/Button';
+import axios from 'axios';
 
-const Login = ({ login }) => {
-	const [userStatus, setUserStatus] = useState(false);
+const apiService = axios.create({
+	baseURL: 'http://localhost:3000',
+	headers: { 'Content-type': 'application/json' },
+});
 
+const Login = ({ login, setIsLogged, isLogged }) => {
 	const formOnSubmit = (e) => {
 		e.preventDefault();
 		const form = new FormData(e.target);
@@ -16,44 +20,49 @@ const Login = ({ login }) => {
 		});
 
 		async function fetchData() {
-			const response = await fetch('http://localhost:3000/login', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: userData,
-			});
-			const answer = await response.json();
-
+			const { data: answer } = await apiService.post('/login', userData);
 			login(answer);
 			localStorage.setItem('token', answer.result);
-			setUserStatus(answer.successful);
+			setIsLogged(answer.successful);
 		}
 
 		fetchData();
 	};
 
-	if (userStatus === true) {
+	if (isLogged === true) {
 		return <Redirect to='/courses' />;
 	}
+
 	return (
-		<div className='border border-primary border-2 rounded-1 p-3 my-3'>
+		<div className='bg-primary bg-opacity-10 border border-primary border-2 rounded-1 p-3 my-3'>
 			<div className='d-flex justify-content-center'>
 				<form onSubmit={formOnSubmit}>
-					<Form
-						labelFor='email'
+					<Input
 						labelText='Email'
-						inputPlaceholderText='Enter email'
+						placeholderText='Enter email'
+						changeHandler={undefined}
+						inputValue={undefined}
 						inputName='email'
+						inputId={undefined}
 					/>
-					<Form
-						labelFor='password'
+					<Input
 						labelText='Password'
-						inputPlaceholderText='Enter password'
+						placeholderText='Enter password'
+						inputType='password'
+						changeHandler={undefined}
+						inputValue={undefined}
 						inputName='password'
+						inputId={undefined}
 					/>
 					<br />
 					<div className='d-flex justify-content-center'>
-						<Button buttonText='Login' buttonClickHandler={undefined} />
+						<Button
+							buttonText='Login'
+							buttonClickHandler={undefined}
+							icon={undefined}
+						/>
 					</div>
+
 					<br />
 
 					<span>
@@ -68,7 +77,7 @@ const Login = ({ login }) => {
 
 Login.propTypes = {
 	formOnSubmit: PropTypes.any,
-	userName: PropTypes.string,
+	userName: PropTypes.any,
 };
 
 export default Login;

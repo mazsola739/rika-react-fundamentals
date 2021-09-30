@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
-import Form from 'components/Form/Form';
+import Input from '../Input/Input';
 import Button from 'components/Button/Button';
 
 const Registration = () => {
@@ -31,31 +31,42 @@ const Registration = () => {
 	}
 
 	return (
-		<div className='border border-primary border-2 rounded-1 p-3 my-3'>
+		<div className='bg-primary bg-opacity-10 border border-primary border-2 rounded-1 p-3 my-3'>
 			<div className='d-flex justify-content-center'>
 				<form onSubmit={formOnSubmit}>
-					<Form
-						labelFor='name'
+					<Input
 						labelText='Name'
-						inputPlaceholderText='Enter name'
+						placeholderText='Enter name'
+						inputValue={undefined}
+						changeHandler={undefined}
 						inputName='name'
+						inputId={undefined}
 					/>
-					<Form
-						labelFor='email'
+					<Input
 						labelText='Email'
-						inputPlaceholderText='Enter email'
+						placeholderText='Enter email'
+						inputValue={undefined}
+						changeHandler={undefined}
 						inputName='email'
+						inputId={undefined}
 					/>
-					<Form
-						labelFor='password'
+					<Input
 						labelText='Password'
-						inputPlaceholderText='Enter password'
+						placeholderText='Enter password'
+						inputValue={undefined}
+						changeHandler={undefined}
 						inputName='password'
+						inputId={undefined}
+						inputType='password'
 					/>
 
 					<br />
 					<div className='d-flex justify-content-center'>
-						<Button buttonText='Registration' buttonClickHandler={undefined} />
+						<Button
+							buttonText='Registration'
+							buttonClickHandler={undefined}
+							icon={undefined}
+						/>
 					</div>
 					<br />
 					<span>

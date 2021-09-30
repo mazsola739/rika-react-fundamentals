@@ -55,8 +55,12 @@ const App = () => {
 					<Header user={user} isLogged={isLogged} setIsLogged={setIsLogged} />
 				</div>
 				<Switch>
-					<Route path='/login'>
-						<Login login={(userData) => setUser(userData)} />
+					<Route path='/login' exact>
+						<Login
+							login={(userData) => setUser(userData)}
+							setIsLogged={setIsLogged}
+							isLogged={isLogged}
+						/>
 					</Route>
 					<Route path='/courses/add' exact component={CreateCourse}>
 						<CreateCourse
@@ -74,12 +78,19 @@ const App = () => {
 						<Courses cards={getCoursesData} authorNames={getAuthorsData} />
 					</Route>
 
-					<Route path='/registration' component={Registration}>
+					<Route path='/registration' exact component={Registration}>
 						<Registration />
 					</Route>
-
-					<Route path='/' exact>
-						<Redirect to='/login' />
+					<Route path='/'>
+						{isLogged ? (
+							<Redirect to='/courses' />
+						) : (
+							<Login
+								login={(userData) => setUser(userData)}
+								setIsLogged={setIsLogged}
+								isLogged={isLogged}
+							/>
+						)}
 					</Route>
 				</Switch>
 			</div>

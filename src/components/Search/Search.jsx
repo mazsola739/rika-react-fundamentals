@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 
@@ -32,19 +33,24 @@ const Search = ({ setSearchCards, searchCards, cards }) => {
 		!value && setSearchCards(cards);
 
 	return (
-		<div className='row align-items-center'>
+		<div className='row'>
 			<div className='col'>
 				<Input
 					ref={searchInputRef}
-					inputId='searchInput'
-					inputPlaceholderText='Enter course name or id...'
-					inputChangeHandler={searchChangeHandler}
+					placeholderText='Enter course name or id...'
+					changeHandler={searchChangeHandler}
 					inputValue={undefined}
+					labelText='Search'
 					inputName={undefined}
+					inputId={undefined}
 				/>
 			</div>
 			<div className='col'>
-				<Button buttonText='Search' buttonClickHandler={searchCourseHandler} />
+				<Button
+					buttonText='Search'
+					buttonClickHandler={searchCourseHandler}
+					icon={undefined}
+				/>
 			</div>
 		</div>
 	);

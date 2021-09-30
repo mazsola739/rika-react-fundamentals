@@ -4,6 +4,15 @@ import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
+
+const getApiService = () => {
+	const token = localStorage.getItem('token');
+	return axios.create({
+		baseURL: 'http://localhost:3000',
+		headers: { 'Content-type': 'application/json', Authorization: token },
+	});
+};
 
 const textareaStyle = {
 	height: '100px',
@@ -37,11 +46,12 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 		const newAuthorName = inputAuthorRef.current.value;
 		if (newAuthorName.length >= 2) {
 			const newAuthorUuid = (key = uuidv4());
-			const newAuthors = {
+			const newAuthor = {
 				id: newAuthorUuid,
 				name: newAuthorName,
 			};
-			setAuthors([...authorNames, newAuthors]);
+			setAuthors([...authorNames, newAuthor]);
+			getApiService().post('/authors/add', newAuthor);
 		}
 	};
 
@@ -51,14 +61,14 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 		const newTitle = inputTitleRef.current.value;
 		// @ts-ignore
 		const newDescription = inputDescriptionRef.current.value;
-		const newDuration = durationValue;
+		const newDuration = +durationValue;
 		const newCourseUuid = (key = uuidv4());
 		const newCreationDate = new Date().toLocaleDateString();
 
 		if (
 			!newTitle ||
 			newDescription.length < 2 ||
-			+newDuration < 0 ||
+			newDuration < 0 ||
 			courseAuthor.length < 1
 		) {
 			alert('Please, fill in all fields');
@@ -72,6 +82,7 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 				duration: newDuration,
 			};
 			setCards([...cards, newCourse]);
+			getApiService().post('/courses/add', newCourse);
 			setFinished(true);
 		}
 		<Redirect to='/courses' />;
@@ -82,23 +93,24 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 	}
 
 	return (
-		<div className='border border-primary border-2 rounded-1 p-3 my-3'>
+		<div className='bg-primary bg-opacity-10 border border-primary border-2 rounded-1 p-3 my-3'>
 			<div className='row'>
 				<div className='col'>
-					<p>Title</p>
 					<Input
 						ref={inputTitleRef}
 						inputId='inputTitle'
-						inputPlaceholderText='Enter title...'
-						inputChangeHandler={undefined}
+						placeholderText='Enter title...'
+						changeHandler={undefined}
 						inputValue={undefined}
 						inputName={undefined}
+						labelText='Title'
 					/>
 				</div>
-				<div className='col'>
+				<div className='col d-flex justify-content-end'>
 					<Button
 						buttonClickHandler={saveNewCourse}
 						buttonText='Create course'
+						icon={undefined}
 					/>
 				</div>
 			</div>
@@ -111,25 +123,25 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 					placeholder='Enter description'
 				/>
 			</div>
-			<div className='border border-dark border-2 rounded-1 p-2'>
+			<div className='bg-dark bg-opacity-10 border border-dark border-2 rounded-1 p-2'>
 				<div className='row'>
 					<div className='col'>
 						<h5 className='text-center'>Add Authors</h5>
-						<div>
-							<p>Author name</p>
-							<Input
-								inputId='inputAuthor'
-								ref={inputAuthorRef}
-								inputPlaceholderText='Enter author name...'
-								inputChangeHandler={undefined}
-								inputValue={undefined}
-								inputName={undefined}
-							/>
-						</div>
+
+						<Input
+							inputId='inputAuthor'
+							ref={inputAuthorRef}
+							placeholderText='Enter author name...'
+							changeHandler={undefined}
+							inputValue={undefined}
+							inputName={undefined}
+							labelText='Author name'
+						/>
 						<div className='col p-2 text-center'>
 							<Button
 								buttonText='Create author'
 								buttonClickHandler={handleClickCreateAuthor}
+								icon={undefined}
 							/>
 						</div>
 					</div>
@@ -158,6 +170,7 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 														courseAuthor.includes(author.id)
 													);
 												}}
+												icon={undefined}
 											/>
 										</div>
 									</div>
@@ -168,14 +181,14 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 				<div className='row'>
 					<div className='col'>
 						<h5 className='text-center'>Duration</h5>
-						<p>Duration</p>
 						<Input
 							inputType='number'
 							inputValue={durationValue}
-							inputChangeHandler={handleChangeDuration}
+							changeHandler={handleChangeDuration}
 							inputId='inputDuration'
-							inputPlaceholderText='Enter duration in minutes...'
+							placeholderText='Enter duration in minutes...'
 							inputName={undefined}
+							labelText='Duration'
 						/>
 						<p>
 							Duration <b>{displayDuration(durationValue)}</b> hours
@@ -198,6 +211,7 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 														prevCourseAuthors.filter((item) => id !== item.id)
 													)
 												}
+												icon={undefined}
 											/>
 										</div>
 									</div>

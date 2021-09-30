@@ -1,25 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const buttonStyle = {
-	width: '150px',
-};
-
-const Button = ({ buttonText, buttonClickHandler }) => {
+const Button = ({
+	buttonText,
+	buttonClickHandler,
+	icon,
+	size = { width: '150px' },
+}) => {
 	return (
 		<button
-			style={buttonStyle}
-			className='btn btn-sm border border-info border-2 rounded-1'
+			style={size}
+			className='bg-info bg-opacity-25 btn border border-info border-2 rounded-1'
 			onClick={buttonClickHandler}
 		>
 			{buttonText}
+			<i className={icon} style={{ fontSize: '16px' }} />
 		</button>
 	);
 };
 
 Button.propTypes = {
-	buttonStyle: PropTypes.any,
-	buttonClickHandler: PropTypes.any,
+	buttonClickHandler: PropTypes.func,
 	buttonText: PropTypes.string,
 };
 
