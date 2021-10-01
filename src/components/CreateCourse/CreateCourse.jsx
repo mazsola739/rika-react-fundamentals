@@ -27,13 +27,15 @@ const textareaStyle = {
 	height: '100px',
 };
 
-const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
+const CreateCourse = ({ store, key }) => {
 	const [titleValue, setTitleValue] = useState('');
 	const [descriptionValue, setDescriptionValue] = useState('');
 	const [authorValue, setAuthorValue] = useState('');
 	const [courseAuthor, setCourseAuthor] = useState([]);
 	const [durationValue, setDurationValue] = useState('');
 	const [finished, setFinished] = useState(false);
+
+	const authors = store.getState().authors;
 
 	const titleHandleChanger = (e) => {
 		const title = e.target.value;
@@ -60,7 +62,6 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 				id: authorId,
 				name: authorValue,
 			};
-			setAuthors([...authorNames, newAuthor]);
 			getApiService().post('/authors/add', newAuthor);
 		}
 	};
@@ -86,7 +87,7 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 				authors: authorId,
 				duration: +durationValue,
 			};
-			setCards([...cards, newCourse]);
+
 			getApiService().post('/courses/add', newCourse);
 			setFinished(true);
 		}
@@ -150,7 +151,7 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 					<div className='col'>
 						<h5 className='text-center'>Authors</h5>
 						<div className='text-center'>
-							{authorNames
+							{authors
 								.filter(
 									(author) =>
 										!courseAuthor.some((item) => author.id === item.id)
@@ -168,7 +169,7 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 														...authors,
 														{ name: name, id: id },
 													]);
-													authorNames.filter((author) =>
+													authors.filter((author) =>
 														courseAuthor.includes(author.id)
 													);
 												}}

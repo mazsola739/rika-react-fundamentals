@@ -7,16 +7,12 @@ const userInitialState = {
 	token: '',
 };
 
-export default function userReducer(state = userInitialState, action) {
-	switch (action.type) {
+export default function user(state = userInitialState, { type, payload }) {
+	switch (type) {
 		case USER_LOGIN:
-			const userData = action.userData;
-
 			return {
 				isAuth: true,
-				name: userData.user.name,
-				email: userData.user.email,
-				token: userData.result,
+				...payload,
 			};
 		case USER_LOGOUT:
 			return userInitialState;

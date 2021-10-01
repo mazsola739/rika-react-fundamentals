@@ -4,10 +4,9 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import axios from 'axios';
 
-import { USER_LOGIN } from 'store/user/actionTypes';
-
 import Input from '../Input/Input';
 import Button from '../Button/Button';
+import { userLogin } from 'store/user/actionCreators';
 
 const apiService = axios.create({
 	baseURL: 'http://localhost:3000',
@@ -20,23 +19,18 @@ const fetchData = async (userData) => {
 	return answer;
 };
 
-const Login = ({ user, setIsLogged }) => {
-	user.isAuth ? setIsLogged(true) : setIsLogged(false);
+const Login = ({ user }) => {
 	const dispatch = useDispatch();
-
 	const formOnSubmit = async (e) => {
 		e.preventDefault();
+
 		const form = new FormData(e.target);
 		const userData = JSON.stringify({
 			email: form.get('email'),
 			password: form.get('password'),
 		});
 		const response = await fetchData(userData);
-
-		dispatch({
-			type: USER_LOGIN,
-			userData: response,
-		});
+		dispatch(userLogin({ ...response.user, token: response.result }));
 	};
 
 	if (user.isAuth) {
@@ -88,6 +82,7 @@ Login.propTypes = {
 	}),
 };
 
-export default connect((state) => ({
-	user: state,
+// @ts-ignore
+export default connect(({ user }) => ({
+	user,
 }))(Login);

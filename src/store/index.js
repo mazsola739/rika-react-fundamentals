@@ -1,18 +1,10 @@
-import { createStore } from 'redux';
-import userReducer from './user/reducer';
-import courseReducer from './courses/reducer';
-import authorReducer from './authors/reducer';
+import { combineReducers } from 'redux';
+import user from './user/reducer';
+import courses from './courses/reducer';
+import authors from './authors/reducer';
 
-const userStore = createStore(userReducer);
-const courseStore = createStore(courseReducer);
-const authorStore = createStore(authorReducer);
-
-const appStore = {
-	user: {
-		userStore,
-	},
-	courses: courseStore,
-	authors: authorStore,
-};
-
-export default appStore;
+export default combineReducers({
+	user,
+	courses,
+	authors,
+});

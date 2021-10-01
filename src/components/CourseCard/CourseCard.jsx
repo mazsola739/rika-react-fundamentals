@@ -41,7 +41,7 @@ const CourseCard = ({
 	authors,
 	duration,
 	creationDate,
-	authorNames,
+	allAuthors,
 }) => {
 	return (
 		<div
@@ -60,9 +60,9 @@ const CourseCard = ({
 					<div className='row p-1'>
 						<span
 							className='author'
-							title={`${showAuthor(authors, authorNames)}`}
+							title={`${showAuthor(authors, allAuthors)}`}
 						>
-							<b>Authors: </b> {showAuthor(authors, authorNames)}
+							<b>Authors: </b> {showAuthor(authors, allAuthors)}
 						</span>
 					</div>
 					<div className='row p-1'>

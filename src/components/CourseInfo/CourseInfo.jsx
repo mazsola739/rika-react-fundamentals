@@ -28,7 +28,9 @@ const showAuthor = (authors, names) => {
 	return authorList;
 };
 
-const CourseInfo = ({ courses, authorNames }) => {
+const CourseInfo = ({ store }) => {
+	const courses = store.getState().courses;
+	const authors = store.getState().authors;
 	const pathParam = useParams();
 	const thisCourseId = Object.values(pathParam).join();
 	const thisCourse = courses.find((course) => course.id === thisCourseId);
@@ -50,7 +52,7 @@ const CourseInfo = ({ courses, authorNames }) => {
 					<p>ID: {thisCourse.id}</p>
 					<p>Duration: {formatDuration(thisCourse.duration)}</p>
 					<p>Created: {thisCourse.creationDate.replaceAll('/', '.')}</p>
-					<p>Authors: {showAuthor(thisCourse.authors, authorNames)}</p>
+					<p>Authors: {showAuthor(thisCourse.authors, authors)}</p>
 				</div>
 			</div>
 		</div>

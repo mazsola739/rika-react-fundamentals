@@ -6,9 +6,10 @@ import CourseCard from '../CourseCard/CourseCard';
 import Button from '../Button/Button';
 import Search from '../Search/Search';
 
-const Courses = ({ courses, authorNames }) => {
+const Courses = ({ store }) => {
 	const [filterCourse, setFilterCourse] = useState([]);
-
+	const courses = store.getState().courses;
+	const authors = store.getState().authors;
 	return (
 		<div className='bg-primary bg-opacity-10 border border-primary border-2 rounded-1 p-4 my-3'>
 			<div className=' py-2'>
@@ -30,7 +31,7 @@ const Courses = ({ courses, authorNames }) => {
 			<div className='row'>
 				{filterCourse.map((course) => {
 					return (
-						<CourseCard key={course.id} {...course} authorNames={authorNames} />
+						<CourseCard key={course.id} {...course} allAuthors={authors} />
 					);
 				})}
 			</div>

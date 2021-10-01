@@ -1,14 +1,14 @@
-import { SAVE_AUTHOR, DELETE_AUTHOR, GET_AUTHOR } from './actionTypes';
+import { SAVE_AUTHOR, DELETE_AUTHOR, GET_ALL_AUTHORS } from './actionTypes';
 
-export const saveAuthor = (authorData) => ({
+export const saveAuthor = (authors) => ({
 	type: SAVE_AUTHOR,
-	authorData,
+	payload: authors,
 });
-export const deleteAuthor = (authorData) => ({
+export const deleteAuthor = (authors) => ({
 	type: DELETE_AUTHOR,
-	authorData,
+	payload: authors,
 });
-export const getAuthor = (authorData) => ({
-	type: GET_AUTHOR,
-	authorData,
+export const getAllAuthors = (authors) => ({
+	type: GET_ALL_AUTHORS,
+	payload: authors,
 });

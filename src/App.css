@@ -3,11 +3,3 @@
 	color: black;
 	font-family: "Roboto", sans-serif;
 }
-
-#courses {
-	display: block;
-}
-
-#createCourse {
-	display: none;
-}

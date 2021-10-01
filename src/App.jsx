@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -11,109 +11,88 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import './App.css';
-import userReducer from './store/user/reducer';
-//import appStore from './store/index';
+
 import Header from './components/Header/Header';
 import Login from './components/Login/Login';
 import Registration from './components/Registration/Registration';
 import Courses from './components/Courses/Courses';
 import CourseInfo from 'components/CourseInfo/CourseInfo';
 import CreateCourse from './components/CreateCourse/CreateCourse';
-
-/*import axios from 'axios';
-const apiService = axios.create({
-	baseURL: 'http://localhost:3000',
-	headers: { 'Content-type': 'application/json' },
-});
-
-const fetchData = async (userData) => {
-	const { data: answer } = await apiService.post('/login', userData);
-	localStorage.setItem('token', answer.result);
-	return answer;
-};*/
+import rootReducer from './store/index';
+import { getAllAuthors } from './store/authors/actionCreators';
+import { getAllCourses } from './store/courses/actionCreators';
 
 const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
-const store = createStore(userReducer, composedEnhancer);
-
-/*appStore.subscribe(() => {
-	console.log('Store changed:', appStore.getState());
-});*/
-
-//console.log(appStore.user);
+const store = createStore(rootReducer, composedEnhancer);
 
 const App = () => {
-	const [getCoursesData, setGetCoursesData] = useState([]);
-	const [getAuthorsData, setGetAuthorsData] = useState([]);
-	const [user] = useState({});
-	const [isLogged, setIsLogged] = useState(false);
-
-	const getCourses = () => {
-		fetch('http://localhost:3000/courses/all', {
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-			},
-		})
-			.then((response) => response.json())
-			.then((myJson) => {
-				setGetCoursesData(myJson.result);
-			});
-	};
-	const getAuthors = () => {
-		fetch('http://localhost:3000/authors/all', {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
-			.then((response) => response.json())
-			.then((myJson) => setGetAuthorsData(myJson.result));
-	};
+	const dispatch = store.dispatch;
 
 	useEffect(() => {
+		const baseUrl = 'http://localhost:3000';
+		const headers = {
+			'Content-Type': 'application/json',
+		};
+		const getCourses = () => {
+			fetch(`${baseUrl}/courses/all`, {
+				headers: headers,
+			})
+				.then((response) => response.json())
+				.then((myJson) => {
+					dispatch(getAllCourses(myJson));
+				});
+		};
 		getCourses();
+		const getAuthors = () => {
+			fetch(`${baseUrl}/authors/all`, {
+				headers: headers,
+			})
+				.then((response) => response.json())
+				.then((myJson) => dispatch(getAllAuthors(myJson)));
+		};
+
 		getAuthors();
-	}, []);
+	});
+
+	const user = store.getState().user;
+	const courses = store.getState().courses;
+	const authors = store.getState().authors;
+	console.log(store);
+	console.log(user);
+	console.log(courses);
+	console.log(authors);
 
 	return (
 		<Router>
-			<div className='App container py-4'>
-				<Header user={user} isLogged={isLogged} setIsLogged={setIsLogged} />
-
-				<Switch>
-					<Route path='/login' exact>
-						<Provider store={store}>
-							<Login setIsLogged={setIsLogged} />
-						</Provider>
-					</Route>
-					<Route path='/courses/add' exact component={CreateCourse}>
-						<CreateCourse
-							authorNames={getAuthorsData}
-							setAuthors={setGetAuthorsData}
-							setCards={setGetCoursesData}
-							cards={getCoursesData}
-							key={''}
-						/>
-					</Route>
-					<Route path='/courses/:courseId' exact component={CourseInfo}>
-						<CourseInfo courses={getCoursesData} authorNames={getAuthorsData} />
-					</Route>
-					<Route path='/courses' exact component={Courses}>
-						<Courses courses={getCoursesData} authorNames={getAuthorsData} />
-					</Route>
-					<Route path='/registration' exact component={Registration}>
-						<Registration />
-					</Route>
-					<Route path='/'>
-						{isLogged ? (
-							<Redirect to='/courses' />
-						) : (
-							<Provider store={store}>
-								<Login setIsLogged={setIsLogged} />
-							</Provider>
-						)}
-					</Route>
-				</Switch>
-			</div>
+			<Provider store={store}>
+				<div className='App container py-4'>
+					<Header user={user} />
+					<Switch>
+						<Route path='/login' exact>
+							<Login />
+						</Route>
+						<Route path='/courses/add' exact component={CreateCourse}>
+							<CreateCourse store={store} key={''} />
+						</Route>
+						<Route path='/courses/:courseId' exact component={CourseInfo}>
+							<CourseInfo store={store} />
+						</Route>
+						<Route path='/courses' exact component={Courses}>
+							<Courses store={store} />
+						</Route>
+						<Route path='/registration' exact component={Registration}>
+							<Registration />
+						</Route>
+						<Route path='/' component={App}>
+							{user.isAuth ? (
+								<Redirect to='/courses' />
+							) : (
+								<Redirect to='/Login' />
+							)}
+						</Route>
+					</Switch>
+				</div>
+			</Provider>
 		</Router>
 	);
 };
