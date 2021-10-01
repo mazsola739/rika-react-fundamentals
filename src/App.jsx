@@ -12,7 +12,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import './App.css';
 import userReducer from './store/user/reducer';
-import appStore from './store/index';
+//import appStore from './store/index';
 import Header from './components/Header/Header';
 import Login from './components/Login/Login';
 import Registration from './components/Registration/Registration';
@@ -38,6 +38,8 @@ const store = createStore(userReducer, composedEnhancer);
 /*appStore.subscribe(() => {
 	console.log('Store changed:', appStore.getState());
 });*/
+
+//console.log(appStore.user);
 
 const App = () => {
 	const [getCoursesData, setGetCoursesData] = useState([]);
@@ -96,9 +98,8 @@ const App = () => {
 						<CourseInfo courses={getCoursesData} authorNames={getAuthorsData} />
 					</Route>
 					<Route path='/courses' exact component={Courses}>
-						<Courses cards={getCoursesData} authorNames={getAuthorsData} />
+						<Courses courses={getCoursesData} authorNames={getAuthorsData} />
 					</Route>
-
 					<Route path='/registration' exact component={Registration}>
 						<Registration />
 					</Route>

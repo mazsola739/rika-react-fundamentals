@@ -23,6 +23,7 @@ const fetchData = async (userData) => {
 const Login = ({ user, setIsLogged }) => {
 	user.isAuth ? setIsLogged(true) : setIsLogged(false);
 	const dispatch = useDispatch();
+
 	const formOnSubmit = async (e) => {
 		e.preventDefault();
 		const form = new FormData(e.target);

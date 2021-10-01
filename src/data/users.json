@@ -5,7 +5,8 @@
     "password": "admin123",
     "role": "admin",
     "id": "34677860-724b-4765-b9fc-7d4f0fc6329f"
-  },{
+  },
+  {
     "name": "user",
     "email": "user@email.com",
     "password": "user123",

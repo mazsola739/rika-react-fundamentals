@@ -1,45 +1,48 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 
-const isCardMatch = (card, filterText) =>
-	card.toUpperCase().indexOf(filterText) >= 0;
+const isCourseMatch = (course, filter) =>
+	course.toUpperCase().indexOf(filter) >= 0;
+const isMatch = (courseByTitle, courseById, filter) =>
+	isCourseMatch(courseByTitle, filter) || isCourseMatch(courseById, filter);
 
-const isMatch = (cardByTitle, cardById, filterText) =>
-	isCardMatch(cardByTitle, filterText) || isCardMatch(cardById, filterText);
+const Search = ({ setFilterCourse, filterCourse, courses }) => {
+	const [searchValue, setSearchValue] = useState('');
 
-const Search = ({ setSearchCards, searchCards, cards }) => {
-	const searchInputRef = useRef(null);
+	const searchChangeHandler = (e) => {
+		const input = e.target.value;
+		setSearchValue(() => input);
+	};
 
-	const searchCourseHandler = () => {
-		const input = searchInputRef.current,
-			filterText = input.value.toUpperCase();
-		let matchedCards = [];
+	const searchClickHandler = (e) => {
+		e.preventDefault();
+		const filter = searchValue.toUpperCase();
+		setFilterCourse([...courses]);
 
-		searchCards.forEach((card) => {
-			const match = isMatch(card.title, card.id, filterText);
+		let matchedCourse = [];
+		courses.forEach((course) => {
+			const match = isMatch(course.title, course.id, filter);
 			if (match) {
-				matchedCards.push(card);
+				matchedCourse.push(course);
 			}
 		});
 
-		setSearchCards([...matchedCards]);
-		matchedCards = [];
+		setFilterCourse([...matchedCourse]);
+		matchedCourse = [];
 	};
 
-	const searchChangeHandler = ({ target: { value } }) =>
-		!value && setSearchCards(cards);
+	setFilterCourse(courses);
 
 	return (
 		<div className='row'>
 			<div className='col'>
 				<Input
-					ref={searchInputRef}
 					placeholderText='Enter course name or id...'
 					changeHandler={searchChangeHandler}
-					value={undefined}
+					value={searchValue}
 					text='Search'
 					name={undefined}
 				/>
@@ -47,7 +50,7 @@ const Search = ({ setSearchCards, searchCards, cards }) => {
 			<div className='col'>
 				<Button
 					text='Search'
-					clickHandler={searchCourseHandler}
+					clickHandler={searchClickHandler}
 					icon={undefined}
 				/>
 			</div>
@@ -57,8 +60,6 @@ const Search = ({ setSearchCards, searchCards, cards }) => {
 
 Search.propTypes = {
 	setSearchCards: PropTypes.any,
-	searchCards: PropTypes.any,
-	cards: PropTypes.any,
 };
 
 export default Search;

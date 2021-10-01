@@ -6,8 +6,8 @@ import CourseCard from '../CourseCard/CourseCard';
 import Button from '../Button/Button';
 import Search from '../Search/Search';
 
-const Courses = ({ cards, authorNames }) => {
-	const [searchCards, setSearchCards] = useState([]);
+const Courses = ({ courses, authorNames }) => {
+	const [filterCourse, setFilterCourse] = useState([]);
 
 	return (
 		<div className='bg-primary bg-opacity-10 border border-primary border-2 rounded-1 p-4 my-3'>
@@ -15,9 +15,9 @@ const Courses = ({ cards, authorNames }) => {
 				<div className='row'>
 					<div className='col-sm-8'>
 						<Search
-							cards={cards}
-							searchCards={searchCards}
-							setSearchCards={setSearchCards}
+							courses={courses}
+							filterCourse={filterCourse}
+							setFilterCourse={setFilterCourse}
 						/>
 					</div>
 					<div className='col-sm-4 d-flex justify-content-end'>
@@ -28,7 +28,7 @@ const Courses = ({ cards, authorNames }) => {
 				</div>
 			</div>
 			<div className='row'>
-				{cards.map((course) => {
+				{filterCourse.map((course) => {
 					return (
 						<CourseCard key={course.id} {...course} authorNames={authorNames} />
 					);
