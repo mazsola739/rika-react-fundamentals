@@ -10,6 +10,30 @@ const cardStyle = {
 	maxHeight: '200px',
 };
 
+const formatDuration = (duration) => {
+	const hours = Math.floor(duration / 60);
+	const minutes = duration % 60;
+	const displayDuration = `${hours < 10 ? '0' + hours : hours}:${
+		minutes < 10 ? '0' + minutes : minutes
+	} hours`;
+	return displayDuration;
+};
+
+const showAuthor = (authors, names) => {
+	const authorList = authors
+		.map((authorId) => {
+			let foundAuthor = authorId;
+			names.map(
+				(author) =>
+					(foundAuthor = author.id === authorId ? author.name : foundAuthor)
+			);
+			return foundAuthor;
+		})
+		.join()
+		.replaceAll(',', ', ');
+	return authorList;
+};
+
 const CourseCard = ({
 	id,
 	title,
@@ -19,25 +43,6 @@ const CourseCard = ({
 	creationDate,
 	authorNames,
 }) => {
-	const authorList = authors
-		.map((authorId) => {
-			let foundAuthor = authorId;
-			authorNames.map(
-				(author) =>
-					(foundAuthor = author.id === authorId ? author.name : foundAuthor)
-			);
-			return foundAuthor;
-		})
-		.join()
-		.replaceAll(',', ', ');
-
-	console.log(authorList);
-	const hours = Math.floor(duration / 60);
-	const minutes = duration % 60;
-	const displayDuration = `${hours < 10 ? '0' + hours : hours}:${
-		minutes < 10 ? '0' + minutes : minutes
-	} hours`;
-
 	return (
 		<div
 			style={cardStyle}
@@ -45,7 +50,7 @@ const CourseCard = ({
 		>
 			<div className='row'>
 				<div className='col-sm-8'>
-					<h3 id={id}>{title}</h3>
+					<h3>{title}</h3>
 					<span className='description' title={description}>
 						{description}
 					</span>
@@ -53,14 +58,17 @@ const CourseCard = ({
 
 				<div className='col-sm-4'>
 					<div className='row p-1'>
-						<span className='author' title={`${authorList}`}>
-							<b>Authors: </b> {authorList}
+						<span
+							className='author'
+							title={`${showAuthor(authors, authorNames)}`}
+						>
+							<b>Authors: </b> {showAuthor(authors, authorNames)}
 						</span>
 					</div>
 					<div className='row p-1'>
 						<span>
 							<b>Duration: </b>
-							{displayDuration}
+							{formatDuration(duration)}
 						</span>
 					</div>
 					<div className='row p-1'>
@@ -72,21 +80,21 @@ const CourseCard = ({
 					<div className='col p-1'>
 						<Link to={`/courses/${id}`}>
 							<Button
-								buttonText='Show course'
-								buttonClickHandler={undefined}
+								text='Show course'
+								clickHandler={undefined}
 								icon={undefined}
 							/>
 						</Link>
 						<Button
 							size={{ width: '50px' }}
-							buttonText={undefined}
-							buttonClickHandler={undefined}
+							text={undefined}
+							clickHandler={undefined}
 							icon='fa fa-trash'
 						/>
 						<Button
 							size={{ width: '50px' }}
-							buttonText={undefined}
-							buttonClickHandler={undefined}
+							text={undefined}
+							clickHandler={undefined}
 							icon='fa fa-edit'
 						/>
 					</div>

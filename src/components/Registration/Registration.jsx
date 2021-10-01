@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
+
 import Input from '../Input/Input';
 import Button from 'components/Button/Button';
+
+/*const apiService = axios.create({
+	baseURL: 'http://localhost:3000',
+	headers: { 'Content-type': 'application/json' },
+});
+
+const fetchData = async (userData) => {
+	const { data: answer } = await apiService.post('/login', userData);
+	localStorage.setItem('token', answer.result);
+	return answer;
+};*/
 
 const Registration = () => {
 	const [newUser, setNewUser] = useState(false);
@@ -35,36 +47,33 @@ const Registration = () => {
 			<div className='d-flex justify-content-center'>
 				<form onSubmit={formOnSubmit}>
 					<Input
-						labelText='Name'
+						text='Name'
 						placeholderText='Enter name'
-						inputValue={undefined}
+						value={undefined}
 						changeHandler={undefined}
-						inputName='name'
-						inputId={undefined}
+						name='name'
 					/>
 					<Input
-						labelText='Email'
+						text='Email'
 						placeholderText='Enter email'
-						inputValue={undefined}
+						value={undefined}
 						changeHandler={undefined}
-						inputName='email'
-						inputId={undefined}
+						name='email'
 					/>
 					<Input
-						labelText='Password'
+						text='Password'
 						placeholderText='Enter password'
-						inputValue={undefined}
+						value={undefined}
 						changeHandler={undefined}
-						inputName='password'
-						inputId={undefined}
-						inputType='password'
+						name='password'
+						type='password'
 					/>
 
 					<br />
 					<div className='d-flex justify-content-center'>
 						<Button
-							buttonText='Registration'
-							buttonClickHandler={undefined}
+							text='Registration'
+							clickHandler={undefined}
 							icon={undefined}
 						/>
 					</div>

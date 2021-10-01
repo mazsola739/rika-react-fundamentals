@@ -20,9 +20,9 @@ const Courses = ({ cards, authorNames }) => {
 							setSearchCards={setSearchCards}
 						/>
 					</div>
-					<div className='col-sm-4'>
+					<div className='col-sm-4 d-flex justify-content-end'>
 						<Link to='/courses/add'>
-							<Button buttonText='Add new course' icon={undefined} />
+							<Button text='Add new course' icon={undefined} />
 						</Link>
 					</div>
 				</div>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Input from '../Input/Input';
@@ -14,72 +14,77 @@ const getApiService = () => {
 	});
 };
 
+const formatDuration = (duration) => {
+	const hours = Math.floor(duration / 60);
+	const minutes = duration % 60;
+	const displayDuration = `${hours < 10 ? '0' + hours : hours}:${
+		minutes < 10 ? '0' + minutes : minutes
+	} hours`;
+	return displayDuration;
+};
+
 const textareaStyle = {
 	height: '100px',
 };
 
 const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
+	const [titleValue, setTitleValue] = useState('');
+	const [descriptionValue, setDescriptionValue] = useState('');
+	const [authorValue, setAuthorValue] = useState('');
 	const [courseAuthor, setCourseAuthor] = useState([]);
 	const [durationValue, setDurationValue] = useState('');
 	const [finished, setFinished] = useState(false);
 
-	const inputTitleRef = useRef();
-	const inputDescriptionRef = useRef();
-	const inputAuthorRef = useRef();
-
-	const handleChangeDuration = (e) => {
+	const titleHandleChanger = (e) => {
+		const title = e.target.value;
+		setTitleValue(() => title);
+	};
+	const descriptionHandleChanger = (e) => {
+		const description = e.target.value;
+		setDescriptionValue(() => description);
+	};
+	const durationHandleChanger = (e) => {
 		const duration = e.target.value;
 		setDurationValue(() => duration);
 	};
-
-	const displayDuration = (inputvalue) => {
-		let hours = Math.floor(inputvalue / 60);
-		let minutes = inputvalue % 60;
-		return `${hours < 10 ? '0' + hours : hours}:${
-			minutes < 10 ? '0' + minutes : minutes
-		}`;
+	const authorHandleChanger = (e) => {
+		const author = e.target.value;
+		setAuthorValue(() => author);
 	};
 
-	const handleClickCreateAuthor = (e) => {
+	const saveNewAuthor = (e) => {
 		e.preventDefault();
-		// @ts-ignore
-		const newAuthorName = inputAuthorRef.current.value;
-		if (newAuthorName.length >= 2) {
-			const newAuthorUuid = (key = uuidv4());
+		if (authorValue.length >= 2) {
+			const authorId = (key = uuidv4());
 			const newAuthor = {
-				id: newAuthorUuid,
-				name: newAuthorName,
+				id: authorId,
+				name: authorValue,
 			};
 			setAuthors([...authorNames, newAuthor]);
 			getApiService().post('/authors/add', newAuthor);
 		}
 	};
-
 	const saveNewCourse = (e) => {
 		e.preventDefault();
-		// @ts-ignore
-		const newTitle = inputTitleRef.current.value;
-		// @ts-ignore
-		const newDescription = inputDescriptionRef.current.value;
-		const newDuration = +durationValue;
-		const newCourseUuid = (key = uuidv4());
-		const newCreationDate = new Date().toLocaleDateString();
+		const courseId = (key = uuidv4());
+		const creationDate = new Date().toLocaleDateString();
 
 		if (
-			!newTitle ||
-			newDescription.length < 2 ||
-			newDuration < 0 ||
+			!titleValue ||
+			descriptionValue.length < 2 ||
+			+durationValue < 0 ||
 			courseAuthor.length < 1
 		) {
 			alert('Please, fill in all fields');
 		} else {
+			const authorId = courseAuthor.map((author) => author.id);
 			const newCourse = {
-				id: newCourseUuid,
-				title: newTitle,
-				creationDate: newCreationDate,
-				description: newDescription,
-				authors: [courseAuthor.map((author) => author.name)],
-				duration: newDuration,
+				id: courseId,
+				title: titleValue,
+				creationDate: creationDate,
+				description: descriptionValue,
+				authors: authorId,
+				duration: +durationValue,
 			};
 			setCards([...cards, newCourse]);
 			getApiService().post('/courses/add', newCourse);
@@ -97,19 +102,17 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 			<div className='row'>
 				<div className='col'>
 					<Input
-						ref={inputTitleRef}
-						inputId='inputTitle'
 						placeholderText='Enter title...'
-						changeHandler={undefined}
-						inputValue={undefined}
-						inputName={undefined}
-						labelText='Title'
+						changeHandler={titleHandleChanger}
+						value={titleValue}
+						name={undefined}
+						text='Title'
 					/>
 				</div>
 				<div className='col d-flex justify-content-end'>
 					<Button
-						buttonClickHandler={saveNewCourse}
-						buttonText='Create course'
+						clickHandler={saveNewCourse}
+						text='Create course'
 						icon={undefined}
 					/>
 				</div>
@@ -117,7 +120,8 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 			<div className='row p-2 my-3'>
 				<p>Description</p>
 				<textarea
-					ref={inputDescriptionRef}
+					value={descriptionValue}
+					onChange={descriptionHandleChanger}
 					style={textareaStyle}
 					className='border border-secondary border-2 form-control'
 					placeholder='Enter description'
@@ -129,18 +133,16 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 						<h5 className='text-center'>Add Authors</h5>
 
 						<Input
-							inputId='inputAuthor'
-							ref={inputAuthorRef}
 							placeholderText='Enter author name...'
-							changeHandler={undefined}
-							inputValue={undefined}
-							inputName={undefined}
-							labelText='Author name'
+							changeHandler={authorHandleChanger}
+							value={authorValue}
+							name={undefined}
+							text='Author name'
 						/>
 						<div className='col p-2 text-center'>
 							<Button
-								buttonText='Create author'
-								buttonClickHandler={handleClickCreateAuthor}
+								text='Create author'
+								clickHandler={saveNewAuthor}
 								icon={undefined}
 							/>
 						</div>
@@ -154,14 +156,14 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 										!courseAuthor.some((item) => author.id === item.id)
 								)
 								.map(({ name, id }) => (
-									<div className='row' key={id} id={id}>
+									<div className='row' key={id}>
 										<div className='start col'>
 											<span>{name} </span>
 										</div>
 										<div className='start col'>
 											<Button
-												buttonText='Add Author'
-												buttonClickHandler={() => {
+												text='Add Author'
+												clickHandler={() => {
 													setCourseAuthor((authors) => [
 														...authors,
 														{ name: name, id: id },
@@ -182,16 +184,15 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 					<div className='col'>
 						<h5 className='text-center'>Duration</h5>
 						<Input
-							inputType='number'
-							inputValue={durationValue}
-							changeHandler={handleChangeDuration}
-							inputId='inputDuration'
+							type='number'
+							value={durationValue}
+							changeHandler={durationHandleChanger}
 							placeholderText='Enter duration in minutes...'
-							inputName={undefined}
-							labelText='Duration'
+							name={undefined}
+							text='Duration'
 						/>
 						<p>
-							Duration <b>{displayDuration(durationValue)}</b> hours
+							Duration <b>{formatDuration(durationValue)}</b> hours
 						</p>
 					</div>
 					<div className='col'>
@@ -199,14 +200,14 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 						<div className='text-center'>
 							{courseAuthor.length ? (
 								courseAuthor.map(({ name, id }) => (
-									<div className='row' key={id} id={id}>
+									<div className='row' key={id}>
 										<div className='start col'>
 											<span>{name} </span>
 										</div>
 										<div className='start col'>
 											<Button
-												buttonText='Delete Author'
-												buttonClickHandler={() =>
+												text='Delete Author'
+												clickHandler={() =>
 													setCourseAuthor((prevCourseAuthors) =>
 														prevCourseAuthors.filter((item) => id !== item.id)
 													)
@@ -229,10 +230,6 @@ const CreateCourse = ({ cards, authorNames, setAuthors, setCards, key }) => {
 
 CreateCourse.propTypes = {
 	backToCourse: PropTypes.any,
-	setCards: PropTypes.any,
-	cards: PropTypes.any,
-	authors: PropTypes.any,
-	setAuthors: PropTypes.any,
 };
 
 export default CreateCourse;

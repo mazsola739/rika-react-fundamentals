@@ -1,35 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
-import Input from '../Input/Input';
-import Button from 'components/Button/Button';
+import { connect, useDispatch } from 'react-redux';
 import axios from 'axios';
+
+import { USER_LOGIN } from 'store/user/actionTypes';
+
+import Input from '../Input/Input';
+import Button from '../Button/Button';
 
 const apiService = axios.create({
 	baseURL: 'http://localhost:3000',
 	headers: { 'Content-type': 'application/json' },
 });
 
-const Login = ({ login, setIsLogged, isLogged }) => {
-	const formOnSubmit = (e) => {
+const fetchData = async (userData) => {
+	const { data: answer } = await apiService.post('/login', userData);
+	localStorage.setItem('token', answer.result);
+	return answer;
+};
+
+const Login = ({ user, setIsLogged }) => {
+	user.isAuth ? setIsLogged(true) : setIsLogged(false);
+	const dispatch = useDispatch();
+	const formOnSubmit = async (e) => {
 		e.preventDefault();
 		const form = new FormData(e.target);
 		const userData = JSON.stringify({
 			email: form.get('email'),
 			password: form.get('password'),
 		});
+		const response = await fetchData(userData);
 
-		async function fetchData() {
-			const { data: answer } = await apiService.post('/login', userData);
-			login(answer);
-			localStorage.setItem('token', answer.result);
-			setIsLogged(answer.successful);
-		}
-
-		fetchData();
+		dispatch({
+			type: USER_LOGIN,
+			userData: response,
+		});
 	};
 
-	if (isLogged === true) {
+	if (user.isAuth) {
 		return <Redirect to='/courses' />;
 	}
 
@@ -38,29 +47,23 @@ const Login = ({ login, setIsLogged, isLogged }) => {
 			<div className='d-flex justify-content-center'>
 				<form onSubmit={formOnSubmit}>
 					<Input
-						labelText='Email'
+						text='Email'
 						placeholderText='Enter email'
 						changeHandler={undefined}
-						inputValue={undefined}
-						inputName='email'
-						inputId={undefined}
+						value={undefined}
+						name='email'
 					/>
 					<Input
-						labelText='Password'
+						text='Password'
 						placeholderText='Enter password'
-						inputType='password'
+						type='password'
 						changeHandler={undefined}
-						inputValue={undefined}
-						inputName='password'
-						inputId={undefined}
+						value={undefined}
+						name='password'
 					/>
 					<br />
 					<div className='d-flex justify-content-center'>
-						<Button
-							buttonText='Login'
-							buttonClickHandler={undefined}
-							icon={undefined}
-						/>
+						<Button text='Login' clickHandler={undefined} icon={undefined} />
 					</div>
 
 					<br />
@@ -76,8 +79,14 @@ const Login = ({ login, setIsLogged, isLogged }) => {
 };
 
 Login.propTypes = {
-	formOnSubmit: PropTypes.any,
-	userName: PropTypes.any,
+	user: PropTypes.shape({
+		isAuth: PropTypes.bool,
+		name: PropTypes.string,
+		email: PropTypes.string,
+		token: PropTypes.string,
+	}),
 };
 
-export default Login;
+export default connect((state) => ({
+	user: state,
+}))(Login);

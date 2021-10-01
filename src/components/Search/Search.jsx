@@ -39,16 +39,15 @@ const Search = ({ setSearchCards, searchCards, cards }) => {
 					ref={searchInputRef}
 					placeholderText='Enter course name or id...'
 					changeHandler={searchChangeHandler}
-					inputValue={undefined}
-					labelText='Search'
-					inputName={undefined}
-					inputId={undefined}
+					value={undefined}
+					text='Search'
+					name={undefined}
 				/>
 			</div>
 			<div className='col'>
 				<Button
-					buttonText='Search'
-					buttonClickHandler={searchCourseHandler}
+					text='Search'
+					clickHandler={searchCourseHandler}
 					icon={undefined}
 				/>
 			</div>

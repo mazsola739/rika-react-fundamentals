@@ -1,7 +1,27 @@
+import { USER_LOGIN, USER_LOGOUT } from './actionTypes';
+
 const userInitialState = {
-	isAuth: 'boolean', /// default value - false. After success login - true
-	name: 'string', /// default value - empty string. After success login - name of user
-	email: 'string', /// default value - empty string. After success login - email of user
-	token: 'string', /// default value - empty string or token value from localStorage.
-	// After success login - value from API /login response. See Swagger.
+	isAuth: false,
+	name: '',
+	email: '',
+	token: '',
 };
+
+export default function userReducer(state = userInitialState, action) {
+	switch (action.type) {
+		case USER_LOGIN:
+			const userData = action.userData;
+
+			return {
+				isAuth: true,
+				name: userData.user.name,
+				email: userData.user.email,
+				token: userData.result,
+			};
+		case USER_LOGOUT:
+			return userInitialState;
+
+		default:
+			return state;
+	}
+}

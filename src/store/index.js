@@ -1,10 +1,18 @@
-const store = {
+import { createStore } from 'redux';
+import userReducer from './user/reducer';
+import courseReducer from './courses/reducer';
+import authorReducer from './authors/reducer';
+
+const userStore = createStore(userReducer);
+const courseStore = createStore(courseReducer);
+const authorStore = createStore(authorReducer);
+
+const appStore = {
 	user: {
-		isAuth: 'boolean', /// default value - false. After success login - true
-		name: 'string', /// default value - empty string. After success login - name of user
-		email: 'string', /// default value - empty string. After success login - email of user
-		token: 'string', /// default value - empty string or token value from localStorage. After success login - value from API /login response. See Swagger.
+		userStore,
 	},
-	courses: [], /// list of courses. Default value - empty array. After success getting courses - value from API /courses/all response. See Swagger.
-	authors: [], /// list of authors. Default value - empty array. After success getting authors - value from API /authors/all response. See Swagger.
+	courses: courseStore,
+	authors: authorStore,
 };
+
+export default appStore;

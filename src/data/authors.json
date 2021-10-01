@@ -1,0 +1,15 @@
+[
+  { "name": "Natasha Romanova", "id": "9b87e8b8-6ba5-40fc-a439-c4e30a373d36" },
+  { "name": "Diana Prince", "id": "1c972c52-3198-4098-b6f7-799b45903199" },
+  {
+    "name": "Don Diego de la Vega",
+    "id": "072fe3fc-e751-4745-9af5-aa9eed0ea9ed"
+  },
+  { "name": "Clark Kent", "id": "40b21bd5-cbae-4f33-b154-0252b1ae03a9" },
+  { "name": "Tony Stark", "id": "5e0b0f18-32c9-4933-b142-50459b47f09e" },
+  { "name": "Bruce Wayne", "id": "9987de6a-b475-484a-b885-622b8fb88bda" },
+  { "name": "Batman", "id": "e03b6031-ca69-4949-9490-a8e3319b9576" },
+  { "name": "Superman", "id": "c24c1284-ad6c-4e54-9144-f1355d913a5e" },
+  { "name": "Marci Syl", "id": "d4ecea50-e069-4760-b660-a0c2cfb557ca" },
+  { "name": "Rika Mazsi", "id": "9e3a0552-001f-4807-9ff2-601ab8fdbb3c" }
+]

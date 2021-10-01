@@ -5,9 +5,14 @@ import {
 	Route,
 	Redirect,
 } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import './App.css';
-
+import userReducer from './store/user/reducer';
+import appStore from './store/index';
 import Header from './components/Header/Header';
 import Login from './components/Login/Login';
 import Registration from './components/Registration/Registration';
@@ -15,10 +20,29 @@ import Courses from './components/Courses/Courses';
 import CourseInfo from 'components/CourseInfo/CourseInfo';
 import CreateCourse from './components/CreateCourse/CreateCourse';
 
+/*import axios from 'axios';
+const apiService = axios.create({
+	baseURL: 'http://localhost:3000',
+	headers: { 'Content-type': 'application/json' },
+});
+
+const fetchData = async (userData) => {
+	const { data: answer } = await apiService.post('/login', userData);
+	localStorage.setItem('token', answer.result);
+	return answer;
+};*/
+
+const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
+const store = createStore(userReducer, composedEnhancer);
+
+/*appStore.subscribe(() => {
+	console.log('Store changed:', appStore.getState());
+});*/
+
 const App = () => {
 	const [getCoursesData, setGetCoursesData] = useState([]);
 	const [getAuthorsData, setGetAuthorsData] = useState([]);
-	const [user, setUser] = useState({});
+	const [user] = useState({});
 	const [isLogged, setIsLogged] = useState(false);
 
 	const getCourses = () => {
@@ -51,16 +75,13 @@ const App = () => {
 	return (
 		<Router>
 			<div className='App container py-4'>
-				<div>
-					<Header user={user} isLogged={isLogged} setIsLogged={setIsLogged} />
-				</div>
+				<Header user={user} isLogged={isLogged} setIsLogged={setIsLogged} />
+
 				<Switch>
 					<Route path='/login' exact>
-						<Login
-							login={(userData) => setUser(userData)}
-							setIsLogged={setIsLogged}
-							isLogged={isLogged}
-						/>
+						<Provider store={store}>
+							<Login setIsLogged={setIsLogged} />
+						</Provider>
 					</Route>
 					<Route path='/courses/add' exact component={CreateCourse}>
 						<CreateCourse
@@ -85,11 +106,9 @@ const App = () => {
 						{isLogged ? (
 							<Redirect to='/courses' />
 						) : (
-							<Login
-								login={(userData) => setUser(userData)}
-								setIsLogged={setIsLogged}
-								isLogged={isLogged}
-							/>
+							<Provider store={store}>
+								<Login setIsLogged={setIsLogged} />
+							</Provider>
 						)}
 					</Route>
 				</Switch>
