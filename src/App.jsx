@@ -26,6 +26,7 @@ const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 const store = createStore(rootReducer, composedEnhancer);
 
 const App = () => {
+	//const store = useSelector((store) => store);
 	const dispatch = store.dispatch;
 
 	useEffect(() => {

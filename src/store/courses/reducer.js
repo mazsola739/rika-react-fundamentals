@@ -13,10 +13,7 @@ export default function courses(
 ) {
 	switch (type) {
 		case SAVE_COURSE:
-			return {
-				...state,
-				courses: [...state, { ...payload }],
-			};
+			return state.concat(payload);
 		case DELETE_COURSE:
 			return state.filter((course) => course.id !== payload);
 		case EDIT_COURSE:

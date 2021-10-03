@@ -1,3 +1,4 @@
+create course lehall
 login
 logout
 store refresh

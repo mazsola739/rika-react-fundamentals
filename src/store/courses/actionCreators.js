@@ -7,7 +7,7 @@ import {
 
 export const saveCourse = ({ newCourse }) => ({
 	type: SAVE_COURSE,
-	payload: newCourse,
+	payload: [newCourse],
 });
 export const deleteCourse = (thisCourse) => ({
 	type: DELETE_COURSE,

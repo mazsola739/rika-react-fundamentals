@@ -82,6 +82,7 @@ const CreateCourse = ({ store, key }) => {
 				authors: authorId,
 				duration: +durationValue,
 			};
+			console.log(newCourse);
 			getApiService().post('/courses/add', newCourse);
 			dispatch(saveCourse({ newCourse }));
 			setFinished(true);
