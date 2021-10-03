@@ -11,5 +11,10 @@
   { "name": "Batman", "id": "e03b6031-ca69-4949-9490-a8e3319b9576" },
   { "name": "Superman", "id": "c24c1284-ad6c-4e54-9144-f1355d913a5e" },
   { "name": "Marci Syl", "id": "d4ecea50-e069-4760-b660-a0c2cfb557ca" },
-  { "name": "Rika Mazsi", "id": "9e3a0552-001f-4807-9ff2-601ab8fdbb3c" }
-]
+  { "name": "Rika Mazsi", "id": "9e3a0552-001f-4807-9ff2-601ab8fdbb3c" },
+  {
+    "name": "Daenerys Targaryen",
+    "id": "4a0a699b-74e3-4ab6-b876-1a6b488e80bb"
+  },
+  { "name": "Tyrion Lannister", "id": "9230b1b9-b869-4374-b7c2-5461ffc5efee" },
+  { "name": "Jon Snow", "id": "9345b1b9-b869-4374-b7c2-5461ffc5efee" }]

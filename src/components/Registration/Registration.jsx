@@ -43,7 +43,7 @@ const Registration = () => {
 	}
 
 	return (
-		<div className='bg-primary bg-opacity-10 border border-primary border-2 rounded-1 p-3 my-3'>
+		<div className='border border-dark border-1 rounded-1 p-3 my-3'>
 			<div className='d-flex justify-content-center'>
 				<form onSubmit={formOnSubmit}>
 					<Input
@@ -89,7 +89,7 @@ const Registration = () => {
 };
 
 Registration.propTypes = {
-	formOnSubmit: PropTypes.any,
+	formOnSubmit: PropTypes.func,
 };
 
 export default Registration;

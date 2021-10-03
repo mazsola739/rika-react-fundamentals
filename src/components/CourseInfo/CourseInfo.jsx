@@ -1,57 +1,76 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import Button from '../Button/Button';
-
-const formatDuration = (duration) => {
-	const hours = Math.floor(duration / 60);
-	const minutes = duration % 60;
-	const displayDuration = `${hours < 10 ? '0' + hours : hours}:${
-		minutes < 10 ? '0' + minutes : minutes
-	} hours`;
-	return displayDuration;
-};
-
-const showAuthor = (authors, names) => {
-	const authorList = authors
-		.map((authorId) => {
-			let foundAuthor = authorId;
-			names.map(
-				(author) =>
-					(foundAuthor = author.id === authorId ? author.name : foundAuthor)
-			);
-			return foundAuthor;
-		})
-		.join()
-		.replaceAll(',', ', ');
-	return authorList;
-};
+import { displayDate, formatDuration, showAuthor } from 'components/Formatters';
 
 const CourseInfo = ({ store }) => {
+	const [course, setCourse] = useState({});
 	const courses = store.getState().courses;
 	const authors = store.getState().authors;
 	const pathParam = useParams();
 	const thisCourseId = Object.values(pathParam).join();
+
+	//! store
 	const thisCourse = courses.find((course) => course.id === thisCourseId);
 
+	//! backend
+	useEffect(() => {
+		const baseUrl = 'http://localhost:3000';
+		const headers = {
+			'Content-Type': 'application/json',
+		};
+		const fetchThisCourse = () => {
+			fetch(`${baseUrl}/courses/${thisCourseId}`, {
+				headers: headers,
+			})
+				.then((response) => response.json())
+				.then((myJson) => {
+					setCourse(myJson.result);
+				});
+		};
+		fetchThisCourse();
+	}, [thisCourseId]);
+
 	return (
-		<div className='bg-primary bg-opacity-10 border border-primary border-2 rounded-1 p-4 my-3'>
+		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
 			<Link to='/courses'>
 				<Button
 					size={{ width: '200px' }}
-					text='&lt; Back to courses'
 					clickHandler={undefined}
+					text='&lt; Back to courses'
 					icon={undefined}
 				/>
 			</Link>
-			<h2 className='text-center'>{thisCourse.title}</h2>
+			<h2 className='text-center bg-info bg-opacity-20 rounded-1 mx-1 my-3 py-1'>
+				{
+					// @ts-ignore
+					course.title
+				}
+			</h2>
 			<div className='row'>
-				<div className='col-sm-8 '>{thisCourse.description}</div>
-				<div className='col-sm-4'>
-					<p>ID: {thisCourse.id}</p>
-					<p>Duration: {formatDuration(thisCourse.duration)}</p>
-					<p>Created: {thisCourse.creationDate.replaceAll('/', '.')}</p>
+				<div className='col-sm-7 alert alert-info ms-3'>
+					{
+						// @ts-ignore
+						course.description
+					}
+				</div>
+				<div className='col alert alert-info mx-3'>
+					<p>
+						ID:{' '}
+						{
+							// @ts-ignore
+							course.id
+						}
+					</p>
+					<p>
+						Duration:{' '}
+						{formatDuration(
+							// @ts-ignore
+							course.duration
+						)}
+					</p>
+					<p>Created: {displayDate(thisCourse.creationDate)}</p>
 					<p>Authors: {showAuthor(thisCourse.authors, authors)}</p>
 				</div>
 			</div>
@@ -60,7 +79,7 @@ const CourseInfo = ({ store }) => {
 };
 
 CourseInfo.propTypes = {
-	id: PropTypes.string,
+	store: PropTypes.object,
 };
 
 export default CourseInfo;

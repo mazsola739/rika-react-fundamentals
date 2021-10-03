@@ -2,22 +2,22 @@ import {
 	SAVE_COURSE,
 	DELETE_COURSE,
 	EDIT_COURSE,
-	GET_ALL_COURSES,
+	FETCH_COURSES,
 } from './actionTypes';
 
-export const saveCourse = (courseData) => ({
+export const saveCourse = ({ newCourse }) => ({
 	type: SAVE_COURSE,
-	courseData,
+	payload: newCourse,
 });
-export const deleteCourse = (courseData) => ({
+export const deleteCourse = (thisCourse) => ({
 	type: DELETE_COURSE,
-	courseData,
+	payload: thisCourse,
 });
-export const editCourse = (courseData) => ({
+export const editCourse = (courses) => ({
 	type: EDIT_COURSE,
-	courseData,
+	courses,
 });
-export const getAllCourses = (courses) => ({
-	type: GET_ALL_COURSES,
+export const fetchCourses = (courses) => ({
+	type: FETCH_COURSES,
 	payload: courses,
 });

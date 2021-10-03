@@ -38,7 +38,7 @@ const Login = ({ user }) => {
 	}
 
 	return (
-		<div className='bg-primary bg-opacity-10 border border-primary border-2 rounded-1 p-3 my-3'>
+		<div className='border border-dark border-1 rounded-1 p-3 my-3'>
 			<div className='d-flex justify-content-center'>
 				<form onSubmit={formOnSubmit}>
 					<Input
@@ -80,6 +80,7 @@ Login.propTypes = {
 		email: PropTypes.string,
 		token: PropTypes.string,
 	}),
+	formOnSubmit: PropTypes.func,
 };
 
 // @ts-ignore

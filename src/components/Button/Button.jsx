@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Button = ({ text, clickHandler, icon, size = { width: '150px' } }) => {
+const Button = ({ size = { width: '150px' }, clickHandler, text, icon }) => {
 	return (
 		<button
+			className='bg-info bg-opacity-50 btn border-info border-1 rounded-1'
 			style={size}
-			className='bg-info bg-opacity-25 btn border-info border-2 rounded-1'
 			onClick={clickHandler}
 		>
 			{text}
@@ -15,9 +15,10 @@ const Button = ({ text, clickHandler, icon, size = { width: '150px' } }) => {
 };
 
 Button.propTypes = {
+	size: PropTypes.object,
+	clickHandler: PropTypes.func,
 	text: PropTypes.string,
 	icon: PropTypes.string,
-	clickHandler: PropTypes.any,
 };
 
 export default Button;

@@ -1,38 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import './CourseCard.css';
-
 import Button from '../Button/Button';
+import { formatDuration, showAuthor } from 'components/Formatters';
+import { deleteCourse } from 'store/courses/actionCreators';
+import { useDispatch } from 'react-redux';
+//! import axios from 'axios';
 
-const cardStyle = {
-	maxHeight: '200px',
-};
-
-const formatDuration = (duration) => {
-	const hours = Math.floor(duration / 60);
-	const minutes = duration % 60;
-	const displayDuration = `${hours < 10 ? '0' + hours : hours}:${
-		minutes < 10 ? '0' + minutes : minutes
-	} hours`;
-	return displayDuration;
-};
-
-const showAuthor = (authors, names) => {
-	const authorList = authors
-		.map((authorId) => {
-			let foundAuthor = authorId;
-			names.map(
-				(author) =>
-					(foundAuthor = author.id === authorId ? author.name : foundAuthor)
-			);
-			return foundAuthor;
-		})
-		.join()
-		.replaceAll(',', ', ');
-	return authorList;
-};
+/*//!const getApiService = () => {
+	const token = localStorage.getItem('token');
+	return axios.create({
+		baseURL: 'http://localhost:3000',
+		headers: { 'Content-type': 'application/json', Authorization: token },
+	});
+};*/
 
 const CourseCard = ({
 	id,
@@ -42,15 +24,25 @@ const CourseCard = ({
 	duration,
 	creationDate,
 	allAuthors,
+	store,
 }) => {
+	const dispatch = useDispatch();
+	const courses = store.getState().courses;
+	const deleteThisCourse = (e) => {
+		e.preventDefault();
+		const thisCourse = courses.find((course) => course.id === id).id;
+		//!	getApiService().delete(`/courses/${id}`);  delete from api
+		dispatch(deleteCourse(thisCourse)); //! delete from store
+	};
+
 	return (
 		<div
-			style={cardStyle}
-			className='bg-success bg-opacity-10 border border-success border-2 rounded-1 p-4 my-2'
+			style={{ maxHeight: '200px' }}
+			className='border border-info border-1 rounded-1 p-4 my-2'
 		>
 			<div className='row'>
-				<div className='col-sm-8'>
-					<h3>{title}</h3>
+				<div className='alert alert-info col-sm-8'>
+					<h3 className='bg-info bg-opacity-20 rounded-1'>{title}</h3>
 					<span className='description' title={description}>
 						{description}
 					</span>
@@ -74,10 +66,10 @@ const CourseCard = ({
 					<div className='row p-1'>
 						<span>
 							<b>Created: </b>
-							{creationDate && creationDate.replaceAll('/', '.')}
+							{creationDate.replaceAll('/', '.')}
 						</span>
 					</div>
-					<div className='col p-1'>
+					<div className='col p-1' key={id}>
 						<Link to={`/courses/${id}`}>
 							<Button
 								text='Show course'
@@ -88,7 +80,7 @@ const CourseCard = ({
 						<Button
 							size={{ width: '50px' }}
 							text={undefined}
-							clickHandler={undefined}
+							clickHandler={deleteThisCourse}
 							icon='fa fa-trash'
 						/>
 						<Button
@@ -106,6 +98,13 @@ const CourseCard = ({
 
 CourseCard.propTypes = {
 	id: PropTypes.string,
+	title: PropTypes.string,
+	description: PropTypes.string,
+	authors: PropTypes.array,
+	duration: PropTypes.number,
+	creationDate: PropTypes.string,
+	allAuthors: PropTypes.array,
+	store: PropTypes.object,
 };
 
 export default CourseCard;

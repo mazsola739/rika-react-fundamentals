@@ -5,6 +5,10 @@ import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import { formatDuration } from 'components/Formatters';
+import { useDispatch } from 'react-redux';
+import { saveAuthor } from 'store/authors/actionCreators';
+import { saveCourse } from 'store/courses/actionCreators';
 
 const getApiService = () => {
 	const token = localStorage.getItem('token');
@@ -14,28 +18,21 @@ const getApiService = () => {
 	});
 };
 
-const formatDuration = (duration) => {
-	const hours = Math.floor(duration / 60);
-	const minutes = duration % 60;
-	const displayDuration = `${hours < 10 ? '0' + hours : hours}:${
-		minutes < 10 ? '0' + minutes : minutes
-	} hours`;
-	return displayDuration;
-};
-
 const textareaStyle = {
 	height: '100px',
 };
 
 const CreateCourse = ({ store, key }) => {
+	const dispatch = useDispatch();
+	const authors = store.getState().authors;
+
 	const [titleValue, setTitleValue] = useState('');
 	const [descriptionValue, setDescriptionValue] = useState('');
 	const [authorValue, setAuthorValue] = useState('');
+	const [allAuthors, setAllAuthors] = useState(authors);
 	const [courseAuthor, setCourseAuthor] = useState([]);
 	const [durationValue, setDurationValue] = useState('');
 	const [finished, setFinished] = useState(false);
-
-	const authors = store.getState().authors;
 
 	const titleHandleChanger = (e) => {
 		const title = e.target.value;
@@ -57,19 +54,17 @@ const CreateCourse = ({ store, key }) => {
 	const saveNewAuthor = (e) => {
 		e.preventDefault();
 		if (authorValue.length >= 2) {
-			const authorId = (key = uuidv4());
 			const newAuthor = {
-				id: authorId,
+				id: (key = uuidv4()),
 				name: authorValue,
 			};
 			getApiService().post('/authors/add', newAuthor);
+			setAllAuthors([...allAuthors, newAuthor]);
+			dispatch(saveAuthor({ newAuthor }));
 		}
 	};
 	const saveNewCourse = (e) => {
 		e.preventDefault();
-		const courseId = (key = uuidv4());
-		const creationDate = new Date().toLocaleDateString();
-
 		if (
 			!titleValue ||
 			descriptionValue.length < 2 ||
@@ -80,15 +75,15 @@ const CreateCourse = ({ store, key }) => {
 		} else {
 			const authorId = courseAuthor.map((author) => author.id);
 			const newCourse = {
-				id: courseId,
+				id: (key = uuidv4()),
 				title: titleValue,
-				creationDate: creationDate,
+				creationDate: new Date().toLocaleDateString(),
 				description: descriptionValue,
 				authors: authorId,
 				duration: +durationValue,
 			};
-
 			getApiService().post('/courses/add', newCourse);
+			dispatch(saveCourse({ newCourse }));
 			setFinished(true);
 		}
 		<Redirect to='/courses' />;
@@ -99,8 +94,8 @@ const CreateCourse = ({ store, key }) => {
 	}
 
 	return (
-		<div className='bg-primary bg-opacity-10 border border-primary border-2 rounded-1 p-3 my-3'>
-			<div className='row'>
+		<div className='alert alert-info border border-primary border-1 rounded-1 p-3 my-3'>
+			<div className='row mx-0'>
 				<div className='col'>
 					<Input
 						placeholderText='Enter title...'
@@ -118,17 +113,17 @@ const CreateCourse = ({ store, key }) => {
 					/>
 				</div>
 			</div>
-			<div className='row p-2 my-3'>
+			<div className='row p-2 my-3 rounded-1 bg-light mx-2'>
 				<p>Description</p>
 				<textarea
 					value={descriptionValue}
 					onChange={descriptionHandleChanger}
 					style={textareaStyle}
-					className='border border-secondary border-2 form-control'
+					className='border border-secondary border-1 form-control'
 					placeholder='Enter description'
 				/>
 			</div>
-			<div className='bg-dark bg-opacity-10 border border-dark border-2 rounded-1 p-2'>
+			<div className='bg-light border border-dark border-1 rounded-1 p-4 mx-2'>
 				<div className='row'>
 					<div className='col'>
 						<h5 className='text-center'>Add Authors</h5>
@@ -151,7 +146,7 @@ const CreateCourse = ({ store, key }) => {
 					<div className='col'>
 						<h5 className='text-center'>Authors</h5>
 						<div className='text-center'>
-							{authors
+							{allAuthors
 								.filter(
 									(author) =>
 										!courseAuthor.some((item) => author.id === item.id)
@@ -169,7 +164,7 @@ const CreateCourse = ({ store, key }) => {
 														...authors,
 														{ name: name, id: id },
 													]);
-													authors.filter((author) =>
+													allAuthors.filter((author) =>
 														courseAuthor.includes(author.id)
 													);
 												}}
@@ -193,7 +188,7 @@ const CreateCourse = ({ store, key }) => {
 							text='Duration'
 						/>
 						<p>
-							Duration <b>{formatDuration(durationValue)}</b> hours
+							Duration <b>{formatDuration(durationValue)}</b>
 						</p>
 					</div>
 					<div className='col'>
@@ -230,7 +225,8 @@ const CreateCourse = ({ store, key }) => {
 };
 
 CreateCourse.propTypes = {
-	backToCourse: PropTypes.any,
+	store: PropTypes.object,
+	key: PropTypes.any,
 };
 
 export default CreateCourse;

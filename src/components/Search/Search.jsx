@@ -20,21 +20,20 @@ const Search = ({ setFilterCourse, filterCourse, courses }) => {
 	const searchClickHandler = (e) => {
 		e.preventDefault();
 		const filter = searchValue.toUpperCase();
-		setFilterCourse([...courses]);
-
+		setFilterCourse(courses);
 		let matchedCourse = [];
-		courses.forEach((course) => {
+
+		filterCourse.forEach((course) => {
 			const match = isMatch(course.title, course.id, filter);
 			if (match) {
 				matchedCourse.push(course);
 			}
 		});
 
-		setFilterCourse([...matchedCourse]);
+		setFilterCourse(matchedCourse);
+
 		matchedCourse = [];
 	};
-
-	setFilterCourse(courses);
 
 	return (
 		<div className='row'>
@@ -59,7 +58,9 @@ const Search = ({ setFilterCourse, filterCourse, courses }) => {
 };
 
 Search.propTypes = {
-	setSearchCards: PropTypes.any,
+	searchChangeHandler: PropTypes.func,
+	searchValue: PropTypes.string,
+	searchClickHandler: PropTypes.func,
 };
 
 export default Search;

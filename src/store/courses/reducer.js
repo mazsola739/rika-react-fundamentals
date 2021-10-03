@@ -2,7 +2,7 @@ import {
 	SAVE_COURSE,
 	DELETE_COURSE,
 	EDIT_COURSE,
-	GET_ALL_COURSES,
+	FETCH_COURSES,
 } from './actionTypes';
 
 const coursesInitialState = [];
@@ -13,12 +13,15 @@ export default function courses(
 ) {
 	switch (type) {
 		case SAVE_COURSE:
-			return coursesInitialState;
+			return {
+				...state,
+				courses: [...state, { ...payload }],
+			};
 		case DELETE_COURSE:
-			return coursesInitialState;
+			return state.filter((course) => course.id !== payload);
 		case EDIT_COURSE:
 			return coursesInitialState;
-		case GET_ALL_COURSES:
+		case FETCH_COURSES:
 			return payload.result;
 		default:
 			return state;

@@ -8,10 +8,12 @@ import Search from '../Search/Search';
 
 const Courses = ({ store }) => {
 	const [filterCourse, setFilterCourse] = useState([]);
+
 	const courses = store.getState().courses;
 	const authors = store.getState().authors;
+
 	return (
-		<div className='bg-primary bg-opacity-10 border border-primary border-2 rounded-1 p-4 my-3'>
+		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
 			<div className=' py-2'>
 				<div className='row'>
 					<div className='col-sm-8'>
@@ -23,15 +25,24 @@ const Courses = ({ store }) => {
 					</div>
 					<div className='col-sm-4 d-flex justify-content-end'>
 						<Link to='/courses/add'>
-							<Button text='Add new course' icon={undefined} />
+							<Button
+								text='Add new course'
+								icon={undefined}
+								clickHandler={undefined}
+							/>
 						</Link>
 					</div>
 				</div>
 			</div>
 			<div className='row'>
-				{filterCourse.map((course) => {
+				{courses.map((course) => {
 					return (
-						<CourseCard key={course.id} {...course} allAuthors={authors} />
+						<CourseCard
+							key={course.id}
+							{...course}
+							allAuthors={authors}
+							store={store}
+						/>
 					);
 				})}
 			</div>
@@ -40,8 +51,7 @@ const Courses = ({ store }) => {
 };
 
 Courses.propTypes = {
-	goToCreateCourse: PropTypes.any,
-	cards: PropTypes.any,
+	store: PropTypes.object,
 };
 
 export default Courses;

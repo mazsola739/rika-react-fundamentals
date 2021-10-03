@@ -1,4 +1,4 @@
-import { SAVE_AUTHOR, DELETE_AUTHOR, GET_ALL_AUTHORS } from './actionTypes';
+import { SAVE_AUTHOR, DELETE_AUTHOR, FETCH_AUTHORS } from './actionTypes';
 
 const authorsInitialState = [];
 
@@ -8,10 +8,13 @@ export default function authors(
 ) {
 	switch (type) {
 		case SAVE_AUTHOR:
-			return authorsInitialState;
+			return {
+				...state,
+				authors: [...state, { ...payload }],
+			};
 		case DELETE_AUTHOR:
 			return authorsInitialState;
-		case GET_ALL_AUTHORS:
+		case FETCH_AUTHORS:
 			return payload.result;
 		default:
 			return state;
