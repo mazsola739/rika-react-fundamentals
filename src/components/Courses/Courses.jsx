@@ -8,9 +8,12 @@ import Search from '../Search/Search';
 
 const Courses = ({ store }) => {
 	const [filterCourse, setFilterCourse] = useState([]);
-
 	const courses = store.getState().courses;
 	const authors = store.getState().authors;
+
+	const callBack = (courses) => {
+		setFilterCourse(courses);
+	};
 
 	return (
 		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
@@ -18,9 +21,10 @@ const Courses = ({ store }) => {
 				<div className='row'>
 					<div className='col-sm-8'>
 						<Search
-							courses={courses}
-							filterCourse={filterCourse}
-							setFilterCourse={setFilterCourse}
+							store={store}
+							callBack={(e) => {
+								callBack(e);
+							}}
 						/>
 					</div>
 					<div className='col-sm-4 d-flex justify-content-end'>
@@ -35,16 +39,27 @@ const Courses = ({ store }) => {
 				</div>
 			</div>
 			<div className='row'>
-				{courses.map((course) => {
-					return (
-						<CourseCard
-							key={course.id}
-							{...course}
-							allAuthors={authors}
-							store={store}
-						/>
-					);
-				})}
+				{filterCourse.length > 0
+					? filterCourse.map((course) => {
+							return (
+								<CourseCard
+									key={course.id}
+									{...course}
+									allAuthors={authors}
+									store={store}
+								/>
+							);
+					  })
+					: courses.map((course) => {
+							return (
+								<CourseCard
+									key={course.id}
+									{...course}
+									allAuthors={authors}
+									store={store}
+								/>
+							);
+					  })}
 			</div>
 		</div>
 	);

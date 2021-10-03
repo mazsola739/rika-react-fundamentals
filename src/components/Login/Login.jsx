@@ -63,10 +63,10 @@ const Login = ({ user }) => {
 
 					<br />
 
-					<span>
+					<div className='col btn bg-info rounded-1'>
 						If you not have an account you can register:{' '}
 						<Link to='/registration'>Registration &gt;</Link>
-					</span>
+					</div>
 				</form>
 			</div>
 		</div>

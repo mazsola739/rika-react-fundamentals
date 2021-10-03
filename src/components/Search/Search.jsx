@@ -9,29 +9,29 @@ const isCourseMatch = (course, filter) =>
 const isMatch = (courseByTitle, courseById, filter) =>
 	isCourseMatch(courseByTitle, filter) || isCourseMatch(courseById, filter);
 
-const Search = ({ setFilterCourse, filterCourse, courses }) => {
+const Search = ({ store, callBack }) => {
+	const courses = store.getState().courses;
 	const [searchValue, setSearchValue] = useState('');
 
 	const searchChangeHandler = (e) => {
 		const input = e.target.value;
 		setSearchValue(() => input);
+		callBack(courses);
 	};
 
 	const searchClickHandler = (e) => {
 		e.preventDefault();
 		const filter = searchValue.toUpperCase();
-		setFilterCourse(courses);
 		let matchedCourse = [];
 
-		filterCourse.forEach((course) => {
+		courses.forEach((course) => {
 			const match = isMatch(course.title, course.id, filter);
 			if (match) {
 				matchedCourse.push(course);
 			}
 		});
 
-		setFilterCourse(matchedCourse);
-
+		callBack(matchedCourse);
 		matchedCourse = [];
 	};
 

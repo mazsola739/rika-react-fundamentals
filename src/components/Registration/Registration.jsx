@@ -78,10 +78,10 @@ const Registration = () => {
 						/>
 					</div>
 					<br />
-					<span>
+					<div className='col btn bg-info rounded-1'>
 						If you do have an account you can{' '}
 						<Link to='/login'>login &gt;</Link>.
-					</span>
+					</div>
 				</form>
 			</div>
 		</div>
