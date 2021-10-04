@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import CourseCard from '../CourseCard/CourseCard';
 import Button from '../Button/Button';
 import Search from '../Search/Search';
+import { useSelector } from 'react-redux';
 
 const Courses = ({ store }) => {
 	const [filterCourse, setFilterCourse] = useState([]);
@@ -14,6 +15,10 @@ const Courses = ({ store }) => {
 	const callBack = (courses) => {
 		setFilterCourse(courses);
 	};
+
+	//!ez nem szép
+	const remainingCourse = useSelector((state) => state);
+	console.log(remainingCourse);
 
 	return (
 		<div className='border border-dark border-1 rounded-1 p-4 my-3'>

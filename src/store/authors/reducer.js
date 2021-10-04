@@ -8,14 +8,11 @@ export default function authors(
 ) {
 	switch (type) {
 		case SAVE_AUTHOR:
-			return {
-				...state,
-				authors: [...state, { ...payload }],
-			};
+			return [...state, payload];
 		case DELETE_AUTHOR:
 			return authorsInitialState;
 		case FETCH_AUTHORS:
-			return payload.result;
+			return payload;
 		default:
 			return state;
 	}

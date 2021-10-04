@@ -2,19 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
-import axios from 'axios';
-
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { userLogin } from 'store/user/actionCreators';
-
-const apiService = axios.create({
-	baseURL: 'http://localhost:3000',
-	headers: { 'Content-type': 'application/json' },
-});
+import { getApiService } from 'components/ApiService';
 
 const fetchData = async (userData) => {
-	const { data: answer } = await apiService.post('/login', userData);
+	const { data: answer } = await getApiService().post('/login', userData);
 	localStorage.setItem('token', answer.result);
 	return answer;
 };
@@ -80,7 +74,6 @@ Login.propTypes = {
 		email: PropTypes.string,
 		token: PropTypes.string,
 	}),
-	formOnSubmit: PropTypes.func,
 };
 
 // @ts-ignore

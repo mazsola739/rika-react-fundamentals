@@ -6,15 +6,7 @@ import Button from '../Button/Button';
 import { formatDuration, showAuthor } from 'components/Formatters';
 import { deleteCourse } from 'store/courses/actionCreators';
 import { useDispatch } from 'react-redux';
-//! import axios from 'axios';
-
-/*//!const getApiService = () => {
-	const token = localStorage.getItem('token');
-	return axios.create({
-		baseURL: 'http://localhost:3000',
-		headers: { 'Content-type': 'application/json', Authorization: token },
-	});
-};*/
+//!import { getApiService } from 'components/ApiService';
 
 const CourseCard = ({
 	id,
@@ -28,6 +20,7 @@ const CourseCard = ({
 }) => {
 	const dispatch = useDispatch();
 	const courses = store.getState().courses;
+
 	const deleteThisCourse = (e) => {
 		e.preventDefault();
 		const thisCourse = courses.find((course) => course.id === id).id;

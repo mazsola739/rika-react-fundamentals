@@ -19,7 +19,7 @@ export default function courses(
 		case EDIT_COURSE:
 			return coursesInitialState;
 		case FETCH_COURSES:
-			return payload.result;
+			return payload;
 		default:
 			return state;
 	}

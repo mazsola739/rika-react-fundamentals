@@ -21,35 +21,28 @@ import CreateCourse from './components/CreateCourse/CreateCourse';
 import rootReducer from './store/index';
 import { fetchAuthors } from './store/authors/actionCreators';
 import { fetchCourses } from './store/courses/actionCreators';
+import { getApiService } from 'components/ApiService';
 
 const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 const store = createStore(rootReducer, composedEnhancer);
 
 const App = () => {
-	//const store = useSelector((store) => store);
+	//! ez hova kell const store = useSelector((store) => store);
 	const dispatch = store.dispatch;
 
 	useEffect(() => {
-		const baseUrl = 'http://localhost:3000';
-		const headers = {
-			'Content-Type': 'application/json',
-		};
 		const fetchAllCourses = () => {
-			fetch(`${baseUrl}/courses/all`, {
-				headers: headers,
-			})
-				.then((response) => response.json())
-				.then((myJson) => {
-					dispatch(fetchCourses(myJson));
-				});
+			getApiService()
+				.get(`/courses/all`)
+				.then((response) => response.data)
+				.then((myJson) => dispatch(fetchCourses(myJson.result)));
 		};
 		fetchAllCourses();
 		const fetchAllAuthors = () => {
-			fetch(`${baseUrl}/authors/all`, {
-				headers: headers,
-			})
-				.then((response) => response.json())
-				.then((myJson) => dispatch(fetchAuthors(myJson)));
+			getApiService()
+				.get(`/authors/all`)
+				.then((response) => response.data)
+				.then((myJson) => dispatch(fetchAuthors(myJson.result)));
 		};
 		fetchAllAuthors();
 	});

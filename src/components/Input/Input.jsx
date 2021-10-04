@@ -1,10 +1,6 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
-/*const inputStyle = {
-	width: '90%',
-};*/
-
 const Input = (
 	{ name, value, changeHandler, text, placeholderText, type = 'text' },
 	ref

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';
 import { displayDate, formatDuration, showAuthor } from 'components/Formatters';
+import { getApiService } from 'components/ApiService';
 
 const CourseInfo = ({ store }) => {
 	const [course, setCourse] = useState({});
@@ -16,21 +17,16 @@ const CourseInfo = ({ store }) => {
 
 	//! backend
 	useEffect(() => {
-		const baseUrl = 'http://localhost:3000';
-		const headers = {
-			'Content-Type': 'application/json',
-		};
 		const fetchThisCourse = () => {
-			fetch(`${baseUrl}/courses/${thisCourseId}`, {
-				headers: headers,
-			})
-				.then((response) => response.json())
-				.then((myJson) => {
-					setCourse(myJson.result);
-				});
+			getApiService()
+				.get(`/courses/${thisCourseId}`)
+				.then((response) => response.data)
+				.then((myJson) => setCourse(myJson.result));
 		};
 		fetchThisCourse();
 	}, [thisCourseId]);
+
+	console.log(course);
 
 	return (
 		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
@@ -48,7 +44,7 @@ const CourseInfo = ({ store }) => {
 					course.title
 				}
 			</h2>
-			<div className='row'>
+			<div className='row border border-info border-1 rounded-1 p-3 m-2'>
 				<div className='col-sm-7 alert alert-info ms-3'>
 					{
 						// @ts-ignore
@@ -57,21 +53,27 @@ const CourseInfo = ({ store }) => {
 				</div>
 				<div className='col alert alert-info mx-3'>
 					<p>
-						ID:{' '}
+						<b>ID: </b>
 						{
 							// @ts-ignore
 							course.id
 						}
 					</p>
 					<p>
-						Duration:{' '}
+						<b>Duration: </b>
 						{formatDuration(
 							// @ts-ignore
 							course.duration
 						)}
 					</p>
-					<p>Created: {displayDate(thisCourse.creationDate)}</p>
-					<p>Authors: {showAuthor(thisCourse.authors, authors)}</p>
+					<p>
+						<b>Created: </b>
+						{displayDate(thisCourse.creationDate)}
+					</p>
+					<p>
+						<b>Authors: </b>
+						{showAuthor(thisCourse.authors, authors)}
+					</p>
 				</div>
 			</div>
 		</div>

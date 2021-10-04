@@ -4,19 +4,12 @@ import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
 import { formatDuration } from 'components/Formatters';
 import { useDispatch } from 'react-redux';
 import { saveAuthor } from 'store/authors/actionCreators';
 import { saveCourse } from 'store/courses/actionCreators';
-
-const getApiService = () => {
-	const token = localStorage.getItem('token');
-	return axios.create({
-		baseURL: 'http://localhost:3000',
-		headers: { 'Content-type': 'application/json', Authorization: token },
-	});
-};
+import { getApiService } from 'components/ApiService';
+//import Modal from 'components/Modal/Modal';
 
 const textareaStyle = {
 	height: '100px',
@@ -29,9 +22,9 @@ const CreateCourse = ({ store, key }) => {
 	const [titleValue, setTitleValue] = useState('');
 	const [descriptionValue, setDescriptionValue] = useState('');
 	const [authorValue, setAuthorValue] = useState('');
+	const [durationValue, setDurationValue] = useState('');
 	const [allAuthors, setAllAuthors] = useState(authors);
 	const [courseAuthor, setCourseAuthor] = useState([]);
-	const [durationValue, setDurationValue] = useState('');
 	const [finished, setFinished] = useState(false);
 
 	const titleHandleChanger = (e) => {
@@ -71,6 +64,7 @@ const CreateCourse = ({ store, key }) => {
 			+durationValue < 0 ||
 			courseAuthor.length < 1
 		) {
+			//<Modal />;
 			alert('Please, fill in all fields');
 		} else {
 			const authorId = courseAuthor.map((author) => author.id);
@@ -82,7 +76,7 @@ const CreateCourse = ({ store, key }) => {
 				authors: authorId,
 				duration: +durationValue,
 			};
-			console.log(newCourse);
+
 			getApiService().post('/courses/add', newCourse);
 			dispatch(saveCourse({ newCourse }));
 			setFinished(true);
