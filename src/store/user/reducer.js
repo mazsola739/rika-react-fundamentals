@@ -1,6 +1,6 @@
 import { USER_LOGIN, USER_LOGOUT } from './actionTypes';
 
-/* const token = localStorage.getItem('token');
+const token = localStorage.getItem('token');
 const userInitialState = token
 	? {
 			isAuth: true,
@@ -13,14 +13,15 @@ const userInitialState = token
 			name: '',
 			email: '',
 			token: '',
-	  }; */
+	  };
 
-const userInitialState = {
+//! javítani
+/* const userInitialState = {
 	isAuth: false,
 	name: '',
 	email: '',
 	token: '',
-};
+}; */
 
 export default function user(state = userInitialState, { type, payload }) {
 	switch (type) {

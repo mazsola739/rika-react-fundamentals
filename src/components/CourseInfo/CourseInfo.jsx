@@ -26,8 +26,6 @@ const CourseInfo = ({ store }) => {
 		fetchThisCourse();
 	}, [thisCourseId]);
 
-	console.log(course);
-
 	return (
 		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
 			<Link to='/courses'>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
@@ -33,6 +33,7 @@ const CreateCourse = ({ store, key }) => {
 	};
 	const descriptionHandleChanger = (e) => {
 		const description = e.target.value;
+		console.log(e);
 		setDescriptionValue(() => description);
 	};
 	const durationHandleChanger = (e) => {
@@ -91,6 +92,16 @@ const CreateCourse = ({ store, key }) => {
 	return (
 		<div className='alert alert-info border border-primary border-1 rounded-1 p-3 my-3'>
 			<div className='row mx-0'>
+				<div className='mb-3'>
+					<Link to='/courses'>
+						<Button
+							size={{ width: '200px' }}
+							clickHandler={undefined}
+							text='&lt; Back to courses'
+							icon={undefined}
+						/>
+					</Link>
+				</div>
 				<div className='col'>
 					<Input
 						placeholderText='Enter title...'
@@ -121,7 +132,9 @@ const CreateCourse = ({ store, key }) => {
 			<div className='bg-light border border-dark border-1 rounded-1 p-4 mx-2'>
 				<div className='row'>
 					<div className='col'>
-						<h5 className='text-center'>Add Authors</h5>
+						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2 mb-3'>
+							Add Authors
+						</h5>
 
 						<Input
 							placeholderText='Enter author name...'
@@ -139,16 +152,18 @@ const CreateCourse = ({ store, key }) => {
 						</div>
 					</div>
 					<div className='col'>
-						<h5 className='text-center'>Authors</h5>
-						<div className='text-center'>
+						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2'>
+							Authors
+						</h5>
+						<div className='p-2'>
 							{allAuthors
 								.filter(
 									(author) =>
 										!courseAuthor.some((item) => author.id === item.id)
 								)
 								.map(({ name, id }) => (
-									<div className='row' key={id}>
-										<div className='start col'>
+									<div className='row p-1' key={id}>
+										<div className='text-end col'>
 											<span>{name} </span>
 										</div>
 										<div className='start col'>
@@ -173,7 +188,9 @@ const CreateCourse = ({ store, key }) => {
 				</div>
 				<div className='row'>
 					<div className='col'>
-						<h5 className='text-center'>Duration</h5>
+						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2 mb-3'>
+							Duration
+						</h5>
 						<Input
 							type='number'
 							value={durationValue}
@@ -182,17 +199,19 @@ const CreateCourse = ({ store, key }) => {
 							name={undefined}
 							text='Duration'
 						/>
-						<p>
-							Duration <b>{formatDuration(durationValue)}</b>
-						</p>
+						<h4 className='text-center'>
+							<b>Duration {formatDuration(durationValue)}</b>
+						</h4>
 					</div>
 					<div className='col'>
-						<h5 className='text-center'>Course authors</h5>
-						<div className='text-center'>
+						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2'>
+							Course authors
+						</h5>
+						<div>
 							{courseAuthor.length ? (
 								courseAuthor.map(({ name, id }) => (
-									<div className='row' key={id}>
-										<div className='start col'>
+									<div className='row p-1' key={id}>
+										<div className='text-end col'>
 											<span>{name} </span>
 										</div>
 										<div className='start col'>
@@ -209,7 +228,9 @@ const CreateCourse = ({ store, key }) => {
 									</div>
 								))
 							) : (
-								<span>Author list is empty</span>
+								<em>
+									<small>Author list is empty</small>
+								</em>
 							)}
 						</div>
 					</div>
