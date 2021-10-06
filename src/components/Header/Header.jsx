@@ -4,26 +4,15 @@ import Button from '../Button/Button';
 import { Link, Redirect } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import { userLogout } from 'store/user/actionCreators';
-import axios from 'axios';
+import { logout } from 'services/users';
 
-const Header = ({ store }) => {
+const Header = ({ user }) => {
 	const dispatch = useDispatch();
-	const user = store.getState().user;
-
-	const token = localStorage.getItem('token');
-
-	const apiService = axios.create({
-		baseURL: 'http://localhost:3000',
-		headers: { 'Content-type': 'application/json', Authorization: token },
-	});
-
-	const fetchData = async (token) => await apiService.delete('/logout', token);
 
 	const logoutSubmit = () => {
-		localStorage.removeItem('token');
+		logout();
 		dispatch(userLogout());
 		<Redirect to='/login' />;
-		fetchData();
 	};
 
 	return (
@@ -54,11 +43,10 @@ const Header = ({ store }) => {
 };
 
 Header.propTypes = {
-	store: PropTypes.object,
+	user: PropTypes.object,
 };
 
 // @ts-ignore
 export default connect(({ user }) => ({
 	user,
-	// @ts-ignore
 }))(Header);

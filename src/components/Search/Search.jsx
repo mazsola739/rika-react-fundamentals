@@ -1,37 +1,39 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import Input from '../Input/Input';
 import Button from '../Button/Button';
+import { connect, useDispatch } from 'react-redux';
+import { filterCourses } from 'store/courses/actionCreators';
 
-const isCourseMatch = (course, filter) =>
-	course.toUpperCase().indexOf(filter) >= 0;
-const isMatch = (courseByTitle, courseById, filter) =>
-	isCourseMatch(courseByTitle, filter) || isCourseMatch(courseById, filter);
+const isCourseMatch = (course, filterText) =>
+	course.toUpperCase().indexOf(filterText) >= 0;
+const isMatch = (courseByTitle, courseById, filterText) =>
+	isCourseMatch(courseByTitle, filterText) ||
+	isCourseMatch(courseById, filterText);
 
-const Search = ({ store, callBack }) => {
-	const courses = store.getState().courses;
+const Search = ({ allCourses }) => {
 	const [searchValue, setSearchValue] = useState('');
+
+	const dispatch = useDispatch();
 
 	const searchChangeHandler = (e) => {
 		const input = e.target.value;
-		setSearchValue(() => input);
-		callBack(courses);
+		setSearchValue(input);
 	};
+
+	if (!searchValue) dispatch(filterCourses(allCourses));
 
 	const searchClickHandler = (e) => {
 		e.preventDefault();
-		const filter = searchValue.toUpperCase();
+		const filterText = searchValue.toUpperCase();
 		let matchedCourse = [];
-
-		courses.forEach((course) => {
-			const match = isMatch(course.title, course.id, filter);
+		allCourses.forEach((course) => {
+			const match = isMatch(course.title, course.id, filterText);
 			if (match) {
 				matchedCourse.push(course);
 			}
 		});
-
-		callBack(matchedCourse);
+		dispatch(filterCourses(matchedCourse));
 		matchedCourse = [];
 	};
 
@@ -58,9 +60,10 @@ const Search = ({ store, callBack }) => {
 };
 
 Search.propTypes = {
-	searchChangeHandler: PropTypes.func,
-	searchValue: PropTypes.string,
-	searchClickHandler: PropTypes.func,
+	allCourses: PropTypes.array,
 };
 
-export default Search;
+// @ts-ignore
+export default connect(({ courses: { allCourses } }) => ({
+	allCourses,
+}))(Search);

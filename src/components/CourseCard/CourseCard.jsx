@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './CourseCard.css';
 import Button from '../Button/Button';
-import { formatDuration, showAuthor } from 'components/Formatters';
+import { formatDuration } from 'utilities/durationFormatter';
+import { showAuthor } from 'utilities/authorFormatter';
 import { deleteCourse } from 'store/courses/actionCreators';
 import { useDispatch } from 'react-redux';
-//!import { getApiService } from 'components/ApiService';
+import { deleteThisCourse } from 'services/courses';
 
 const CourseCard = ({
 	id,
@@ -15,17 +16,14 @@ const CourseCard = ({
 	authors,
 	duration,
 	creationDate,
-	allAuthors,
-	store,
+	authorNames,
 }) => {
 	const dispatch = useDispatch();
-	const courses = store.getState().courses;
 
-	const deleteThisCourse = (e) => {
+	const deleteCourseClickHandler = (e) => {
 		e.preventDefault();
-		const thisCourse = courses.find((course) => course.id === id).id;
-		//!	getApiService().delete(`/courses/${id}`);  delete from api
-		dispatch(deleteCourse(thisCourse)); //! delete from store
+		deleteThisCourse(id);
+		dispatch(deleteCourse(id));
 	};
 
 	return (
@@ -45,9 +43,9 @@ const CourseCard = ({
 					<div className='row p-1'>
 						<span
 							className='author'
-							title={`${showAuthor(authors, allAuthors)}`}
+							title={`${showAuthor(authors, authorNames)}`}
 						>
-							<b>Authors: </b> {showAuthor(authors, allAuthors)}
+							<b>Authors: </b> {showAuthor(authors, authorNames)}
 						</span>
 					</div>
 					<div className='row p-1'>
@@ -73,7 +71,7 @@ const CourseCard = ({
 						<Button
 							size={{ width: '50px' }}
 							text={undefined}
-							clickHandler={deleteThisCourse}
+							clickHandler={deleteCourseClickHandler}
 							icon='fa fa-trash'
 						/>
 						<Button
@@ -96,8 +94,7 @@ CourseCard.propTypes = {
 	authors: PropTypes.array,
 	duration: PropTypes.number,
 	creationDate: PropTypes.string,
-	allAuthors: PropTypes.array,
-	store: PropTypes.object,
+	authorNames: PropTypes.array,
 };
 
 export default CourseCard;

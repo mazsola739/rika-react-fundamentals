@@ -3,6 +3,7 @@ import {
 	DELETE_COURSE,
 	EDIT_COURSE,
 	FETCH_COURSES,
+	FILTER_COURSES,
 } from './actionTypes';
 
 export const saveCourse = ({ newCourse }) => ({
@@ -19,5 +20,9 @@ export const editCourse = (courses) => ({
 });
 export const fetchCourses = (courses) => ({
 	type: FETCH_COURSES,
+	payload: courses,
+});
+export const filterCourses = (courses) => ({
+	type: FILTER_COURSES,
 	payload: courses,
 });

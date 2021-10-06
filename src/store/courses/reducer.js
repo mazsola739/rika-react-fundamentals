@@ -3,9 +3,13 @@ import {
 	DELETE_COURSE,
 	EDIT_COURSE,
 	FETCH_COURSES,
+	FILTER_COURSES,
 } from './actionTypes';
 
-const coursesInitialState = [];
+const coursesInitialState = {
+	courses: [],
+	allCourses: [],
+};
 
 export default function courses(
 	state = coursesInitialState,
@@ -13,13 +17,24 @@ export default function courses(
 ) {
 	switch (type) {
 		case SAVE_COURSE:
-			return state.concat(payload);
+			return {
+				...state,
+				courses: state.courses.concat(payload),
+			};
 		case DELETE_COURSE:
-			return state.filter((course) => course.id !== payload);
+			return {
+				...state,
+				courses: state.courses.filter((course) => course.id !== payload),
+			};
 		case EDIT_COURSE:
 			return coursesInitialState;
 		case FETCH_COURSES:
-			return payload;
+			return { courses: payload, allCourses: payload };
+		case FILTER_COURSES:
+			return {
+				...state,
+				courses: payload,
+			};
 		default:
 			return state;
 	}

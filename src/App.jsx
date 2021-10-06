@@ -10,24 +10,22 @@ import PropTypes from 'prop-types';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import CourseInfo from 'components/CourseInfo/CourseInfo';
+import Courses from './components/Courses/Courses';
+import CreateCourse from './components/CreateCourse/CreateCourse';
 import Header from './components/Header/Header';
 import Login from './components/Login/Login';
 import Registration from './components/Registration/Registration';
-import Courses from './components/Courses/Courses';
-import CourseInfo from 'components/CourseInfo/CourseInfo';
-import CreateCourse from './components/CreateCourse/CreateCourse';
 import rootReducer from './store/index';
 import { fetchAuthors } from './store/authors/actionCreators';
 import { fetchCourses } from './store/courses/actionCreators';
-import { getApiService } from 'components/ApiService';
+import { getApiService } from './services/apiService';
 
 const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 const store = createStore(rootReducer, composedEnhancer);
 
 const App = () => {
-	//! ez hova kell const store = useSelector((store) => store);
 	const dispatch = store.dispatch;
 
 	useEffect(() => {
@@ -53,24 +51,24 @@ const App = () => {
 				<Router>
 					<Switch>
 						<Route path='/login' exact component={Login}>
-							<Header store={store} />
+							<Header />
 							<Login />
 						</Route>
 						<Route path='/registration' exact component={Registration}>
-							<Header store={store} />
+							<Header />
 							<Registration />
 						</Route>
 						<Route path='/courses' exact component={Courses}>
-							<Header store={store} />
-							<Courses store={store} />
+							<Header />
+							<Courses />
 						</Route>
 						<Route path='/courses/add' exact component={CreateCourse}>
-							<Header store={store} />
-							<CreateCourse store={store} key={''} />
+							<Header />
+							<CreateCourse key={''} />
 						</Route>
 						<Route path='/courses/:courseId' exact component={CourseInfo}>
-							<Header store={store} />
-							<CourseInfo store={store} />
+							<Header />
+							<CourseInfo />
 						</Route>
 						<Route path='/'>
 							{store.getState().user.isAuth ? (

@@ -1,30 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';
-import { displayDate, formatDuration, showAuthor } from 'components/Formatters';
-import { getApiService } from 'components/ApiService';
+import { displayDate } from 'utilities/dateFormatter';
+import { formatDuration } from 'utilities/durationFormatter';
+import { showAuthor } from 'utilities/authorFormatter';
+import { connect } from 'react-redux';
 
-const CourseInfo = ({ store }) => {
-	const [course, setCourse] = useState({});
-	const courses = store.getState().courses;
-	const authors = store.getState().authors;
+const CourseInfo = ({ courses, authors }) => {
 	const pathParam = useParams();
 	const thisCourseId = Object.values(pathParam).join();
-
-	//! store
-	const thisCourse = courses.find((course) => course.id === thisCourseId);
-
-	//! backend
-	useEffect(() => {
-		const fetchThisCourse = () => {
-			getApiService()
-				.get(`/courses/${thisCourseId}`)
-				.then((response) => response.data)
-				.then((myJson) => setCourse(myJson.result));
-		};
-		fetchThisCourse();
-	}, [thisCourseId]);
+	const thisCourse = courses.courses.find(
+		(course) => course.id === thisCourseId
+	);
 
 	return (
 		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
@@ -37,32 +25,20 @@ const CourseInfo = ({ store }) => {
 				/>
 			</Link>
 			<h2 className='text-center bg-info bg-opacity-20 rounded-1 mx-1 my-3 py-1'>
-				{
-					// @ts-ignore
-					course.title
-				}
+				{thisCourse.title}
 			</h2>
 			<div className='row border border-info border-1 rounded-1 p-3 m-2'>
 				<div className='col-sm-7 alert alert-info ms-3'>
-					{
-						// @ts-ignore
-						course.description
-					}
+					{thisCourse.description}
 				</div>
 				<div className='col alert alert-info mx-3'>
 					<p>
 						<b>ID: </b>
-						{
-							// @ts-ignore
-							course.id
-						}
+						{thisCourse.id}
 					</p>
 					<p>
 						<b>Duration: </b>
-						{formatDuration(
-							// @ts-ignore
-							course.duration
-						)}
+						{formatDuration(thisCourse.duration)}
 					</p>
 					<p>
 						<b>Created: </b>
@@ -70,7 +46,7 @@ const CourseInfo = ({ store }) => {
 					</p>
 					<p>
 						<b>Authors: </b>
-						{showAuthor(thisCourse.authors, authors)}
+						{showAuthor(thisCourse.authors, authors.authors)}
 					</p>
 				</div>
 			</div>
@@ -79,7 +55,12 @@ const CourseInfo = ({ store }) => {
 };
 
 CourseInfo.propTypes = {
-	store: PropTypes.object,
+	authors: PropTypes.object,
+	courses: PropTypes.object,
 };
 
-export default CourseInfo;
+// @ts-ignore
+export default connect(({ courses, authors }) => ({
+	courses,
+	authors,
+}))(CourseInfo);

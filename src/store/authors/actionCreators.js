@@ -1,6 +1,6 @@
 import { SAVE_AUTHOR, DELETE_AUTHOR, FETCH_AUTHORS } from './actionTypes';
 
-export const saveAuthor = ({ newAuthor }) => ({
+export const saveAuthor = (newAuthor) => ({
 	type: SAVE_AUTHOR,
 	payload: newAuthor,
 });

@@ -1,36 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import CourseCard from '../CourseCard/CourseCard';
 import Button from '../Button/Button';
 import Search from '../Search/Search';
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 
-const Courses = ({ store }) => {
-	const [filterCourse, setFilterCourse] = useState([]);
-	const courses = store.getState().courses;
-	const authors = store.getState().authors;
-
-	const callBack = (courses) => {
-		setFilterCourse(courses);
-	};
-
-	//!ez nem szép
-	const remainingCourse = useSelector((state) => state);
-	console.log(remainingCourse);
-
+const Courses = ({ courses, authors }) => {
 	return (
 		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
 			<div className=' py-2'>
 				<div className='row'>
 					<div className='col-sm-8'>
-						<Search
-							store={store}
-							callBack={(e) => {
-								callBack(e);
-							}}
-						/>
+						<Search />
 					</div>
 					<div className='col-sm-4 d-flex justify-content-end'>
 						<Link to='/courses/add'>
@@ -44,34 +26,28 @@ const Courses = ({ store }) => {
 				</div>
 			</div>
 			<div className='row'>
-				{filterCourse.length > 0
-					? filterCourse.map((course) => {
-							return (
-								<CourseCard
-									key={course.id}
-									{...course}
-									allAuthors={authors}
-									store={store}
-								/>
-							);
-					  })
-					: courses.map((course) => {
-							return (
-								<CourseCard
-									key={course.id}
-									{...course}
-									allAuthors={authors}
-									store={store}
-								/>
-							);
-					  })}
+				{courses.courses.map((course) => {
+					return (
+						<CourseCard
+							key={course.id}
+							{...course}
+							authorNames={authors.authors}
+							courses={courses}
+						/>
+					);
+				})}
 			</div>
 		</div>
 	);
 };
 
 Courses.propTypes = {
-	store: PropTypes.object,
+	courses: PropTypes.object,
+	authors: PropTypes.object,
 };
 
-export default Courses;
+// @ts-ignore
+export default connect(({ courses, authors }) => ({
+	courses,
+	authors,
+}))(Courses);

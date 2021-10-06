@@ -4,28 +4,22 @@ import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
-import { formatDuration } from 'components/Formatters';
-import { useDispatch } from 'react-redux';
+import { formatDuration } from 'utilities/durationFormatter';
+import { connect, useDispatch } from 'react-redux';
 import { saveAuthor } from 'store/authors/actionCreators';
 import { saveCourse } from 'store/courses/actionCreators';
-import { getApiService } from 'components/ApiService';
-//import Modal from 'components/Modal/Modal';
+import { saveNewAuthor } from 'services/authors';
+import { saveNewCourse } from 'services/courses';
 
-const textareaStyle = {
-	height: '100px',
-};
-
-const CreateCourse = ({ store, key }) => {
-	const dispatch = useDispatch();
-	const authors = store.getState().authors;
-
+const CreateCourse = ({ authors, key }) => {
 	const [titleValue, setTitleValue] = useState('');
 	const [descriptionValue, setDescriptionValue] = useState('');
 	const [authorValue, setAuthorValue] = useState('');
 	const [durationValue, setDurationValue] = useState('');
-	const [allAuthors, setAllAuthors] = useState(authors);
+	const [allAuthors, setAllAuthors] = useState(authors.authors);
 	const [courseAuthor, setCourseAuthor] = useState([]);
 	const [finished, setFinished] = useState(false);
+	const dispatch = useDispatch();
 
 	const titleHandleChanger = (e) => {
 		const title = e.target.value;
@@ -33,7 +27,6 @@ const CreateCourse = ({ store, key }) => {
 	};
 	const descriptionHandleChanger = (e) => {
 		const description = e.target.value;
-		console.log(e);
 		setDescriptionValue(() => description);
 	};
 	const durationHandleChanger = (e) => {
@@ -45,19 +38,19 @@ const CreateCourse = ({ store, key }) => {
 		setAuthorValue(() => author);
 	};
 
-	const saveNewAuthor = (e) => {
+	const saveAuthorClickHandler = (e) => {
 		e.preventDefault();
 		if (authorValue.length >= 2) {
 			const newAuthor = {
 				id: (key = uuidv4()),
 				name: authorValue,
 			};
-			getApiService().post('/authors/add', newAuthor);
+			saveNewAuthor(newAuthor);
 			setAllAuthors([...allAuthors, newAuthor]);
-			dispatch(saveAuthor({ newAuthor }));
+			dispatch(saveAuthor(newAuthor));
 		}
 	};
-	const saveNewCourse = (e) => {
+	const saveCourseClickHandler = (e) => {
 		e.preventDefault();
 		if (
 			!titleValue ||
@@ -65,7 +58,6 @@ const CreateCourse = ({ store, key }) => {
 			+durationValue < 0 ||
 			courseAuthor.length < 1
 		) {
-			//<Modal />;
 			alert('Please, fill in all fields');
 		} else {
 			const authorId = courseAuthor.map((author) => author.id);
@@ -77,8 +69,7 @@ const CreateCourse = ({ store, key }) => {
 				authors: authorId,
 				duration: +durationValue,
 			};
-
-			getApiService().post('/courses/add', newCourse);
+			saveNewCourse(newCourse);
 			dispatch(saveCourse({ newCourse }));
 			setFinished(true);
 		}
@@ -113,7 +104,7 @@ const CreateCourse = ({ store, key }) => {
 				</div>
 				<div className='col d-flex justify-content-end'>
 					<Button
-						clickHandler={saveNewCourse}
+						clickHandler={saveCourseClickHandler}
 						text='Create course'
 						icon={undefined}
 					/>
@@ -124,7 +115,7 @@ const CreateCourse = ({ store, key }) => {
 				<textarea
 					value={descriptionValue}
 					onChange={descriptionHandleChanger}
-					style={textareaStyle}
+					style={{ height: '100px' }}
 					className='border border-secondary border-1 form-control'
 					placeholder='Enter description'
 				/>
@@ -146,7 +137,7 @@ const CreateCourse = ({ store, key }) => {
 						<div className='col p-2 text-center'>
 							<Button
 								text='Create author'
-								clickHandler={saveNewAuthor}
+								clickHandler={saveAuthorClickHandler}
 								icon={undefined}
 							/>
 						</div>
@@ -156,33 +147,36 @@ const CreateCourse = ({ store, key }) => {
 							Authors
 						</h5>
 						<div className='p-2'>
-							{allAuthors
-								.filter(
-									(author) =>
-										!courseAuthor.some((item) => author.id === item.id)
-								)
-								.map(({ name, id }) => (
-									<div className='row p-1' key={id}>
-										<div className='text-end col'>
-											<span>{name} </span>
+							{
+								//authors
+								allAuthors
+									.filter(
+										(author) =>
+											!courseAuthor.some((item) => author.id === item.id)
+									)
+									.map(({ name, id }) => (
+										<div className='row p-1' key={id}>
+											<div className='text-end col'>
+												<span>{name} </span>
+											</div>
+											<div className='start col'>
+												<Button
+													text='Add Author'
+													clickHandler={() => {
+														setCourseAuthor((authors) => [
+															...authors,
+															{ name: name, id: id },
+														]);
+														allAuthors.filter((author) =>
+															courseAuthor.includes(author.id)
+														);
+													}}
+													icon={undefined}
+												/>
+											</div>
 										</div>
-										<div className='start col'>
-											<Button
-												text='Add Author'
-												clickHandler={() => {
-													setCourseAuthor((authors) => [
-														...authors,
-														{ name: name, id: id },
-													]);
-													allAuthors.filter((author) =>
-														courseAuthor.includes(author.id)
-													);
-												}}
-												icon={undefined}
-											/>
-										</div>
-									</div>
-								))}
+									))
+							}
 						</div>
 					</div>
 				</div>
@@ -228,9 +222,11 @@ const CreateCourse = ({ store, key }) => {
 									</div>
 								))
 							) : (
-								<em>
-									<small>Author list is empty</small>
-								</em>
+								<div className='text-center'>
+									<em>
+										<small>Author list is empty</small>
+									</em>
+								</div>
 							)}
 						</div>
 					</div>
@@ -241,8 +237,11 @@ const CreateCourse = ({ store, key }) => {
 };
 
 CreateCourse.propTypes = {
-	store: PropTypes.object,
+	authors: PropTypes.object,
 	key: PropTypes.any,
 };
 
-export default CreateCourse;
+// @ts-ignore
+export default connect(({ authors }) => ({
+	authors,
+}))(CreateCourse);

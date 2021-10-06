@@ -5,13 +5,7 @@ import { connect, useDispatch } from 'react-redux';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { userLogin } from 'store/user/actionCreators';
-import { getApiService } from 'components/ApiService';
-
-const fetchData = async (userData) => {
-	const { data: answer } = await getApiService().post('/login', userData);
-	localStorage.setItem('token', answer.result);
-	return answer;
-};
+import { login } from 'services/users';
 
 const Login = ({ user }) => {
 	const dispatch = useDispatch();
@@ -23,7 +17,7 @@ const Login = ({ user }) => {
 			email: form.get('email'),
 			password: form.get('password'),
 		});
-		const response = await fetchData(userData);
+		const response = await login(userData);
 		dispatch(userLogin({ ...response.user, token: response.result }));
 	};
 
