@@ -7,7 +7,6 @@ import Search from '../Search/Search';
 import { connect } from 'react-redux';
 
 const Courses = ({ courses, authors }) => {
-	console.log(courses);
 	return (
 		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
 			<div className=' py-2'>

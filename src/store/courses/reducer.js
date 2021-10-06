@@ -26,6 +26,7 @@ export default function courses(
 			return {
 				...state,
 				courses: state.courses.filter((course) => course.id !== payload),
+				allCourses: state.allCourses.filter((course) => course.id !== payload),
 			};
 		case EDIT_COURSE:
 			return coursesInitialState;
