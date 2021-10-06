@@ -7,6 +7,7 @@ import Search from '../Search/Search';
 import { connect } from 'react-redux';
 
 const Courses = ({ courses, authors }) => {
+	console.log(courses);
 	return (
 		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
 			<div className=' py-2'>
@@ -31,7 +32,7 @@ const Courses = ({ courses, authors }) => {
 						<CourseCard
 							key={course.id}
 							{...course}
-							authorNames={authors.authors}
+							authorNames={authors}
 							courses={courses}
 						/>
 					);
@@ -43,7 +44,7 @@ const Courses = ({ courses, authors }) => {
 
 Courses.propTypes = {
 	courses: PropTypes.object,
-	authors: PropTypes.object,
+	authors: PropTypes.array,
 };
 
 // @ts-ignore

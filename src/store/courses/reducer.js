@@ -20,6 +20,7 @@ export default function courses(
 			return {
 				...state,
 				courses: state.courses.concat(payload),
+				allCourses: state.allCourses.concat(payload),
 			};
 		case DELETE_COURSE:
 			return {

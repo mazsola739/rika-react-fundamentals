@@ -1,8 +1,6 @@
 import { SAVE_AUTHOR, DELETE_AUTHOR, FETCH_AUTHORS } from './actionTypes';
 
-const authorsInitialState = {
-	authors: [],
-};
+const authorsInitialState = [];
 
 export default function authors(
 	state = authorsInitialState,
@@ -14,7 +12,7 @@ export default function authors(
 		case DELETE_AUTHOR:
 			return authorsInitialState;
 		case FETCH_AUTHORS:
-			return { authors: payload };
+			return payload;
 		default:
 			return state;
 	}

@@ -16,7 +16,7 @@ const CreateCourse = ({ authors, key }) => {
 	const [descriptionValue, setDescriptionValue] = useState('');
 	const [authorValue, setAuthorValue] = useState('');
 	const [durationValue, setDurationValue] = useState('');
-	const [allAuthors, setAllAuthors] = useState(authors.authors);
+	const [allAuthors, setAllAuthors] = useState(authors);
 	const [courseAuthor, setCourseAuthor] = useState([]);
 	const [finished, setFinished] = useState(false);
 	const dispatch = useDispatch();
@@ -237,7 +237,7 @@ const CreateCourse = ({ authors, key }) => {
 };
 
 CreateCourse.propTypes = {
-	authors: PropTypes.object,
+	authors: PropTypes.array,
 	key: PropTypes.any,
 };
 

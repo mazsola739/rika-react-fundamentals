@@ -46,7 +46,7 @@ const CourseInfo = ({ courses, authors }) => {
 					</p>
 					<p>
 						<b>Authors: </b>
-						{showAuthor(thisCourse.authors, authors.authors)}
+						{showAuthor(thisCourse.authors, authors)}
 					</p>
 				</div>
 			</div>
@@ -55,7 +55,7 @@ const CourseInfo = ({ courses, authors }) => {
 };
 
 CourseInfo.propTypes = {
-	authors: PropTypes.object,
+	authors: PropTypes.array,
 	courses: PropTypes.object,
 };
 
