@@ -1,15 +1,13 @@
 import React from 'react';
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	Redirect,
-} from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import PrivateRoute from 'components/PrivateRouter/PrivateRouter';
 import { Provider } from 'react-redux';
 import PropTypes from 'prop-types';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import { fetchAuthorsThunk } from 'store/authors/thunk';
+import { fetchCoursesThunk } from 'store/courses/thunk';
 import './App.css';
 import CourseInfo from 'components/CourseInfo/CourseInfo';
 import Courses from './components/Courses/Courses';
@@ -18,9 +16,6 @@ import Header from './components/Header/Header';
 import Login from './components/Login/Login';
 import Registration from './components/Registration/Registration';
 import rootReducer from './store/index';
-import { fetchAuthorsThunk } from 'store/authors/thunk';
-import { fetchCoursesThunk } from 'store/courses/thunk';
-import PrivateRoute from 'components/PrivateRouter/PrivateRouter';
 
 const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 const store = createStore(rootReducer, composedEnhancer);
@@ -36,7 +31,7 @@ const App = () => {
 	return (
 		<Provider store={store}>
 			<div className='App container py-4'>
-				<Router>
+				<BrowserRouter>
 					<Switch>
 						<Route path='/login' exact component={Login}>
 							<Header />
@@ -90,7 +85,7 @@ const App = () => {
 							)}
 						</Route>
 					</Switch>
-				</Router>
+				</BrowserRouter>
 			</div>
 		</Provider>
 	);

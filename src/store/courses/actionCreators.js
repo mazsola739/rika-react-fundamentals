@@ -3,16 +3,15 @@ import {
 	DELETE_COURSE,
 	EDIT_COURSE,
 	FETCH_COURSES,
-	FILTER_COURSES,
 } from './actionTypes';
 
 export const saveCourse = ({ newCourse }) => ({
 	type: SAVE_COURSE,
 	payload: newCourse,
 });
-export const deleteCourse = (thisCourse) => ({
+export const deleteCourse = (id) => ({
 	type: DELETE_COURSE,
-	payload: thisCourse,
+	payload: id,
 });
 export const editCourse = (courses) => ({
 	type: EDIT_COURSE,
@@ -20,9 +19,5 @@ export const editCourse = (courses) => ({
 });
 export const fetchCourses = (courses) => ({
 	type: FETCH_COURSES,
-	payload: courses,
-});
-export const filterCourses = (courses) => ({
-	type: FILTER_COURSES,
 	payload: courses,
 });

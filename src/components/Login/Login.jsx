@@ -9,6 +9,7 @@ import { loginThunk } from 'store/user/thunk';
 
 const Login = ({ user }) => {
 	const dispatch = useDispatch();
+
 	const formOnSubmit = async (e) => {
 		e.preventDefault();
 

@@ -5,6 +5,7 @@ const userInitialState = {
 	name: '',
 	email: '',
 	token: '',
+	role: '',
 };
 
 export default function user(state = userInitialState, { type, payload }) {

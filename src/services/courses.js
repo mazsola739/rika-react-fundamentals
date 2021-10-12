@@ -1,7 +1,11 @@
 import { getApiService } from './apiService';
 
-export const saveNewCourse = (newCourse) =>
-	getApiService().post('/courses/add', newCourse);
+export const createService = (resource) => {
+	const apiService = getApiService(resource);
 
-export const deleteThisCourse = (id) =>
-	getApiService().delete(`/courses/${id}`);
+	return {
+		save: (entity) => apiService.post(`/add`, entity),
+		delete: (id) => apiService.delete(`/`, id),
+		getAll: () => apiService.get('/'),
+	};
+};

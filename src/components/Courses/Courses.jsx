@@ -31,7 +31,7 @@ const Courses = ({ courses, authors }) => {
 				</div>
 			</div>
 			<div className='row'>
-				{courses.courses.map((course) => {
+				{courses.map((course) => {
 					return (
 						<CourseCard
 							key={course.id}
@@ -47,7 +47,7 @@ const Courses = ({ courses, authors }) => {
 };
 
 Courses.propTypes = {
-	courses: PropTypes.object,
+	courses: PropTypes.array,
 	authors: PropTypes.array,
 };
 

@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-export const getApiService = () => {
+export const getApiService = (endpoint = '/') => {
 	const token = localStorage.getItem('token');
 	return axios.create({
-		baseURL: 'http://localhost:3000',
+		baseURL: `http://localhost:3000${endpoint}`,
 		headers: { 'Content-type': 'application/json', Authorization: token },
 	});
 };

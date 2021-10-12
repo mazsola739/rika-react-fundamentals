@@ -10,9 +10,7 @@ import { connect } from 'react-redux';
 const CourseInfo = ({ courses, authors }) => {
 	const pathParam = useParams();
 	const thisCourseId = Object.values(pathParam).join();
-	const thisCourse = courses.courses.find(
-		(course) => course.id === thisCourseId
-	);
+	const thisCourse = courses.find((course) => course.id === thisCourseId);
 
 	return (
 		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
@@ -56,7 +54,7 @@ const CourseInfo = ({ courses, authors }) => {
 
 CourseInfo.propTypes = {
 	authors: PropTypes.array,
-	courses: PropTypes.object,
+	courses: PropTypes.array,
 };
 
 // @ts-ignore

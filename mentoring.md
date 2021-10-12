@@ -1,5 +1,5 @@
-isadmin
+isAdmin
+services
+store - thunk - dispatch
+courseForm - duration!
 search
-sercvices
-store - thunk
-

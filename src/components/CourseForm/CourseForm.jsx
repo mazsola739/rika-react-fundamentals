@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
-import { formatDuration } from 'utilities/durationFormatter';
+//import { formatDuration } from 'utilities/durationFormatter';
 import { connect, useDispatch } from 'react-redux';
 import { saveAuthor } from 'store/authors/actionCreators';
 import { saveNewAuthor } from 'services/authors';
@@ -12,14 +12,18 @@ import { saveCourseThunk } from 'store/courses/thunk';
 
 const CourseForm = ({ courses, authors, key }) => {
 	const [allAuthors, setAllAuthors] = useState(authors);
-	const [courseAuthor, setCourseAuthor] = useState([]);
 	const [finished, setFinished] = useState(false);
 
 	const dispatch = useDispatch();
 	const pathParam = useParams();
 	const thisCourseId = Object.values(pathParam).join();
-	const thisCourse = courses.courses.find(
-		(course) => course.id === thisCourseId
+	const thisCourse = courses.find((course) => course.id === thisCourseId);
+	const thisCourseAuthors = thisCourse.authors.map((element) =>
+		authors.find((author) => author.id === element)
+	);
+
+	const [courseAuthor, setCourseAuthor] = useState(
+		thisCourse ? thisCourseAuthors : []
 	);
 
 	const titleInput = useRef(null);
@@ -47,6 +51,7 @@ const CourseForm = ({ courses, authors, key }) => {
 		const title = titleInput.current.value;
 		const description = descriptionInput.current.value;
 		const duration = durationInput.current.value;
+
 		if (
 			!title ||
 			description.length < 2 ||
@@ -64,7 +69,8 @@ const CourseForm = ({ courses, authors, key }) => {
 				authors: authorId,
 				duration: +duration,
 			};
-			saveCourseThunk(newCourse, setFinished);
+			saveCourseThunk(newCourse);
+			setFinished(true);
 		}
 		<Redirect to='/courses' />;
 	};
@@ -142,36 +148,33 @@ const CourseForm = ({ courses, authors, key }) => {
 							Authors
 						</h5>
 						<div className='p-2'>
-							{
-								//authors
-								allAuthors
-									.filter(
-										(author) =>
-											!courseAuthor.some((item) => author.id === item.id)
-									)
-									.map(({ name, id }) => (
-										<div className='row p-1' key={id}>
-											<div className='text-end col'>
-												<span>{name} </span>
-											</div>
-											<div className='start col'>
-												<Button
-													text='Add Author'
-													clickHandler={() => {
-														setCourseAuthor((authors) => [
-															...authors,
-															{ name: name, id: id },
-														]);
-														allAuthors.filter((author) =>
-															courseAuthor.includes(author.id)
-														);
-													}}
-													icon={undefined}
-												/>
-											</div>
+							{allAuthors
+								.filter(
+									(author) =>
+										!courseAuthor.some((item) => author.id === item.id)
+								)
+								.map(({ name, id }) => (
+									<div className='row p-1' key={id}>
+										<div className='text-end col'>
+											<span>{name} </span>
 										</div>
-									))
-							}
+										<div className='start col'>
+											<Button
+												text='Add Author'
+												clickHandler={() => {
+													setCourseAuthor((authors) => [
+														...authors,
+														{ name: name, id: id },
+													]);
+													allAuthors.filter((author) =>
+														courseAuthor.includes(author.id)
+													);
+												}}
+												icon={undefined}
+											/>
+										</div>
+									</div>
+								))}
 						</div>
 					</div>
 				</div>
@@ -189,14 +192,7 @@ const CourseForm = ({ courses, authors, key }) => {
 							name={undefined}
 							text='Duration'
 						/>
-						<h4 className='text-center'>
-							<b>
-								Duration{' '}
-								{formatDuration(
-									thisCourse ? thisCourse.duration : durationInput.current.value
-								)}
-							</b>
-						</h4>
+						<h4 className='text-center'>Duration </h4>
 					</div>
 					<div className='col'>
 						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2'>

@@ -1,5 +1,5 @@
 import { getApiService } from 'services/apiService';
-import { deleteThisCourse, saveNewCourse } from 'services/courses';
+import { createService } from 'services/courses';
 import {
 	deleteCourse,
 	fetchCourses,
@@ -13,13 +13,12 @@ export const fetchCoursesThunk = (dispatch) => {
 		.then((myJson) => dispatch(fetchCourses(myJson.result)));
 };
 
-export const saveCourseThunk = (newCourse, dispatch, setFinished) => {
-	saveNewCourse(newCourse);
+export const saveCourseThunk = (newCourse, dispatch) => {
+	createService(newCourse);
 	dispatch(saveCourse({ newCourse }));
-	setFinished(true);
 };
 
 export const deleteCourseThunk = (id, dispatch) => {
-	deleteThisCourse(id);
+	createService(id);
 	dispatch(deleteCourse(id));
 };
