@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
+import { Link, Redirect, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
@@ -7,55 +7,50 @@ import { v4 as uuidv4 } from 'uuid';
 import { formatDuration } from 'utilities/durationFormatter';
 import { connect, useDispatch } from 'react-redux';
 import { saveAuthor } from 'store/authors/actionCreators';
-import { saveCourse } from 'store/courses/actionCreators';
 import { saveNewAuthor } from 'services/authors';
-import { saveNewCourse } from 'services/courses';
+import { saveCourseThunk } from 'store/courses/thunk';
 
-const CreateCourse = ({ authors, key }) => {
-	const [titleValue, setTitleValue] = useState('');
-	const [descriptionValue, setDescriptionValue] = useState('');
-	const [authorValue, setAuthorValue] = useState('');
-	const [durationValue, setDurationValue] = useState('');
+const CourseForm = ({ courses, authors, key }) => {
 	const [allAuthors, setAllAuthors] = useState(authors);
 	const [courseAuthor, setCourseAuthor] = useState([]);
 	const [finished, setFinished] = useState(false);
-	const dispatch = useDispatch();
 
-	const titleHandleChanger = (e) => {
-		const title = e.target.value;
-		setTitleValue(() => title);
-	};
-	const descriptionHandleChanger = (e) => {
-		const description = e.target.value;
-		setDescriptionValue(() => description);
-	};
-	const durationHandleChanger = (e) => {
-		const duration = e.target.value;
-		setDurationValue(() => duration);
-	};
-	const authorHandleChanger = (e) => {
-		const author = e.target.value;
-		setAuthorValue(() => author);
-	};
+	const dispatch = useDispatch();
+	const pathParam = useParams();
+	const thisCourseId = Object.values(pathParam).join();
+	const thisCourse = courses.courses.find(
+		(course) => course.id === thisCourseId
+	);
+
+	const titleInput = useRef(null);
+	const descriptionInput = useRef(null);
+	const durationInput = useRef(null);
+	const authorInput = useRef(null);
 
 	const saveAuthorClickHandler = (e) => {
 		e.preventDefault();
-		if (authorValue.length >= 2) {
+		const author = authorInput.current.value;
+
+		if (author.length >= 2) {
 			const newAuthor = {
 				id: (key = uuidv4()),
-				name: authorValue,
+				name: author,
 			};
 			saveNewAuthor(newAuthor);
 			setAllAuthors([...allAuthors, newAuthor]);
 			dispatch(saveAuthor(newAuthor));
 		}
 	};
+
 	const saveCourseClickHandler = (e) => {
 		e.preventDefault();
+		const title = titleInput.current.value;
+		const description = descriptionInput.current.value;
+		const duration = durationInput.current.value;
 		if (
-			!titleValue ||
-			descriptionValue.length < 2 ||
-			+durationValue < 0 ||
+			!title ||
+			description.length < 2 ||
+			+duration < 0 ||
 			courseAuthor.length < 1
 		) {
 			alert('Please, fill in all fields');
@@ -63,15 +58,13 @@ const CreateCourse = ({ authors, key }) => {
 			const authorId = courseAuthor.map((author) => author.id);
 			const newCourse = {
 				id: (key = uuidv4()),
-				title: titleValue,
+				title: title,
 				creationDate: new Date().toLocaleDateString(),
-				description: descriptionValue,
+				description: description,
 				authors: authorId,
-				duration: +durationValue,
+				duration: +duration,
 			};
-			saveNewCourse(newCourse);
-			dispatch(saveCourse({ newCourse }));
-			setFinished(true);
+			saveCourseThunk(newCourse, setFinished);
 		}
 		<Redirect to='/courses' />;
 	};
@@ -95,9 +88,10 @@ const CreateCourse = ({ authors, key }) => {
 				</div>
 				<div className='col'>
 					<Input
+						ref={titleInput}
 						placeholderText='Enter title...'
-						changeHandler={titleHandleChanger}
-						value={titleValue}
+						changeHandler={undefined}
+						defaultValue={thisCourse ? thisCourse.title : ''}
 						name={undefined}
 						text='Title'
 					/>
@@ -113,8 +107,8 @@ const CreateCourse = ({ authors, key }) => {
 			<div className='row p-2 my-3 rounded-1 bg-light mx-2'>
 				<p>Description</p>
 				<textarea
-					value={descriptionValue}
-					onChange={descriptionHandleChanger}
+					ref={descriptionInput}
+					defaultValue={thisCourse ? thisCourse.description : ''}
 					style={{ height: '100px' }}
 					className='border border-secondary border-1 form-control'
 					placeholder='Enter description'
@@ -128,9 +122,10 @@ const CreateCourse = ({ authors, key }) => {
 						</h5>
 
 						<Input
+							ref={authorInput}
 							placeholderText='Enter author name...'
-							changeHandler={authorHandleChanger}
-							value={authorValue}
+							changeHandler={undefined}
+							defaultValue={''}
 							name={undefined}
 							text='Author name'
 						/>
@@ -186,15 +181,21 @@ const CreateCourse = ({ authors, key }) => {
 							Duration
 						</h5>
 						<Input
+							ref={durationInput}
 							type='number'
-							value={durationValue}
-							changeHandler={durationHandleChanger}
+							defaultValue={thisCourse ? `${thisCourse.duration}` : ''}
+							changeHandler={undefined}
 							placeholderText='Enter duration in minutes...'
 							name={undefined}
 							text='Duration'
 						/>
 						<h4 className='text-center'>
-							<b>Duration {formatDuration(durationValue)}</b>
+							<b>
+								Duration{' '}
+								{formatDuration(
+									thisCourse ? thisCourse.duration : durationInput.current.value
+								)}
+							</b>
 						</h4>
 					</div>
 					<div className='col'>
@@ -236,12 +237,13 @@ const CreateCourse = ({ authors, key }) => {
 	);
 };
 
-CreateCourse.propTypes = {
+CourseForm.propTypes = {
 	authors: PropTypes.array,
 	key: PropTypes.any,
 };
 
 // @ts-ignore
-export default connect(({ authors }) => ({
+export default connect(({ authors, courses }) => ({
+	courses,
 	authors,
-}))(CreateCourse);
+}))(CourseForm);

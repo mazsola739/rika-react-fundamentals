@@ -1,8 +1,5 @@
-login
-logout
-delete
-store refresh
-course info
+isadmin
 search
-proptypes 
+sercvices
+store - thunk
 

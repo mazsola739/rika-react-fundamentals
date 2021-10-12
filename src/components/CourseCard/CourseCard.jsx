@@ -5,9 +5,8 @@ import './CourseCard.css';
 import Button from '../Button/Button';
 import { formatDuration } from 'utilities/durationFormatter';
 import { showAuthor } from 'utilities/authorFormatter';
-import { deleteCourse } from 'store/courses/actionCreators';
 import { useDispatch } from 'react-redux';
-import { deleteThisCourse } from 'services/courses';
+import { deleteCourseThunk } from 'store/courses/thunk';
 
 const CourseCard = ({
 	id,
@@ -20,10 +19,11 @@ const CourseCard = ({
 }) => {
 	const dispatch = useDispatch();
 
+	const isAdmin = localStorage.getItem('role') === 'admin';
+
 	const deleteCourseClickHandler = (e) => {
 		e.preventDefault();
-		deleteThisCourse(id);
-		dispatch(deleteCourse(id));
+		deleteCourseThunk(id, dispatch);
 	};
 
 	return (
@@ -68,18 +68,26 @@ const CourseCard = ({
 								icon={undefined}
 							/>
 						</Link>
-						<Button
-							size={{ width: '50px' }}
-							text={undefined}
-							clickHandler={deleteCourseClickHandler}
-							icon='fa fa-trash'
-						/>
-						<Button
-							size={{ width: '50px' }}
-							text={undefined}
-							clickHandler={undefined}
-							icon='fa fa-edit'
-						/>
+						{isAdmin ? (
+							<>
+								<Button
+									size={{ width: '50px' }}
+									text={undefined}
+									clickHandler={deleteCourseClickHandler}
+									icon='fa fa-trash'
+								/>
+								<Link to={`/courses/update/${id}`}>
+									<Button
+										size={{ width: '50px' }}
+										text={undefined}
+										clickHandler={undefined}
+										icon='fa fa-edit'
+									/>
+								</Link>
+							</>
+						) : (
+							<></>
+						)}
 					</div>
 				</div>
 			</div>

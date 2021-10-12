@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
@@ -12,13 +12,12 @@ const isMatch = (courseByTitle, courseById, filterText) =>
 	isCourseMatch(courseById, filterText);
 
 const Search = ({ allCourses }) => {
-	const [searchValue, setSearchValue] = useState('');
+	let searchValue = '';
 
 	const dispatch = useDispatch();
 
 	const searchChangeHandler = (e) => {
-		const input = e.target.value;
-		setSearchValue(input);
+		searchValue = e.target.value;
 	};
 
 	if (!searchValue) dispatch(filterCourses(allCourses));
@@ -43,7 +42,7 @@ const Search = ({ allCourses }) => {
 				<Input
 					placeholderText='Enter course name or id...'
 					changeHandler={searchChangeHandler}
-					value={searchValue}
+					defaultValue={searchValue}
 					text='Search'
 					name={undefined}
 				/>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import Input from '../Input/Input';
 import Button from 'components/Button/Button';
-import { register } from 'services/users';
+import { registerThunk } from 'store/user/thunk';
 
 const Registration = () => {
 	const [newUser, setNewUser] = useState(false);
@@ -16,7 +16,7 @@ const Registration = () => {
 			email: form.get('email'),
 			password: form.get('password'),
 		};
-		register(userData).then((response) => setNewUser(response.successful));
+		registerThunk(userData, setNewUser);
 	};
 
 	if (newUser === true) {
@@ -30,21 +30,21 @@ const Registration = () => {
 					<Input
 						text='Name'
 						placeholderText='Enter name'
-						value={undefined}
+						defaultValue={undefined}
 						changeHandler={undefined}
 						name='name'
 					/>
 					<Input
 						text='Email'
 						placeholderText='Enter email'
-						value={undefined}
+						defaultValue={undefined}
 						changeHandler={undefined}
 						name='email'
 					/>
 					<Input
 						text='Password'
 						placeholderText='Enter password'
-						value={undefined}
+						defaultValue={undefined}
 						changeHandler={undefined}
 						name='password'
 						type='password'

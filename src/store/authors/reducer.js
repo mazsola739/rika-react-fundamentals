@@ -8,7 +8,7 @@ export default function authors(
 ) {
 	switch (type) {
 		case SAVE_AUTHOR:
-			return state.concat(payload);
+			return [...state, payload];
 		case DELETE_AUTHOR:
 			return authorsInitialState;
 		case FETCH_AUTHORS:

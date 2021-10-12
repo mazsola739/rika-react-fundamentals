@@ -1,22 +1,19 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
-const Input = ({
-	name,
-	value,
-	changeHandler,
-	text,
-	placeholderText,
-	type = 'text',
-}) => {
+const Input = (
+	{ name, defaultValue, changeHandler, text, placeholderText, type = 'text' },
+	ref
+) => {
 	return (
 		<div className='input-group mb-3'>
 			<div className='bg-info bg-opacity-25 input-group-text col-form-label-sm border-end-0 border-1 border-dark rounded-end-1'>
 				{text}
 			</div>
 			<input
+				ref={ref}
 				name={name}
-				value={value}
+				defaultValue={defaultValue}
 				onChange={changeHandler}
 				type={type}
 				className='form-control col-form-label-sm border-start-0 border-1 border-dark rounded-start-1'
@@ -26,12 +23,14 @@ const Input = ({
 	);
 };
 
-Input.propTypes = {
+const ForwardInput = forwardRef(Input);
+
+ForwardInput.propTypes = {
 	name: PropTypes.string,
-	value: PropTypes.string,
+	defaultValue: PropTypes.string,
 	changeHandler: PropTypes.func,
 	text: PropTypes.string,
 	placeholderText: PropTypes.string,
 };
 
-export default Input;
+export default ForwardInput;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -13,14 +13,14 @@ import thunkMiddleware from 'redux-thunk';
 import './App.css';
 import CourseInfo from 'components/CourseInfo/CourseInfo';
 import Courses from './components/Courses/Courses';
-import CreateCourse from './components/CreateCourse/CreateCourse';
+import CourseForm from './components/CourseForm/CourseForm';
 import Header from './components/Header/Header';
 import Login from './components/Login/Login';
 import Registration from './components/Registration/Registration';
 import rootReducer from './store/index';
-import { fetchAuthors } from './store/authors/actionCreators';
-import { fetchCourses } from './store/courses/actionCreators';
-import { getApiService } from './services/apiService';
+import { fetchAuthorsThunk } from 'store/authors/thunk';
+import { fetchCoursesThunk } from 'store/courses/thunk';
+import PrivateRoute from 'components/PrivateRouter/PrivateRouter';
 
 const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 const store = createStore(rootReducer, composedEnhancer);
@@ -28,22 +28,10 @@ const store = createStore(rootReducer, composedEnhancer);
 const App = () => {
 	const dispatch = store.dispatch;
 
-	useEffect(() => {
-		const fetchAllCourses = () => {
-			getApiService()
-				.get(`/courses/all`)
-				.then((response) => response.data)
-				.then((myJson) => dispatch(fetchCourses(myJson.result)));
-		};
-		fetchAllCourses();
-		const fetchAllAuthors = () => {
-			getApiService()
-				.get(`/authors/all`)
-				.then((response) => response.data)
-				.then((myJson) => dispatch(fetchAuthors(myJson.result)));
-		};
-		fetchAllAuthors();
-	});
+	const isAuthenticated = localStorage.getItem('token') === null;
+
+	fetchCoursesThunk(dispatch);
+	fetchAuthorsThunk(dispatch);
 
 	return (
 		<Provider store={store}>
@@ -58,18 +46,42 @@ const App = () => {
 							<Header />
 							<Registration />
 						</Route>
-						<Route path='/courses' exact component={Courses}>
+						<PrivateRoute
+							path='/courses'
+							exact
+							component={Courses}
+							isAuthenticated={isAuthenticated}
+						>
 							<Header />
 							<Courses />
-						</Route>
-						<Route path='/courses/add' exact component={CreateCourse}>
+						</PrivateRoute>
+						<PrivateRoute
+							path='/courses/add'
+							exact
+							component={CourseForm}
+							isAuthenticated={isAuthenticated}
+						>
 							<Header />
-							<CreateCourse key={''} />
-						</Route>
-						<Route path='/courses/:courseId' exact component={CourseInfo}>
+							<CourseForm key={''} />
+						</PrivateRoute>
+						<PrivateRoute
+							path='/courses/update/:courseId'
+							exact
+							component={CourseForm}
+							isAuthenticated={isAuthenticated}
+						>
+							<Header />
+							<CourseForm key={''} />
+						</PrivateRoute>
+						<PrivateRoute
+							path='/courses/:courseId'
+							exact
+							component={CourseInfo}
+							isAuthenticated={isAuthenticated}
+						>
 							<Header />
 							<CourseInfo />
-						</Route>
+						</PrivateRoute>
 						<Route path='/'>
 							{store.getState().user.isAuth ? (
 								<Redirect to='/courses' />

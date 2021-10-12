@@ -7,6 +7,7 @@ import Search from '../Search/Search';
 import { connect } from 'react-redux';
 
 const Courses = ({ courses, authors }) => {
+	const isAdmin = localStorage.getItem('role') === 'admin';
 	return (
 		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
 			<div className=' py-2'>
@@ -15,13 +16,17 @@ const Courses = ({ courses, authors }) => {
 						<Search />
 					</div>
 					<div className='col-sm-4 d-flex justify-content-end'>
-						<Link to='/courses/add'>
-							<Button
-								text='Add new course'
-								icon={undefined}
-								clickHandler={undefined}
-							/>
-						</Link>
+						{isAdmin ? (
+							<Link to='/courses/add'>
+								<Button
+									text='Add new course'
+									icon={undefined}
+									clickHandler={undefined}
+								/>
+							</Link>
+						) : (
+							<></>
+						)}
 					</div>
 				</div>
 			</div>

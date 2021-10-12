@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import Button from '../Button/Button';
 import { Link, Redirect } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
-import { userLogout } from 'store/user/actionCreators';
-import { logout } from 'services/users';
+import { logoutThunk } from 'store/user/thunk';
 
 const Header = ({ user }) => {
 	const dispatch = useDispatch();
 
 	const logoutSubmit = () => {
-		logout();
-		dispatch(userLogout());
+		logoutThunk(dispatch);
 		<Redirect to='/login' />;
 	};
 

@@ -4,8 +4,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
-import { userLogin } from 'store/user/actionCreators';
-import { login } from 'services/users';
+
+import { loginThunk } from 'store/user/thunk';
 
 const Login = ({ user }) => {
 	const dispatch = useDispatch();
@@ -17,8 +17,7 @@ const Login = ({ user }) => {
 			email: form.get('email'),
 			password: form.get('password'),
 		});
-		const response = await login(userData);
-		dispatch(userLogin({ ...response.user, token: response.result }));
+		loginThunk(userData, dispatch);
 	};
 
 	if (user.isAuth) {
@@ -33,7 +32,7 @@ const Login = ({ user }) => {
 						text='Email'
 						placeholderText='Enter email'
 						changeHandler={undefined}
-						value={undefined}
+						defaultValue={undefined}
 						name='email'
 					/>
 					<Input
@@ -41,7 +40,7 @@ const Login = ({ user }) => {
 						placeholderText='Enter password'
 						type='password'
 						changeHandler={undefined}
-						value={undefined}
+						defaultValue={undefined}
 						name='password'
 					/>
 					<br />

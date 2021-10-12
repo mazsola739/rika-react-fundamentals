@@ -13,5 +13,14 @@ export const login = async (userData) => {
 
 export const logout = () => {
 	getApiService().delete('/logout');
+	localStorage.removeItem('role');
 	localStorage.removeItem('token');
+};
+
+export const userRole = async () => {
+	const {
+		data: { result: answer },
+	} = await getApiService().get('/users/me');
+	localStorage.setItem('role', answer.role);
+	return answer;
 };
