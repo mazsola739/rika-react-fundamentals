@@ -1,5 +1,4 @@
-isAdmin
-services
-store - thunk - dispatch
-courseForm - duration!
-search
+isadmin islogged nem frissülnek dolgok
+redirect
+update course
+appjsx

@@ -1,15 +1,16 @@
-import { getApiService } from 'services/apiService';
-import { saveNewAuthor } from 'services/authors';
+import { createService } from 'services/authors';
 import { fetchAuthors, saveAuthor } from './actionCreators';
 
-export const fetchAuthorsThunk = (dispatch) => {
-	getApiService()
-		.get(`/authors/all`)
+const authorService = createService('/authors');
+
+export const fetchAuthorsThunk = async (dispatch) => {
+	await authorService
+		.getAll()
 		.then((response) => response.data)
 		.then((myJson) => dispatch(fetchAuthors(myJson.result)));
 };
 
-export const saveAuthorsThunk = (newAuthor, dispatch) => {
-	saveNewAuthor(newAuthor);
-	dispatch(saveAuthor(newAuthor));
+export const saveAuthorsThunk = async (newAuthor, dispatch) => {
+	await authorService.save(newAuthor);
+	await dispatch(saveAuthor(newAuthor));
 };

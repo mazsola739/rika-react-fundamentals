@@ -23,7 +23,9 @@ const store = createStore(rootReducer, composedEnhancer);
 const App = () => {
 	const dispatch = store.dispatch;
 
-	const isAuthenticated = localStorage.getItem('token') === null;
+	const isAuthenticated = localStorage.token !== null;
+
+	//console.log(store.getState().user); //! nem frissül belépés után
 
 	fetchCoursesThunk(dispatch);
 	fetchAuthorsThunk(dispatch);

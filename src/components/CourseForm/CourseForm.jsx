@@ -6,9 +6,8 @@ import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
 //import { formatDuration } from 'utilities/durationFormatter';
 import { connect, useDispatch } from 'react-redux';
-import { saveAuthor } from 'store/authors/actionCreators';
-import { saveNewAuthor } from 'services/authors';
-import { saveCourseThunk } from 'store/courses/thunk';
+import { saveCourseThunk, updateCourseThunk } from 'store/courses/thunk';
+import { saveAuthorsThunk } from 'store/authors/thunk';
 
 const CourseForm = ({ courses, authors, key }) => {
 	const [allAuthors, setAllAuthors] = useState(authors);
@@ -18,9 +17,11 @@ const CourseForm = ({ courses, authors, key }) => {
 	const pathParam = useParams();
 	const thisCourseId = Object.values(pathParam).join();
 	const thisCourse = courses.find((course) => course.id === thisCourseId);
-	const thisCourseAuthors = thisCourse.authors.map((element) =>
-		authors.find((author) => author.id === element)
-	);
+	const thisCourseAuthors = thisCourse
+		? thisCourse.authors.map((element) =>
+				authors.find((author) => author.id === element)
+		  )
+		: [];
 
 	const [courseAuthor, setCourseAuthor] = useState(
 		thisCourse ? thisCourseAuthors : []
@@ -40,9 +41,8 @@ const CourseForm = ({ courses, authors, key }) => {
 				id: (key = uuidv4()),
 				name: author,
 			};
-			saveNewAuthor(newAuthor);
+			saveAuthorsThunk(newAuthor, dispatch);
 			setAllAuthors([...allAuthors, newAuthor]);
-			dispatch(saveAuthor(newAuthor));
 		}
 	};
 
@@ -62,17 +62,28 @@ const CourseForm = ({ courses, authors, key }) => {
 		} else {
 			const authorId = courseAuthor.map((author) => author.id);
 			const newCourse = {
-				id: (key = uuidv4()),
+				id: thisCourse ? thisCourse.id : (key = uuidv4()),
 				title: title,
-				creationDate: new Date().toLocaleDateString(),
+				creationDate: thisCourse
+					? thisCourse.creationDate
+					: new Date().toLocaleDateString(),
 				description: description,
 				authors: authorId,
 				duration: +duration,
 			};
-			saveCourseThunk(newCourse);
+			thisCourse
+				? updateCourseThunk(dispatch, newCourse)
+				: saveCourseThunk(dispatch, newCourse);
+
+			console.log(newCourse);
 			setFinished(true);
 		}
 		<Redirect to='/courses' />;
+	};
+	const [durationValue, setDurationValue] = useState('');
+	const durationHandleChanger = (e) => {
+		const duration = e.target.value;
+		setDurationValue(duration);
 	};
 
 	if (finished === true) {
@@ -105,7 +116,7 @@ const CourseForm = ({ courses, authors, key }) => {
 				<div className='col d-flex justify-content-end'>
 					<Button
 						clickHandler={saveCourseClickHandler}
-						text='Create course'
+						text={thisCourse ? 'Update course' : 'Create course'}
 						icon={undefined}
 					/>
 				</div>
@@ -187,12 +198,12 @@ const CourseForm = ({ courses, authors, key }) => {
 							ref={durationInput}
 							type='number'
 							defaultValue={thisCourse ? `${thisCourse.duration}` : ''}
-							changeHandler={undefined}
+							changeHandler={durationHandleChanger}
 							placeholderText='Enter duration in minutes...'
 							name={undefined}
 							text='Duration'
 						/>
-						<h4 className='text-center'>Duration </h4>
+						<h4 className='text-center'>Duration {durationValue}</h4>
 					</div>
 					<div className='col'>
 						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2'>

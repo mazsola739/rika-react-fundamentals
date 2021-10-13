@@ -5,15 +5,22 @@ import CourseCard from '../CourseCard/CourseCard';
 import Button from '../Button/Button';
 import Search from '../Search/Search';
 import { connect } from 'react-redux';
+import { useState } from 'react';
 
-const Courses = ({ courses, authors }) => {
-	const isAdmin = localStorage.getItem('role') === 'admin';
+const Courses = ({ courses: allCourses, authors, user }) => {
+	const [courses, getCourses] = useState(allCourses);
+	const isAdmin = user.email === 'admin@email.com';
+
 	return (
 		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
 			<div className=' py-2'>
 				<div className='row'>
 					<div className='col-sm-8'>
-						<Search />
+						<Search
+							getFilteredCourses={(filteredCourses) =>
+								getCourses(filteredCourses)
+							}
+						/>
 					</div>
 					<div className='col-sm-4 d-flex justify-content-end'>
 						{isAdmin ? (
@@ -34,10 +41,11 @@ const Courses = ({ courses, authors }) => {
 				{courses.map((course) => {
 					return (
 						<CourseCard
+							isAdmin={isAdmin}
 							key={course.id}
 							{...course}
 							authorNames={authors}
-							courses={courses}
+							courses={allCourses}
 						/>
 					);
 				})}
@@ -52,7 +60,8 @@ Courses.propTypes = {
 };
 
 // @ts-ignore
-export default connect(({ courses, authors }) => ({
+export default connect(({ courses, authors, user }) => ({
 	courses,
 	authors,
+	user,
 }))(Courses);

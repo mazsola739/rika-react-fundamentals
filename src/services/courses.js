@@ -5,7 +5,8 @@ export const createService = (resource) => {
 
 	return {
 		save: (entity) => apiService.post(`/add`, entity),
-		delete: (id) => apiService.delete(`/`, id),
-		getAll: () => apiService.get('/'),
+		update: (id) => apiService.put(id),
+		delete: (id) => apiService.delete(id),
+		getAll: () => apiService.get('/all'),
 	};
 };

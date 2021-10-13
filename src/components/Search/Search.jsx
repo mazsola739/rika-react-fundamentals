@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 
 const isCourseMatch = (course, filterText) =>
 	course.toUpperCase().indexOf(filterText) >= 0;
@@ -10,16 +10,13 @@ const isMatch = (courseByTitle, courseById, filterText) =>
 	isCourseMatch(courseByTitle, filterText) ||
 	isCourseMatch(courseById, filterText);
 
-const Search = ({ courses }) => {
+const Search = ({ courses, getFilteredCourses }) => {
 	let searchValue = '';
-	//let allCourses = courses;
-	const dispatch = useDispatch();
 
 	const searchChangeHandler = (e) => {
 		searchValue = e.target.value;
+		if (!searchValue) getFilteredCourses(courses);
 	};
-
-	//if (!searchValue) dispatch(allCourses);
 
 	const searchClickHandler = (e) => {
 		e.preventDefault();
@@ -31,7 +28,7 @@ const Search = ({ courses }) => {
 				matchedCourse.push(course);
 			}
 		});
-		dispatch(matchedCourse);
+		getFilteredCourses(matchedCourse);
 		matchedCourse = [];
 	};
 

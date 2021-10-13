@@ -1,7 +1,7 @@
 import {
 	SAVE_COURSE,
 	DELETE_COURSE,
-	EDIT_COURSE,
+	UPDATE_COURSE,
 	FETCH_COURSES,
 } from './actionTypes';
 
@@ -15,9 +15,18 @@ export default function courses(
 		case SAVE_COURSE:
 			return [...state, payload];
 		case DELETE_COURSE:
-			return [...state, state.filter((course) => course.id !== payload)];
-		case EDIT_COURSE:
-			return coursesInitialState;
+			return state.filter((course) => course.id !== payload);
+		case UPDATE_COURSE:
+			state.forEach((course, index) => {
+				if (course.id === payload.id) state[index] = payload;
+			});
+			return [
+				...state.splice(
+					state.findIndex((course) => course.id === payload.id),
+					1,
+					payload
+				),
+			];
 		case FETCH_COURSES:
 			return payload;
 		default:

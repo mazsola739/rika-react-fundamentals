@@ -16,10 +16,9 @@ const CourseCard = ({
 	duration,
 	creationDate,
 	authorNames,
+	isAdmin,
 }) => {
 	const dispatch = useDispatch();
-
-	const isAdmin = localStorage.getItem('role') === 'admin';
 
 	const deleteCourseClickHandler = (e) => {
 		e.preventDefault();
