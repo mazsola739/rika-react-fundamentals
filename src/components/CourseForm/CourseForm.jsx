@@ -6,11 +6,10 @@ import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
 //import { formatDuration } from 'utilities/durationFormatter';
 import { connect, useDispatch } from 'react-redux';
-import { saveCourseThunk, updateCourseThunk } from 'store/courses/thunk';
-import { saveAuthorsThunk } from 'store/authors/thunk';
+import { saveCourse, updateCourse } from 'store/courses/actionCreators';
+import { saveAuthor } from 'store/authors/actionCreators';
 
 const CourseForm = ({ courses, authors, key }) => {
-	const [allAuthors, setAllAuthors] = useState(authors);
 	const [finished, setFinished] = useState(false);
 
 	const dispatch = useDispatch();
@@ -38,15 +37,12 @@ const CourseForm = ({ courses, authors, key }) => {
 
 		if (author.length >= 2) {
 			const newAuthor = {
-				id: (key = uuidv4()),
 				name: author,
 			};
-			saveAuthorsThunk(newAuthor, dispatch);
-			setAllAuthors([...allAuthors, newAuthor]);
+			dispatch(saveAuthor(newAuthor));
 		}
 	};
-
-	const saveCourseClickHandler = (e) => {
+	const saveCourseClickHandler = async (e) => {
 		e.preventDefault();
 		const title = titleInput.current.value;
 		const description = descriptionInput.current.value;
@@ -71,14 +67,13 @@ const CourseForm = ({ courses, authors, key }) => {
 				authors: authorId,
 				duration: +duration,
 			};
-			thisCourse
-				? updateCourseThunk(dispatch, newCourse)
-				: saveCourseThunk(dispatch, newCourse);
 
-			console.log(newCourse);
+			thisCourse
+				? await dispatch(updateCourse(newCourse))
+				: dispatch(saveCourse(newCourse));
+
 			setFinished(true);
 		}
-		<Redirect to='/courses' />;
 	};
 	const [durationValue, setDurationValue] = useState('');
 	const durationHandleChanger = (e) => {
@@ -86,7 +81,7 @@ const CourseForm = ({ courses, authors, key }) => {
 		setDurationValue(duration);
 	};
 
-	if (finished === true) {
+	if (finished) {
 		return <Redirect to='/courses' />;
 	}
 
@@ -159,7 +154,7 @@ const CourseForm = ({ courses, authors, key }) => {
 							Authors
 						</h5>
 						<div className='p-2'>
-							{allAuthors
+							{authors
 								.filter(
 									(author) =>
 										!courseAuthor.some((item) => author.id === item.id)
@@ -177,7 +172,7 @@ const CourseForm = ({ courses, authors, key }) => {
 														...authors,
 														{ name: name, id: id },
 													]);
-													allAuthors.filter((author) =>
+													authors.filter((author) =>
 														courseAuthor.includes(author.id)
 													);
 												}}

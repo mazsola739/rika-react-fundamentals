@@ -1,10 +1,4 @@
-import { USER_LOGIN, USER_LOGOUT } from './actionTypes';
+import { loginThunk, logoutThunk } from './thunk';
 
-export const userLogin = (userData) => ({
-	type: USER_LOGIN,
-	payload: userData,
-});
-
-export const userLogout = () => ({
-	type: USER_LOGOUT,
-});
+export const userLogin = (userData) => loginThunk(userData);
+export const userLogout = () => logoutThunk();

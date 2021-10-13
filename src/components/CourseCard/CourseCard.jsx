@@ -6,7 +6,7 @@ import Button from '../Button/Button';
 import { formatDuration } from 'utilities/durationFormatter';
 import { showAuthor } from 'utilities/authorFormatter';
 import { useDispatch } from 'react-redux';
-import { deleteCourseThunk } from 'store/courses/thunk';
+import { deleteCourse } from 'store/courses/actionCreators';
 
 const CourseCard = ({
 	id,
@@ -22,7 +22,7 @@ const CourseCard = ({
 
 	const deleteCourseClickHandler = (e) => {
 		e.preventDefault();
-		deleteCourseThunk(id, dispatch);
+		dispatch(deleteCourse(id));
 	};
 
 	return (

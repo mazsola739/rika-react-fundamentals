@@ -1,11 +1,4 @@
-import { SAVE_AUTHOR, FETCH_AUTHORS } from './actionTypes';
+import { fetchAuthorsThunk, saveAuthorsThunk } from './thunk';
 
-export const saveAuthor = (newAuthor) => ({
-	type: SAVE_AUTHOR,
-	payload: newAuthor,
-});
-
-export const fetchAuthors = (authors) => ({
-	type: FETCH_AUTHORS,
-	payload: authors,
-});
+export const saveAuthor = (newAuthor) => saveAuthorsThunk(newAuthor);
+export const fetchAuthors = (authors) => fetchAuthorsThunk(authors);

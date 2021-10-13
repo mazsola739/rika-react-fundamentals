@@ -1,10 +1,10 @@
 import { createService } from 'services/courses';
 import {
-	deleteCourse,
-	fetchCourses,
-	saveCourse,
-	updateCourse,
-} from 'store/courses/actionCreators';
+	DELETE_COURSE,
+	FETCH_COURSES,
+	SAVE_COURSE,
+	UPDATE_COURSE,
+} from './actionTypes';
 
 const courseService = createService('/courses');
 
@@ -12,20 +12,34 @@ export const fetchCoursesThunk = async (dispatch) => {
 	await courseService
 		.getAll()
 		.then((response) => response.data)
-		.then((myJson) => dispatch(fetchCourses(myJson.result)));
+		.then((myJson) =>
+			dispatch({
+				type: FETCH_COURSES,
+				payload: myJson.result,
+			})
+		);
 };
 
-export const saveCourseThunk = async (dispatch, newCourse) => {
+export const saveCourseThunk = (newCourse) => async (dispatch) => {
 	await courseService.save(newCourse);
-	await dispatch(saveCourse({ newCourse }));
+	dispatch({
+		type: SAVE_COURSE,
+		payload: newCourse,
+	});
 };
 
-export const deleteCourseThunk = async (id, dispatch) => {
+export const deleteCourseThunk = (id) => async (dispatch) => {
 	await courseService.delete(id);
-	await dispatch(deleteCourse(id));
+	dispatch({
+		type: DELETE_COURSE,
+		payload: id,
+	});
 };
 
-export const updateCourseThunk = async (dispatch, newCourse) => {
-	await courseService.update(newCourse.id);
-	await dispatch(updateCourse(newCourse));
+export const updateCourseThunk = (newCourse) => async (dispatch) => {
+	await courseService.update(newCourse);
+	dispatch({
+		type: UPDATE_COURSE,
+		payload: newCourse,
+	});
 };

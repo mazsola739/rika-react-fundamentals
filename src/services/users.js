@@ -1,7 +1,8 @@
 import { getApiService } from './apiService';
 
 export const createService = (resource) => {
-	const apiService = getApiService(resource);
+	localStorage.getItem('token');
+	let apiService = getApiService(resource);
 
 	return {
 		register: async (userData) => {
@@ -10,12 +11,10 @@ export const createService = (resource) => {
 		},
 		login: async (userData) => {
 			const { data: answer } = await apiService.post(`/login`, userData);
-			await localStorage.setItem('token', answer.result);
+			localStorage.setItem('token', answer.result);
+			apiService = getApiService(resource, answer.result);
 			return answer;
 		},
-		logout: async () => {
-			await apiService.delete('/logout');
-			await localStorage.removeItem('token');
-		},
+		logout: async () => apiService.delete('/logout'),
 	};
 };

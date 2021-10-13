@@ -3,15 +3,17 @@ import PropTypes from 'prop-types';
 import Button from '../Button/Button';
 import { Link, Redirect } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
-import { logoutThunk } from 'store/user/thunk';
+import { userLogout } from 'store/user/actionCreators';
 
 const Header = ({ user }) => {
 	const dispatch = useDispatch();
 
 	const logoutSubmit = () => {
-		logoutThunk(dispatch);
-		<Redirect to='/login' />;
+		dispatch(userLogout());
 	};
+	/* if (!user.isAuth) {
+		<Redirect to='/login' />;
+	} */
 
 	return (
 		<div className='container alert alert-info border border-dark border-1 rounded-1'>
@@ -33,7 +35,7 @@ const Header = ({ user }) => {
 						</div>
 					</div>
 				) : (
-					<></>
+					<Redirect to='/login' />
 				)}
 			</div>
 		</div>

@@ -19,13 +19,10 @@ import rootReducer from './store/index';
 
 const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 const store = createStore(rootReducer, composedEnhancer);
-
 const App = () => {
 	const dispatch = store.dispatch;
 
-	const isAuthenticated = localStorage.token !== null;
-
-	//console.log(store.getState().user); //! nem frissül belépés után
+	const isAuthenticated = () => localStorage.getItem('token') !== null;
 
 	fetchCoursesThunk(dispatch);
 	fetchAuthorsThunk(dispatch);
@@ -34,51 +31,34 @@ const App = () => {
 		<Provider store={store}>
 			<div className='App container py-4'>
 				<BrowserRouter>
+					<Header />
 					<Switch>
-						<Route path='/login' exact component={Login}>
-							<Header />
-							<Login />
-						</Route>
-						<Route path='/registration' exact component={Registration}>
-							<Header />
-							<Registration />
-						</Route>
+						<Route path='/login' exact component={Login} />
+						<Route path='/registration' exact component={Registration} />
 						<PrivateRoute
 							path='/courses'
 							exact
 							component={Courses}
 							isAuthenticated={isAuthenticated}
-						>
-							<Header />
-							<Courses />
-						</PrivateRoute>
+						/>
 						<PrivateRoute
 							path='/courses/add'
 							exact
 							component={CourseForm}
 							isAuthenticated={isAuthenticated}
-						>
-							<Header />
-							<CourseForm key={''} />
-						</PrivateRoute>
+						/>
 						<PrivateRoute
 							path='/courses/update/:courseId'
 							exact
 							component={CourseForm}
 							isAuthenticated={isAuthenticated}
-						>
-							<Header />
-							<CourseForm key={''} />
-						</PrivateRoute>
+						/>
 						<PrivateRoute
 							path='/courses/:courseId'
 							exact
 							component={CourseInfo}
 							isAuthenticated={isAuthenticated}
-						>
-							<Header />
-							<CourseInfo />
-						</PrivateRoute>
+						/>
 						<Route path='/'>
 							{store.getState().user.isAuth ? (
 								<Redirect to='/courses' />

@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { useState } from 'react';
 
 const Courses = ({ courses: allCourses, authors, user }) => {
-	const [courses, getCourses] = useState(allCourses);
+	const [courses, setCourses] = useState(allCourses);
 	const isAdmin = user.email === 'admin@email.com';
 
 	return (
@@ -17,9 +17,9 @@ const Courses = ({ courses: allCourses, authors, user }) => {
 				<div className='row'>
 					<div className='col-sm-8'>
 						<Search
-							getFilteredCourses={(filteredCourses) =>
-								getCourses(filteredCourses)
-							}
+							getFilteredCourses={(filteredCourses) => {
+								setCourses(filteredCourses);
+							}}
 						/>
 					</div>
 					<div className='col-sm-4 d-flex justify-content-end'>
@@ -45,7 +45,6 @@ const Courses = ({ courses: allCourses, authors, user }) => {
 							key={course.id}
 							{...course}
 							authorNames={authors}
-							courses={allCourses}
 						/>
 					);
 				})}

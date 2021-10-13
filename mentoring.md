@@ -1,4 +1,3 @@
-isadmin islogged nem frissülnek dolgok
-redirect
+save author
 update course
-appjsx
+logout redirect

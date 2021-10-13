@@ -1,16 +1,22 @@
 import { createService } from 'services/users';
-import { userLogin, userLogout } from './actionCreators';
+import { USER_LOGIN, USER_LOGOUT } from './actionTypes';
 
-const userService = createService();
+const userService = createService('/');
 
 export const loginThunk = async (userData, dispatch) => {
 	const response = await userService.login(userData);
-	await dispatch(userLogin({ ...response.user, token: response.result }));
+	await dispatch({
+		type: USER_LOGIN,
+		payload: { ...response.user, token: response.result },
+	});
 };
 
-export const logoutThunk = async (dispatch, redirect) => {
+export const logoutThunk = () => async (dispatch) => {
 	await userService.logout();
-	await dispatch(userLogout());
+	localStorage.removeItem('token');
+	dispatch({
+		type: USER_LOGOUT,
+	});
 };
 
 export const registerThunk = async (userData, setNewUser) => {

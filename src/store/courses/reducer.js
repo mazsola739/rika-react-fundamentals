@@ -17,16 +17,9 @@ export default function courses(
 		case DELETE_COURSE:
 			return state.filter((course) => course.id !== payload);
 		case UPDATE_COURSE:
-			state.forEach((course, index) => {
-				if (course.id === payload.id) state[index] = payload;
-			});
-			return [
-				...state.splice(
-					state.findIndex((course) => course.id === payload.id),
-					1,
-					payload
-				),
-			];
+			return state.map((course) =>
+				course.id === payload.id ? payload : course
+			);
 		case FETCH_COURSES:
 			return payload;
 		default:

@@ -1,23 +1,11 @@
 import {
-	SAVE_COURSE,
-	DELETE_COURSE,
-	UPDATE_COURSE,
-	FETCH_COURSES,
-} from './actionTypes';
+	deleteCourseThunk,
+	fetchCoursesThunk,
+	saveCourseThunk,
+	updateCourseThunk,
+} from './thunk';
 
-export const saveCourse = ({ newCourse }) => ({
-	type: SAVE_COURSE,
-	payload: newCourse,
-});
-export const deleteCourse = (id) => ({
-	type: DELETE_COURSE,
-	payload: id,
-});
-export const updateCourse = (newCourse) => ({
-	type: UPDATE_COURSE,
-	payload: newCourse,
-});
-export const fetchCourses = (courses) => ({
-	type: FETCH_COURSES,
-	payload: courses,
-});
+export const saveCourse = (newCourse) => saveCourseThunk(newCourse);
+export const deleteCourse = (id) => deleteCourseThunk(id);
+export const updateCourse = (newCourse) => updateCourseThunk(newCourse);
+export const fetchCourses = (courses) => fetchCoursesThunk(courses);
