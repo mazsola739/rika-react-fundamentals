@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { v4 as uuidv4 } from 'uuid';
-//import { formatDuration } from 'utilities/durationFormatter';
+import { formatDuration } from 'utilities/durationFormatter';
 import { connect, useDispatch } from 'react-redux';
 import { saveCourse, updateCourse } from 'store/courses/actionCreators';
 import { saveAuthor } from 'store/authors/actionCreators';
@@ -198,7 +198,9 @@ const CourseForm = ({ courses, authors, key }) => {
 							name={undefined}
 							text='Duration'
 						/>
-						<h4 className='text-center'>Duration {durationValue}</h4>
+						<h4 className='text-center'>
+							Duration {formatDuration(+durationValue)}
+						</h4>
 					</div>
 					<div className='col'>
 						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2'>
