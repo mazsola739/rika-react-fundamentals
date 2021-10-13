@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CourseCard from '../CourseCard/CourseCard';
@@ -10,6 +10,10 @@ import { useState } from 'react';
 const Courses = ({ courses: allCourses, authors, user }) => {
 	const [courses, setCourses] = useState(allCourses);
 	const isAdmin = user.email === 'admin@email.com';
+
+	useEffect(() => {
+		setCourses(allCourses);
+	}, [allCourses]);
 
 	return (
 		<div className='border border-dark border-1 rounded-1 p-4 my-3'>
