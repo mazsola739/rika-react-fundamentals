@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './CourseCard.css';
 import Button from '../Button/Button';
-import { formatDuration } from 'utilities/durationFormatter';
-import { showAuthor } from 'utilities/authorFormatter';
+import { pipeDuration } from 'helpers/pipeDuration';
+import { showAuthor } from 'helpers/pipeAuthor';
 import { useDispatch } from 'react-redux';
 import { deleteCourse } from 'store/courses/actionCreators';
 
@@ -32,8 +32,14 @@ const CourseCard = ({
 		>
 			<div className='row'>
 				<div className='alert alert-info col-sm-8'>
-					<h3 className='bg-info bg-opacity-20 rounded-1'>{title}</h3>
-					<span className='description' title={description}>
+					<h3 data-testid='title' className='bg-info bg-opacity-20 rounded-1'>
+						{title}
+					</h3>
+					<span
+						data-testid='description'
+						className='description'
+						title={description}
+					>
 						{description}
 					</span>
 				</div>
@@ -41,6 +47,7 @@ const CourseCard = ({
 				<div className='col-sm-4'>
 					<div className='row p-1'>
 						<span
+							data-testid='authors'
 							className='author'
 							title={`${showAuthor(authors, authorNames)}`}
 						>
@@ -48,13 +55,13 @@ const CourseCard = ({
 						</span>
 					</div>
 					<div className='row p-1'>
-						<span>
+						<span data-testid='duration'>
 							<b>Duration: </b>
-							{formatDuration(duration)}
+							{pipeDuration(duration)}
 						</span>
 					</div>
 					<div className='row p-1'>
-						<span>
+						<span data-testid='created'>
 							<b>Created: </b>
 							{creationDate.replaceAll('/', '.')}
 						</span>

@@ -1,11 +1,11 @@
 import {
 	deleteCourseThunk,
-	fetchCoursesThunk,
-	saveCourseThunk,
+	getCoursesThunk,
+	addCourseThunk,
 	updateCourseThunk,
 } from './thunk';
 
-export const saveCourse = (newCourse) => saveCourseThunk(newCourse);
+export const addCourse = (newCourse) => addCourseThunk(newCourse);
 export const deleteCourse = (id) => deleteCourseThunk(id);
 export const updateCourse = (newCourse) => updateCourseThunk(newCourse);
-export const fetchCourses = (courses) => fetchCoursesThunk(courses);
+export const getCourses = () => getCoursesThunk();

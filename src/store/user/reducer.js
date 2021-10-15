@@ -7,7 +7,7 @@ const userInitialState = {
 	token: '',
 };
 
-export default function user(state = userInitialState, { type, payload }) {
+const userReducer = (state = userInitialState, { type, payload }) => {
 	switch (type) {
 		case USER_LOGIN:
 			return {
@@ -20,4 +20,5 @@ export default function user(state = userInitialState, { type, payload }) {
 		default:
 			return state;
 	}
-}
+};
+export default userReducer;

@@ -11,19 +11,22 @@ const Header = ({ user }) => {
 	const logoutSubmit = () => {
 		dispatch(userLogout());
 	};
-	/* if (!user.isAuth) {
-		<Redirect to='/login' />;
-	} */
 
 	return (
 		<div className='container alert alert-info border border-dark border-1 rounded-1'>
 			<div className='row'>
-				<div className='col fa fa-laptop' style={{ fontSize: '48px' }}>
+				<div
+					data-testid='logo'
+					className='col fa fa-laptop'
+					style={{ fontSize: '48px' }}
+				>
 					Courses
 				</div>
 				{user.isAuth ? (
 					<div className='row col-sm-5 d-flex justify-content-end align-items-center'>
-						<div className='col btn bg-info rounded-1'>{user.name}</div>
+						<div data-testid='name' className='col btn bg-info rounded-1'>
+							{user.name}
+						</div>
 						<div className='col d-flex justify-content-end'>
 							<Link to='/login'>
 								<Button

@@ -1,26 +1,26 @@
 import { createService } from 'services/authors';
-import { FETCH_AUTHORS, SAVE_AUTHOR } from './actionTypes';
+import { GET_AUTHORS, ADD_AUTHOR } from './actionTypes';
 
 const authorService = createService('/authors');
 
-export const fetchAuthorsThunk = async (dispatch) => {
-	await authorService
+export const getAuthorsThunk = () => async (dispatch) => {
+	const authors = await authorService
 		.getAll()
 		.then((response) => response.data)
-		.then((myJson) =>
-			dispatch({
-				type: FETCH_AUTHORS,
-				payload: myJson.result,
-			})
-		);
+		.then(({ result }) => result);
+
+	dispatch({
+		type: GET_AUTHORS,
+		payload: authors,
+	});
 };
 
-export const saveAuthorsThunk = (newAuthor) => async (dispatch) => {
+export const addAuthorsThunk = (newAuthor) => async (dispatch) => {
 	const {
 		data: { result },
-	} = await authorService.save(newAuthor);
+	} = await authorService.add(newAuthor);
 	dispatch({
-		type: SAVE_AUTHOR,
+		type: ADD_AUTHOR,
 		payload: result,
 	});
 };

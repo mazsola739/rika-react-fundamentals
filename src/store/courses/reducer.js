@@ -1,18 +1,15 @@
 import {
-	SAVE_COURSE,
+	ADD_COURSE,
 	DELETE_COURSE,
+	GET_COURSES,
 	UPDATE_COURSE,
-	FETCH_COURSES,
 } from './actionTypes';
 
 const coursesInitialState = [];
 
-export default function courses(
-	state = coursesInitialState,
-	{ type, payload }
-) {
+const coursesReducer = (state = coursesInitialState, { type, payload }) => {
 	switch (type) {
-		case SAVE_COURSE:
+		case ADD_COURSE:
 			return [...state, payload];
 		case DELETE_COURSE:
 			return state.filter((course) => course.id !== payload);
@@ -20,9 +17,11 @@ export default function courses(
 			return state.map((course) =>
 				course.id === payload.id ? payload : course
 			);
-		case FETCH_COURSES:
+		case GET_COURSES:
 			return payload;
 		default:
 			return state;
 	}
-}
+};
+
+export default coursesReducer;

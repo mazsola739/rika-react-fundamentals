@@ -1,4 +1,4 @@
-import { fetchAuthorsThunk, saveAuthorsThunk } from './thunk';
+import { getAuthorsThunk, addAuthorsThunk } from './thunk';
 
-export const saveAuthor = (newAuthor) => saveAuthorsThunk(newAuthor);
-export const fetchAuthors = (authors) => fetchAuthorsThunk(authors);
+export const addAuthor = (newAuthor) => addAuthorsThunk(newAuthor);
+export const getAuthors = (authors) => getAuthorsThunk();

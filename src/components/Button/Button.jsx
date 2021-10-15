@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 const Button = ({ size = { width: '150px' }, clickHandler, text, icon }) => {
 	return (
 		<button
+			data-testid='button'
 			className='bg-info bg-opacity-50 btn border-info border-1 rounded-1'
 			style={size}
 			onClick={clickHandler}

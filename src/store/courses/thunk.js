@@ -1,29 +1,29 @@
 import { createService } from 'services/courses';
 import {
 	DELETE_COURSE,
-	FETCH_COURSES,
-	SAVE_COURSE,
+	ADD_COURSE,
+	GET_COURSES,
 	UPDATE_COURSE,
 } from './actionTypes';
 
 const courseService = createService('/courses');
 
-export const fetchCoursesThunk = async (dispatch) => {
-	await courseService
+export const getCoursesThunk = () => async (dispatch) => {
+	const courses = await courseService
 		.getAll()
 		.then((response) => response.data)
-		.then((myJson) =>
-			dispatch({
-				type: FETCH_COURSES,
-				payload: myJson.result,
-			})
-		);
+		.then(({ result }) => result);
+
+	dispatch({
+		type: GET_COURSES,
+		payload: courses,
+	});
 };
 
-export const saveCourseThunk = (newCourse) => async (dispatch) => {
-	await courseService.save(newCourse);
+export const addCourseThunk = (newCourse) => async (dispatch) => {
+	await courseService.add(newCourse);
 	dispatch({
-		type: SAVE_COURSE,
+		type: ADD_COURSE,
 		payload: newCourse,
 	});
 };

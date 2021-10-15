@@ -2,9 +2,9 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';
-import { displayDate } from 'utilities/dateFormatter';
-import { formatDuration } from 'utilities/durationFormatter';
-import { showAuthor } from 'utilities/authorFormatter';
+import { displayDate } from 'helpers/pipeDate';
+import { pipeDuration } from 'helpers/pipeDuration';
+import { showAuthor } from 'helpers/pipeAuthor';
 import { connect } from 'react-redux';
 
 const CourseInfo = ({ courses, authors }) => {
@@ -36,7 +36,7 @@ const CourseInfo = ({ courses, authors }) => {
 					</p>
 					<p>
 						<b>Duration: </b>
-						{formatDuration(thisCourse.duration)}
+						{pipeDuration(thisCourse.duration)}
 					</p>
 					<p>
 						<b>Created: </b>

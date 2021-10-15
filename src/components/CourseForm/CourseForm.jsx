@@ -3,11 +3,10 @@ import { Link, Redirect, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
-import { v4 as uuidv4 } from 'uuid';
-import { formatDuration } from 'utilities/durationFormatter';
+import { pipeDuration } from 'helpers/pipeDuration';
 import { connect, useDispatch } from 'react-redux';
-import { saveCourse, updateCourse } from 'store/courses/actionCreators';
-import { saveAuthor } from 'store/authors/actionCreators';
+import { addCourse, updateCourse } from 'store/courses/actionCreators';
+import { addAuthor } from 'store/authors/actionCreators';
 
 const CourseForm = ({ courses, authors, key }) => {
 	const [finished, setFinished] = useState(false);
@@ -39,7 +38,7 @@ const CourseForm = ({ courses, authors, key }) => {
 			const newAuthor = {
 				name: author,
 			};
-			dispatch(saveAuthor(newAuthor));
+			dispatch(addAuthor(newAuthor));
 		}
 	};
 	const saveCourseClickHandler = async (e) => {
@@ -51,14 +50,14 @@ const CourseForm = ({ courses, authors, key }) => {
 		if (
 			!title ||
 			description.length < 2 ||
-			+duration < 0 ||
+			+duration < 1 ||
 			courseAuthor.length < 1
 		) {
 			alert('Please, fill in all fields');
 		} else {
 			const authorId = courseAuthor.map((author) => author.id);
 			const newCourse = {
-				id: thisCourse ? thisCourse.id : (key = uuidv4()),
+				id: thisCourse ? thisCourse.id : '',
 				title: title,
 				creationDate: thisCourse
 					? thisCourse.creationDate
@@ -70,12 +69,14 @@ const CourseForm = ({ courses, authors, key }) => {
 
 			thisCourse
 				? await dispatch(updateCourse(newCourse))
-				: dispatch(saveCourse(newCourse));
+				: dispatch(addCourse(newCourse));
 
 			setFinished(true);
 		}
 	};
-	const [durationValue, setDurationValue] = useState('');
+	const [durationValue, setDurationValue] = useState(
+		thisCourse ? thisCourse.duration : ''
+	);
 	const durationHandleChanger = (e) => {
 		const duration = e.target.value;
 		setDurationValue(duration);
@@ -199,7 +200,7 @@ const CourseForm = ({ courses, authors, key }) => {
 							text='Duration'
 						/>
 						<h4 className='text-center'>
-							Duration {formatDuration(+durationValue)}
+							Duration {pipeDuration(+durationValue)}
 						</h4>
 					</div>
 					<div className='col'>

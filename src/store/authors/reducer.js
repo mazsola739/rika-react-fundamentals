@@ -1,17 +1,15 @@
-import { SAVE_AUTHOR, FETCH_AUTHORS } from './actionTypes';
+import { ADD_AUTHOR, GET_AUTHORS } from './actionTypes';
 
 const authorsInitialState = [];
 
-export default function authors(
-	state = authorsInitialState,
-	{ type, payload }
-) {
+const authorsReducer = (state = authorsInitialState, { type, payload }) => {
 	switch (type) {
-		case SAVE_AUTHOR:
+		case ADD_AUTHOR:
 			return [...state, payload];
-		case FETCH_AUTHORS:
+		case GET_AUTHORS:
 			return payload;
 		default:
 			return state;
 	}
-}
+};
+export default authorsReducer;

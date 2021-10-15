@@ -1,7 +1,8 @@
 import { getApiService } from './apiService';
 
+const getToken = () => localStorage.getItem('token');
+
 export const createService = (resource) => {
-	localStorage.getItem('token');
 	let apiService = getApiService(resource);
 
 	return {
@@ -15,6 +16,9 @@ export const createService = (resource) => {
 			apiService = getApiService(resource, answer.result);
 			return answer;
 		},
-		logout: async () => apiService.delete('/logout'),
+		logout: async () =>
+			apiService.delete('/logout', {
+				headers: { Authorization: getToken() },
+			}),
 	};
 };
