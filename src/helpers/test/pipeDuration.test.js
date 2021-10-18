@@ -6,5 +6,3 @@ describe('Duration', () => {
 		expect(pipeDuration(120)).toBe('02:00 hours');
 	});
 });
-
-/* pipeDuration should return correct duration format. */

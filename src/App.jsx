@@ -35,7 +35,7 @@ const App = () => {
 		<Provider store={store}>
 			<div className='App container py-4'>
 				<BrowserRouter>
-					<Header />
+					<Header isAuthenticated={isAuthenticated} />
 					<Switch>
 						<Route path='/login' exact component={Login} />
 						<Route path='/registration' exact component={Registration} />

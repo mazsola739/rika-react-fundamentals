@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
@@ -13,16 +14,16 @@ const CourseForm = ({ courses, authors, key }) => {
 
 	const dispatch = useDispatch();
 	const pathParam = useParams();
-	const thisCourseId = Object.values(pathParam).join();
-	const thisCourse = courses.find((course) => course.id === thisCourseId);
-	const thisCourseAuthors = thisCourse
-		? thisCourse.authors.map((element) =>
+	const editCourseId = Object.values(pathParam).join();
+	const editCourse = courses.find((course) => course.id === editCourseId);
+	const editCourseAuthors = editCourse
+		? editCourse.authors.map((element) =>
 				authors.find((author) => author.id === element)
 		  )
 		: [];
 
 	const [courseAuthor, setCourseAuthor] = useState(
-		thisCourse ? thisCourseAuthors : []
+		editCourse ? editCourseAuthors : []
 	);
 
 	const titleInput = useRef(null);
@@ -57,17 +58,17 @@ const CourseForm = ({ courses, authors, key }) => {
 		} else {
 			const authorId = courseAuthor.map((author) => author.id);
 			const newCourse = {
-				id: thisCourse ? thisCourse.id : '',
+				id: editCourse ? editCourse.id : (key = uuidv4()),
 				title: title,
-				creationDate: thisCourse
-					? thisCourse.creationDate
+				creationDate: editCourse
+					? editCourse.creationDate
 					: new Date().toLocaleDateString(),
 				description: description,
 				authors: authorId,
 				duration: +duration,
 			};
 
-			thisCourse
+			editCourse
 				? await dispatch(updateCourse(newCourse))
 				: dispatch(addCourse(newCourse));
 
@@ -75,7 +76,7 @@ const CourseForm = ({ courses, authors, key }) => {
 		}
 	};
 	const [durationValue, setDurationValue] = useState(
-		thisCourse ? thisCourse.duration : ''
+		editCourse ? editCourse.duration : ''
 	);
 	const durationHandleChanger = (e) => {
 		const duration = e.target.value;
@@ -104,7 +105,7 @@ const CourseForm = ({ courses, authors, key }) => {
 						ref={titleInput}
 						placeholderText='Enter title...'
 						changeHandler={undefined}
-						defaultValue={thisCourse ? thisCourse.title : ''}
+						defaultValue={editCourse ? editCourse.title : ''}
 						name={undefined}
 						text='Title'
 					/>
@@ -112,7 +113,7 @@ const CourseForm = ({ courses, authors, key }) => {
 				<div className='col d-flex justify-content-end'>
 					<Button
 						clickHandler={saveCourseClickHandler}
-						text={thisCourse ? 'Update course' : 'Create course'}
+						text={editCourse ? 'Update course' : 'Create course'}
 						icon={undefined}
 					/>
 				</div>
@@ -121,7 +122,7 @@ const CourseForm = ({ courses, authors, key }) => {
 				<p>Description</p>
 				<textarea
 					ref={descriptionInput}
-					defaultValue={thisCourse ? thisCourse.description : ''}
+					defaultValue={editCourse ? editCourse.description : ''}
 					style={{ height: '100px' }}
 					className='border border-secondary border-1 form-control'
 					placeholder='Enter description'
@@ -193,7 +194,7 @@ const CourseForm = ({ courses, authors, key }) => {
 						<Input
 							ref={durationInput}
 							type='number'
-							defaultValue={thisCourse ? `${thisCourse.duration}` : ''}
+							defaultValue={editCourse ? `${editCourse.duration}` : ''}
 							changeHandler={durationHandleChanger}
 							placeholderText='Enter duration in minutes...'
 							name={undefined}

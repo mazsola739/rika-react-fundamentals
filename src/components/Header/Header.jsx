@@ -5,7 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import { userLogout } from 'store/user/actionCreators';
 
-const Header = ({ user }) => {
+const Header = ({ user, isAuthenticated }) => {
 	const dispatch = useDispatch();
 
 	const logoutSubmit = () => {
@@ -22,7 +22,7 @@ const Header = ({ user }) => {
 				>
 					Courses
 				</div>
-				{user.isAuth ? (
+				{isAuthenticated() ? (
 					<div className='row col-sm-5 d-flex justify-content-end align-items-center'>
 						<div data-testid='name' className='col btn bg-info rounded-1'>
 							{user.name}
