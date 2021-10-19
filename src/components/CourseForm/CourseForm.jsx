@@ -88,7 +88,10 @@ const CourseForm = ({ courses, authors, key }) => {
 	}
 
 	return (
-		<div className='alert alert-info border border-primary border-1 rounded-1 p-3 my-3'>
+		<div
+			data-testid='courseForm'
+			className='alert alert-info border border-primary border-1 rounded-1 p-3 my-3'
+		>
 			<div className='row mx-0'>
 				<div className='mb-3'>
 					<Link to='/courses'>
@@ -143,7 +146,7 @@ const CourseForm = ({ courses, authors, key }) => {
 							name={undefined}
 							text='Author name'
 						/>
-						<div className='col p-2 text-center'>
+						<div data-testid='addNewAuthor' className='col p-2 text-center'>
 							<Button
 								text='Create author'
 								clickHandler={saveAuthorClickHandler}
@@ -151,7 +154,7 @@ const CourseForm = ({ courses, authors, key }) => {
 							/>
 						</div>
 					</div>
-					<div className='col'>
+					<div data-testid='authorList' className='col'>
 						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2'>
 							Authors
 						</h5>
@@ -162,7 +165,7 @@ const CourseForm = ({ courses, authors, key }) => {
 										!courseAuthor.some((item) => author.id === item.id)
 								)
 								.map(({ name, id }) => (
-									<div className='row p-1' key={id}>
+									<div data-testid='allAuthor' className='row p-1' key={id}>
 										<div className='text-end col'>
 											<span>{name} </span>
 										</div>
@@ -211,7 +214,7 @@ const CourseForm = ({ courses, authors, key }) => {
 						<div>
 							{courseAuthor.length ? (
 								courseAuthor.map(({ name, id }) => (
-									<div className='row p-1' key={id}>
+									<div data-testid='coursesAuthor' className='row p-1' key={id}>
 										<div className='text-end col'>
 											<span>{name} </span>
 										</div>

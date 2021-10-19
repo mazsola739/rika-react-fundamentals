@@ -1,1 +1,1 @@
-export const displayDate = (date) => date.replaceAll('/', '.');
+export const displayDate = (date) => date.replace(/\//g, '.');

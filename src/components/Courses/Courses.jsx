@@ -28,13 +28,15 @@ const Courses = ({ courses: allCourses, authors, user }) => {
 					</div>
 					<div className='col-sm-4 d-flex justify-content-end'>
 						{isAdmin ? (
-							<Link to='/courses/add'>
-								<Button
-									text='Add new course'
-									icon={undefined}
-									clickHandler={undefined}
-								/>
-							</Link>
+							<div data-testid='addButton'>
+								<Link to='/courses/add'>
+									<Button
+										text='Add new course'
+										icon={undefined}
+										clickHandler={undefined}
+									/>
+								</Link>
+							</div>
 						) : (
 							<></>
 						)}

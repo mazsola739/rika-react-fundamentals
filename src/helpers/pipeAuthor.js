@@ -9,6 +9,6 @@ export const showAuthor = (authors, names) => {
 			return foundAuthor;
 		})
 		.join()
-		.replaceAll(',', ', ');
+		.replace(/,/g, ', ');
 	return authorList;
 };

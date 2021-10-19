@@ -7,6 +7,7 @@ import { pipeDuration } from 'helpers/pipeDuration';
 import { showAuthor } from 'helpers/pipeAuthor';
 import { useDispatch } from 'react-redux';
 import { deleteCourse } from 'store/courses/actionCreators';
+import { displayDate } from 'helpers/pipeDate';
 
 const CourseCard = ({
 	id,
@@ -27,6 +28,7 @@ const CourseCard = ({
 
 	return (
 		<div
+			data-testid='card'
 			style={{ maxHeight: '200px' }}
 			className='border border-info border-1 rounded-1 p-4 my-2'
 		>
@@ -63,7 +65,7 @@ const CourseCard = ({
 					<div className='row p-1'>
 						<span data-testid='created'>
 							<b>Created: </b>
-							{creationDate.replaceAll('/', '.')}
+							{displayDate(creationDate)}
 						</span>
 					</div>
 					<div className='col p-1' key={id}>

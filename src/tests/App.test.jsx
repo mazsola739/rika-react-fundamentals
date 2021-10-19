@@ -1,48 +1,93 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import App from 'App';
-import CourseCard from 'components/CourseCard/CourseCard';
+import { createStoreForTesting } from 'App';
 import CourseForm from 'components/CourseForm/CourseForm';
 import Courses from 'components/Courses/Courses';
 import Header from 'components/Header/Header';
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import PrivateRoute from 'components/PrivateRouter/PrivateRouter';
 
 describe(`Rika's App`, () => {
 	afterEach(() => {
 		cleanup();
 	});
 
+	const TEST_USER = {
+		isAuth: true,
+		name: 'Admin',
+		email: 'admin@email.com',
+		token: 'test-token',
+	};
+	const TEST_COURSE1 = {
+		id: 'courseId1',
+		title: 'courseTitle',
+		creationDate: 'courseCreationDate',
+		description: 'courseDescription',
+		authors: ['authorId1', 'authorId2'],
+		duration: 42,
+	};
+	const TEST_AUTHOR1 = {
+		name: 'author1',
+		id: 'authorId1',
+	};
+	const TEST_AUTHOR2 = {
+		name: 'author2',
+		id: 'authorId2',
+	};
+
+	const store = createStoreForTesting({
+		user: TEST_USER,
+		authors: [TEST_AUTHOR1, TEST_AUTHOR2],
+		courses: [TEST_COURSE1],
+	});
+
 	describe('Header', () => {
 		beforeEach(() => {
 			render(
-				<App>
-					<Header isAuthenticated={undefined} />
-				</App>
+				<Provider store={store}>
+					<BrowserRouter>
+						<Header />
+					</BrowserRouter>
+				</Provider>
 			);
 		});
 
 		it('should have logo', () => {
-			const logo = screen.getByTestId('logo');
-			expect(logo).toBeInTheDocument();
-			expect(logo).toHaveTextContent('Courses');
+			const logoElement = screen.getByTestId('logo');
+			expect(logoElement).toBeInTheDocument();
+			expect(logoElement).toHaveTextContent('Courses');
 		});
 
 		it('should display button and name.', () => {
-			expect(true).toBe(true);
+			const userNameElement = screen.getByTestId('name');
+			const buttonElement = screen.getByText('Logout');
+			expect(userNameElement).toHaveTextContent(TEST_USER.name);
+			expect(userNameElement).toBeInTheDocument();
+			expect(buttonElement).toBeInTheDocument();
 		});
 	});
 
 	describe('Courses', () => {
-		beforeAll(() => {
+		beforeEach(() => {
+			const isAuthenticated = () => true;
 			render(
-				<App>
-					<Courses />
-				</App>
+				<Provider store={store}>
+					<BrowserRouter>
+						<PrivateRoute
+							component={Courses}
+							isAuthenticated={isAuthenticated}
+						/>
+					</BrowserRouter>
+				</Provider>
 			);
 		});
 
 		it('should display amount of CourseCard equal length of courses array', () => {
-			expect(true).toBe(true);
+			const coursesLength = store.getState().courses.length;
+			const cardElement = screen.getAllByTestId('card');
+			expect(cardElement.length).toEqual(coursesLength);
 		});
 		it('should display Empty container if courses array length is empty', () => {
 			expect(true).toBe(true);
@@ -50,61 +95,94 @@ describe(`Rika's App`, () => {
 	});
 
 	describe('CourseCard', () => {
-		beforeAll(() => {
+		beforeEach(() => {
+			const isAuthenticated = () => true;
 			render(
-				<App>
-					<CourseCard isAdmin={true} />
-				</App>
+				<Provider store={store}>
+					<BrowserRouter>
+						<PrivateRoute
+							component={Courses}
+							isAuthenticated={isAuthenticated}
+						/>
+					</BrowserRouter>
+				</Provider>
 			);
 		});
 
 		it('should display title', () => {
-			expect(true).toBe(true);
+			const titleElement = screen.getByTestId('title');
+			expect(titleElement).toBeInTheDocument();
+			expect(titleElement).toHaveTextContent(TEST_COURSE1.title);
 		});
 
 		it('should display description', () => {
-			expect(true).toBe(true);
+			const descriptionElement = screen.getByTestId('description');
+			expect(descriptionElement).toBeInTheDocument();
+			expect(descriptionElement).toHaveTextContent(TEST_COURSE1.description);
 		});
 
 		it('should display piped duration', () => {
-			expect(true).toBe(true);
+			const durationElement = screen.getByTestId('duration');
+			expect(durationElement).toBeInTheDocument();
+			expect(durationElement).toHaveTextContent(`${TEST_COURSE1.duration}`);
 		});
 
 		it('should display authors list', () => {
-			expect(true).toBe(true);
+			const authorsElement = screen.getByTestId('authors');
+			expect(authorsElement).toBeInTheDocument();
 		});
 
 		it('should display created date', () => {
-			expect(true).toBe(true);
+			const creationDateElement = screen.getByTestId('created');
+			expect(creationDateElement).toBeInTheDocument();
+			expect(creationDateElement).toHaveTextContent(TEST_COURSE1.creationDate);
 		});
 	});
 
 	describe('CourseForm', () => {
-		beforeAll(() => {
+		beforeEach(() => {
+			const isAuthenticated = () => true;
 			render(
-				<App>
-					<CourseForm />
-				</App>
+				<Provider store={store}>
+					<BrowserRouter>
+						<PrivateRoute
+							component={Courses}
+							isAuthenticated={isAuthenticated}
+						/>
+						<PrivateRoute
+							component={CourseForm}
+							isAuthenticated={isAuthenticated}
+						/>
+					</BrowserRouter>
+				</Provider>
 			);
+			const addButtonElement = screen.getByTestId('addButton');
+			fireEvent.click(addButtonElement);
 		});
 
 		it('should show after a click on a button "Add new course"', () => {
-			expect(true).toBe(true);
+			const courseFormElement = screen.getByTestId('courseForm');
+			expect(courseFormElement).toBeInTheDocument();
 		});
 
 		it('should show authors list', () => {
-			expect(true).toBe(true);
+			const authorListElement = screen.getByTestId('authorList');
+			expect(authorListElement).toBeInTheDocument();
 		});
 
 		it('add an author to all authors list', () => {
-			expect(true).toBe(true);
+			const addNewAuthorElement = screen.getByTestId('addNewAuthor');
+			const allAuthors = screen.getAllByTestId('allAuthor');
+
+			fireEvent.click(addNewAuthorElement);
 		});
 
 		it('add an author to course authors list', () => {
-			expect(true).toBe(true);
+			const allAuthors = screen.getAllByTestId('allAuthor');
 		});
 
 		it('delete an author from course authors list', () => {
+			//const coursesAuthor = screen.getAllByTestId('coursesAuthor');
 			expect(true).toBe(true);
 		});
 	});

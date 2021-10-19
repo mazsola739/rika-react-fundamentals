@@ -18,7 +18,10 @@ import rootReducer from './store/index';
 import { Provider } from 'react-redux';
 
 const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
-const store = createStore(rootReducer, composedEnhancer);
+const store = createStore(rootReducer, {}, composedEnhancer);
+
+export const createStoreForTesting = (initialStore) =>
+	createStore(rootReducer, initialStore, composedEnhancer);
 
 const App = () => {
 	const dispatch = store.dispatch;
@@ -35,7 +38,7 @@ const App = () => {
 		<Provider store={store}>
 			<div className='App container py-4'>
 				<BrowserRouter>
-					<Header isAuthenticated={isAuthenticated} />
+					<Header />
 					<Switch>
 						<Route path='/login' exact component={Login} />
 						<Route path='/registration' exact component={Registration} />
