@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import CourseCard from '../CourseCard/CourseCard';
-import Button from '../Button/Button';
-import Search from '../Search/Search';
 import { connect } from 'react-redux';
 import { useState } from 'react';
+
+import SearchBar from './components/SearchBar/SearchBar';
+import Button from 'common/Button/Button';
+import CourseCard from './components/CourseCard/CourseCard';
 
 const Courses = ({ courses: allCourses, authors, user }) => {
 	const [courses, setCourses] = useState(allCourses);
@@ -20,7 +21,7 @@ const Courses = ({ courses: allCourses, authors, user }) => {
 			<div className=' py-2'>
 				<div className='row'>
 					<div className='col-sm-8'>
-						<Search
+						<SearchBar
 							getFilteredCourses={(filteredCourses) => {
 								setCourses(filteredCourses);
 							}}
@@ -28,7 +29,7 @@ const Courses = ({ courses: allCourses, authors, user }) => {
 					</div>
 					<div className='col-sm-4 d-flex justify-content-end'>
 						{isAdmin ? (
-							<div data-testid='addButton'>
+							<div data-testid='addCourseButton'>
 								<Link to='/courses/add'>
 									<Button
 										text='Add new course'

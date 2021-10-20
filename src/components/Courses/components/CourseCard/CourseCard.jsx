@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import './CourseCard.css';
-import Button from '../Button/Button';
-import { pipeDuration } from 'helpers/pipeDuration';
-import { showAuthor } from 'helpers/pipeAuthor';
 import { useDispatch } from 'react-redux';
+
+import './CourseCard.css';
+import Button from 'common/Button/Button';
 import { deleteCourse } from 'store/courses/actionCreators';
-import { displayDate } from 'helpers/pipeDate';
+import { showAuthor } from 'helpers/displayAuthor';
+import { pipeDuration } from 'helpers/pipeDuration';
+import { displayDate } from 'helpers/dateGenerator';
 
 const CourseCard = ({
 	id,
@@ -49,7 +50,7 @@ const CourseCard = ({
 				<div className='col-sm-4'>
 					<div className='row p-1'>
 						<span
-							data-testid='authors'
+							data-testid='authorsList'
 							className='author'
 							title={`${showAuthor(authors, authorNames)}`}
 						>

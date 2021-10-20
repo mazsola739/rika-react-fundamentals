@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { Link, Redirect, useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
-import PropTypes from 'prop-types';
-import Input from '../Input/Input';
-import Button from '../Button/Button';
-import { pipeDuration } from 'helpers/pipeDuration';
 import { connect, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
+
+import Button from 'common/Button/Button';
+import Input from 'common/Input/Input';
+import { pipeDuration } from 'helpers/pipeDuration';
 import { addCourse, updateCourse } from 'store/courses/actionCreators';
 import { addAuthor } from 'store/authors/actionCreators';
 import { AuthorList, CourseAuthorList } from './AuthorList';

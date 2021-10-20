@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from 'components/Button/Button';
+import Button from 'common/Button/Button';
 
 export const AuthorList = ({ authors, courseAuthor, setCourseAuthor }) => {
 	//const addNewAuthorToCourse = ;

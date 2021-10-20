@@ -9,11 +9,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import PrivateRoute from 'components/PrivateRouter/PrivateRouter';
 
-describe(`Rika's App`, () => {
-	afterEach(() => {
-		cleanup();
-	});
+afterAll(() => {
+	cleanup();
+});
 
+describe(`Rika's App`, () => {
 	const TEST_USER = {
 		isAuth: true,
 		name: 'Admin',
@@ -90,7 +90,9 @@ describe(`Rika's App`, () => {
 			expect(cardElement.length).toEqual(coursesLength);
 		});
 		it('should display Empty container if courses array length is empty', () => {
-			expect(true).toBe(true);
+			const coursesLength = store.getState().courses.length;
+			const cardElement = screen.getAllByTestId('card');
+			expect(cardElement.length).toEqual(coursesLength);
 		});
 	});
 
@@ -128,7 +130,7 @@ describe(`Rika's App`, () => {
 		});
 
 		it('should display authors list', () => {
-			const authorsElement = screen.getByTestId('authors');
+			const authorsElement = screen.getByTestId('authorsList');
 			expect(authorsElement).toBeInTheDocument();
 		});
 
@@ -156,11 +158,8 @@ describe(`Rika's App`, () => {
 					</BrowserRouter>
 				</Provider>
 			);
-			const addButtonElement = screen.getByTestId('addButton');
-			fireEvent.click(addButtonElement);
-			const testBeforeClickAuthor = screen.getByTestId(TEST_AUTHOR1.id);
-			expect(testBeforeClickAuthor).toHaveTextContent('Add Author');
-			fireEvent.click(testBeforeClickAuthor);
+			const addCourseButtonElement = screen.getByTestId('addCourseButton');
+			fireEvent.click(addCourseButtonElement);
 		});
 
 		it('should show after a click on a button "Add new course"', () => {
@@ -178,14 +177,15 @@ describe(`Rika's App`, () => {
 			fireEvent.click(addNewAuthorElement);
 		});
 		it('add an author to course authors list', () => {
-			//const testAfterClickAuthor = screen.getByTestId(TEST_AUTHOR1.id);
-			//expect(testAfterClickAuthor).toHaveTextContent('Delete Author');
-			expect(true).toBe(true);
+			const addToCourseButtonElement = screen.getByTestId(`${TEST_AUTHOR1.id}`);
+			fireEvent.click(addToCourseButtonElement);
 		});
 
 		it('delete an author from course authors list', () => {
-			//const coursesAuthor = screen.getAllByTestId('coursesAuthor');
-			expect(true).toBe(true);
+			const deleteFromCourseButtonElement = screen.getByTestId(
+				`${TEST_AUTHOR1.id}`
+			);
+			fireEvent.click(deleteFromCourseButtonElement);
 		});
 	});
 });

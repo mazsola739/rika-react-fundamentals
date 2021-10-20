@@ -1,8 +1,8 @@
-import coursesReducer from '../reducer';
+import coursesReducer from '../courses/reducer';
 import '@testing-library/jest-dom/extend-expect';
 import { cleanup } from '@testing-library/react';
 import { any } from 'prop-types';
-import { ADD_COURSE, GET_COURSES } from '../actionTypes';
+import { ADD_COURSE, GET_COURSES } from '../courses/actionTypes';
 
 afterEach(() => {
 	cleanup();

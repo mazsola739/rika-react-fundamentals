@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
-import Input from '../Input/Input';
-import Button from 'components/Button/Button';
+
+import Input from 'common/Input/Input';
+import Button from 'common/Button/Button';
 import { registerThunk } from 'store/user/thunk';
 
 const Registration = () => {

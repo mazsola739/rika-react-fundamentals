@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from '../Input/Input';
-import Button from '../Button/Button';
 import { connect } from 'react-redux';
+
+import Input from 'common/Input/Input';
+import Button from 'common/Button/Button';
 
 const isCourseMatch = (course, filterText) =>
 	course.toUpperCase().indexOf(filterText) >= 0;
