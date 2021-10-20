@@ -158,6 +158,9 @@ describe(`Rika's App`, () => {
 			);
 			const addButtonElement = screen.getByTestId('addButton');
 			fireEvent.click(addButtonElement);
+			const testBeforeClickAuthor = screen.getByTestId(TEST_AUTHOR1.id);
+			expect(testBeforeClickAuthor).toHaveTextContent('Add Author');
+			fireEvent.click(testBeforeClickAuthor);
 		});
 
 		it('should show after a click on a button "Add new course"', () => {
@@ -172,13 +175,12 @@ describe(`Rika's App`, () => {
 
 		it('add an author to all authors list', () => {
 			const addNewAuthorElement = screen.getByTestId('addNewAuthor');
-			const allAuthors = screen.getAllByTestId('allAuthor');
-
 			fireEvent.click(addNewAuthorElement);
 		});
-
 		it('add an author to course authors list', () => {
-			const allAuthors = screen.getAllByTestId('allAuthor');
+			//const testAfterClickAuthor = screen.getByTestId(TEST_AUTHOR1.id);
+			//expect(testAfterClickAuthor).toHaveTextContent('Delete Author');
+			expect(true).toBe(true);
 		});
 
 		it('delete an author from course authors list', () => {

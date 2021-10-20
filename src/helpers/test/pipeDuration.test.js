@@ -1,4 +1,9 @@
+import { cleanup } from '@testing-library/react';
 import { pipeDuration } from '../pipeDuration';
+
+afterEach(() => {
+	cleanup();
+});
 
 describe('Duration', () => {
 	test('should return correct duration format', () => {

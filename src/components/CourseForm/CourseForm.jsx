@@ -8,6 +8,7 @@ import { pipeDuration } from 'helpers/pipeDuration';
 import { connect, useDispatch } from 'react-redux';
 import { addCourse, updateCourse } from 'store/courses/actionCreators';
 import { addAuthor } from 'store/authors/actionCreators';
+import { AuthorList, CourseAuthorList } from './AuthorList';
 
 const CourseForm = ({ courses, authors, key }) => {
 	const [finished, setFinished] = useState(false);
@@ -42,7 +43,7 @@ const CourseForm = ({ courses, authors, key }) => {
 			dispatch(addAuthor(newAuthor));
 		}
 	};
-	const saveCourseClickHandler = async (e) => {
+	const saveCourseClickHandler = (e) => {
 		e.preventDefault();
 		const title = titleInput.current.value;
 		const description = descriptionInput.current.value;
@@ -69,7 +70,7 @@ const CourseForm = ({ courses, authors, key }) => {
 			};
 
 			editCourse
-				? await dispatch(updateCourse(newCourse))
+				? dispatch(updateCourse(newCourse))
 				: dispatch(addCourse(newCourse));
 
 			setFinished(true);
@@ -159,33 +160,11 @@ const CourseForm = ({ courses, authors, key }) => {
 							Authors
 						</h5>
 						<div className='p-2'>
-							{authors
-								.filter(
-									(author) =>
-										!courseAuthor.some((item) => author.id === item.id)
-								)
-								.map(({ name, id }) => (
-									<div data-testid='allAuthor' className='row p-1' key={id}>
-										<div className='text-end col'>
-											<span>{name} </span>
-										</div>
-										<div className='start col'>
-											<Button
-												text='Add Author'
-												clickHandler={() => {
-													setCourseAuthor((authors) => [
-														...authors,
-														{ name: name, id: id },
-													]);
-													authors.filter((author) =>
-														courseAuthor.includes(author.id)
-													);
-												}}
-												icon={undefined}
-											/>
-										</div>
-									</div>
-								))}
+							<AuthorList
+								authors={authors}
+								courseAuthor={courseAuthor}
+								setCourseAuthor={setCourseAuthor}
+							/>
 						</div>
 					</div>
 				</div>
@@ -212,32 +191,10 @@ const CourseForm = ({ courses, authors, key }) => {
 							Course authors
 						</h5>
 						<div>
-							{courseAuthor.length ? (
-								courseAuthor.map(({ name, id }) => (
-									<div data-testid='coursesAuthor' className='row p-1' key={id}>
-										<div className='text-end col'>
-											<span>{name} </span>
-										</div>
-										<div className='start col'>
-											<Button
-												text='Delete Author'
-												clickHandler={() =>
-													setCourseAuthor((prevCourseAuthors) =>
-														prevCourseAuthors.filter((item) => id !== item.id)
-													)
-												}
-												icon={undefined}
-											/>
-										</div>
-									</div>
-								))
-							) : (
-								<div className='text-center'>
-									<em>
-										<small>Author list is empty</small>
-									</em>
-								</div>
-							)}
+							<CourseAuthorList
+								courseAuthor={courseAuthor}
+								setCourseAuthor={setCourseAuthor}
+							/>
 						</div>
 					</div>
 				</div>
