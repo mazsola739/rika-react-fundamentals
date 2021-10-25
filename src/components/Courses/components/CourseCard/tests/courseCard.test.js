@@ -1,13 +1,15 @@
 import React from 'react';
-import { cleanup, render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import { pipeDuration } from 'helpers/pipeDuration';
-import { displayDate } from 'helpers/dateGenerator';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+
+import { displayDate, pipeDuration } from 'helpers';
+
 import PrivateRoute from 'components/PrivateRouter/PrivateRouter';
-import Courses from 'components/Courses/Courses';
 import { createStoreForTesting } from 'App';
+import { Courses } from 'components';
 
 const TEST_USER = {
 	isAuth: true,
@@ -68,7 +70,7 @@ describe('CourseCard', () => {
 	});
 
 	it('should display authors list', () => {
-		const authorsElement = screen.getByTestId('authorsList');
+		const authorsElement = screen.getByTestId('authors');
 		expect(authorsElement).toBeInTheDocument();
 	});
 

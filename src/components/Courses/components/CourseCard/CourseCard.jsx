@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 
 import './CourseCard.css';
-import Button from 'common/Button/Button';
+import { Button } from 'common';
+
 import { deleteCourse } from 'store/courses/actionCreators';
-import { showAuthor } from 'helpers/displayAuthor';
-import { pipeDuration } from 'helpers/pipeDuration';
-import { displayDate } from 'helpers/dateGenerator';
+import { displayDate, pipeDuration, showAuthor } from 'helpers';
 
 const CourseCard = ({
 	id,
@@ -29,7 +28,7 @@ const CourseCard = ({
 
 	return (
 		<div
-			data-testid='card'
+			data-testid={id}
 			style={{ maxHeight: '200px' }}
 			className='border border-info border-1 rounded-1 p-4 my-2'
 		>
@@ -50,7 +49,7 @@ const CourseCard = ({
 				<div className='col-sm-4'>
 					<div className='row p-1'>
 						<span
-							data-testid='authorsList'
+							data-testid='authors'
 							className='author'
 							title={`${showAuthor(authors, authorNames)}`}
 						>

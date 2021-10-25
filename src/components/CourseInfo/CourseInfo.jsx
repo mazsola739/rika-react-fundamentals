@@ -2,10 +2,9 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Button from 'common/Button/Button';
-import { pipeDuration } from 'helpers/pipeDuration';
-import { displayDate } from 'helpers/dateGenerator';
-import { showAuthor } from 'helpers/displayAuthor';
+
+import { Button } from 'common';
+import { displayDate, pipeDuration, showAuthor } from 'helpers';
 
 const CourseInfo = ({ courses, authors }) => {
 	const pathParam = useParams();

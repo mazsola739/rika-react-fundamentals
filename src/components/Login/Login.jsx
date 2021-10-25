@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 
-import Input from 'common/Input/Input';
-import Button from 'common/Button/Button';
+import { Button, Input } from 'common';
 import { loginThunk } from 'store/user/thunk';
 
 const Login = ({ user }) => {

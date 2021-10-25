@@ -2,20 +2,24 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import PrivateRoute from 'components/PrivateRouter/PrivateRouter';
 import PropTypes from 'prop-types';
-import './App.css';
-import CourseInfo from 'components/CourseInfo/CourseInfo';
-import Courses from './components/Courses/Courses';
-import CourseForm from './components/CourseForm/CourseForm';
-import Header from './components/Header/Header';
-import Login from './components/Login/Login';
-import Registration from './components/Registration/Registration';
-import { getAuthors } from 'store/authors/actionCreators';
-import { getCourses } from 'store/courses/actionCreators';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import rootReducer from './store/index';
 import { Provider } from 'react-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+
+import './App.css';
+import {
+	CourseForm,
+	CourseInfo,
+	Courses,
+	Header,
+	Login,
+	Registration,
+} from 'components';
+
+import rootReducer from './store/index';
+import { getAuthors } from 'store/authors/actionCreators';
+import { getCourses } from 'store/courses/actionCreators';
 
 const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware));
 const store = createStore(rootReducer, {}, composedEnhancer);

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 
-import Button from 'common/Button/Button';
 import Logo from './components/Logo/Logo';
+import { Button } from 'common';
 import { userLogout } from 'store/user/actionCreators';
 
 const Header = ({ user }) => {

@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 
-import Input from 'common/Input/Input';
-import Button from 'common/Button/Button';
+import { Button, Input } from 'common';
 import { registerThunk } from 'store/user/thunk';
 
 const Registration = () => {

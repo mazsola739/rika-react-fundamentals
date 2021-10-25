@@ -4,8 +4,8 @@ import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
-import Button from 'common/Button/Button';
-import Input from 'common/Input/Input';
+import { Button, Input } from '../../common/index';
+
 import { pipeDuration } from 'helpers/pipeDuration';
 import { addCourse, updateCourse } from 'store/courses/actionCreators';
 import { addAuthor } from 'store/authors/actionCreators';
@@ -139,7 +139,6 @@ const CourseForm = ({ courses, authors, key }) => {
 						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2 mb-3'>
 							Add Authors
 						</h5>
-
 						<Input
 							ref={authorInput}
 							placeholderText='Enter author name...'

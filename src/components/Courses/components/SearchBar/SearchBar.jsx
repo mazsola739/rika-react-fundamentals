@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Input from 'common/Input/Input';
-import Button from 'common/Button/Button';
+import { Button, Input } from 'common';
 
 const isCourseMatch = (course, filterText) =>
 	course.toUpperCase().indexOf(filterText) >= 0;

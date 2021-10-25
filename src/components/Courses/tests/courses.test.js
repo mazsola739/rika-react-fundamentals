@@ -1,13 +1,13 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import { createStoreForTesting } from 'App';
-
-import Courses from 'components/Courses/Courses';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import { createStoreForTesting } from 'App';
+
 import PrivateRoute from 'components/PrivateRouter/PrivateRouter';
-import CourseForm from 'components/CourseForm/CourseForm';
+import { CourseForm, Courses } from 'components';
 
 const TEST_USER = {
 	isAuth: true,
@@ -31,14 +31,45 @@ const TEST_AUTHOR2 = {
 	name: 'author2',
 	id: 'authorId2',
 };
-const store = createStoreForTesting({
+let store = createStoreForTesting({
 	user: TEST_USER,
 	authors: [TEST_AUTHOR1, TEST_AUTHOR2],
 	courses: [TEST_COURSE1],
 });
 
+const testRendering = (store) => {
+	const isAuthenticated = () => true;
+	render(
+		<Provider store={store}>
+			<BrowserRouter>
+				<PrivateRoute component={Courses} isAuthenticated={isAuthenticated} />
+			</BrowserRouter>
+		</Provider>
+	);
+};
+afterEach(() => cleanup());
+
 describe('Courses', () => {
-	beforeEach(() => {
+	it('should display amount of CourseCard equal length of courses array', () => {
+		testRendering(store);
+		const coursesList = screen.getByTestId('cards');
+		const cardElement = screen.getByTestId(`${TEST_COURSE1.id}`);
+		expect(coursesList).toContainElement(cardElement);
+	});
+
+	it('should display Empty container if courses array length is 0', () => {
+		store = createStoreForTesting({});
+		testRendering(store);
+		const coursesList = screen.getByTestId('cards');
+		expect(coursesList).toBeEmptyDOMElement();
+	});
+
+	it(`CourseForm should be showed after a click on a button "Add new course"`, () => {
+		store = createStoreForTesting({
+			user: TEST_USER,
+			authors: [TEST_AUTHOR1, TEST_AUTHOR2],
+			courses: [TEST_COURSE1],
+		});
 		const isAuthenticated = () => true;
 		render(
 			<Provider store={store}>
@@ -51,21 +82,9 @@ describe('Courses', () => {
 				</BrowserRouter>
 			</Provider>
 		);
-	});
-	it('should display amount of CourseCard equal length of courses array', () => {
-		const coursesLength = store.getState().courses.length;
-		const cardElement = screen.getAllByTestId('card');
-	});
-
-	it('should display Empty container if courses array length is 0', () => {
-		const coursesLength = store.getState().courses.length;
-		const cardElement = screen.getAllByTestId('card');
-	});
-
-	it('`should be showed after a click on a button "Add new course"`', () => {
 		const addButtonElement = screen.getByTestId('addCourseButton');
 		fireEvent.click(addButtonElement);
-		const courseFormElement = screen.getByTestId('courseForm');
-		expect(courseFormElement).toBeInTheDocument();
+		const courseFormComponent = screen.getByTestId('courseForm');
+		expect(courseFormComponent).toBeInTheDocument();
 	});
 });

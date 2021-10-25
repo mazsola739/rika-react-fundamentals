@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from 'common/Button/Button';
+import { Button } from 'common';
 
 export const AuthorList = ({ authors, courseAuthor, setCourseAuthor }) => {
 	//const addNewAuthorToCourse = ;
@@ -11,11 +11,11 @@ export const AuthorList = ({ authors, courseAuthor, setCourseAuthor }) => {
 	};
 
 	return allAuthors(authors).map(({ name, id }) => (
-		<div data-testid={id} className='row p-1' key={id}>
+		<div className='row p-1' key={id}>
 			<div className='text-end col'>
 				<span>{name} </span>
 			</div>
-			<div className='start col'>
+			<div data-testid={id} className='start col'>
 				<Button
 					text='Add Author'
 					clickHandler={() => {
@@ -34,11 +34,11 @@ export const CourseAuthorList = ({ courseAuthor, setCourseAuthor }) => {
 
 	return courseAuthor.length ? (
 		courseAuthor.map(({ name, id }) => (
-			<div data-testid={id} className='row p-1' key={id}>
+			<div className='row p-1' key={id}>
 				<div className='text-end col'>
 					<span>{name} </span>
 				</div>
-				<div className='start col'>
+				<div data-testid={name} className='start col'>
 					<Button
 						text='Delete Author'
 						clickHandler={() => {

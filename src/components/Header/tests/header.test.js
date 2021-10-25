@@ -1,10 +1,12 @@
 import React from 'react';
-import Header from 'components/Header/Header';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import { cleanup, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
 import { createStoreForTesting } from 'App';
+import { Header } from 'components';
 
 const TEST_USER = {
 	isAuth: true,
@@ -48,17 +50,12 @@ describe('Header', () => {
 		);
 	});
 
-	it('should have logo', () => {
+	it(`should have logo and user's name`, () => {
 		const logoElement = screen.getByTestId('logo');
+		const userNameElement = screen.getByTestId('name');
 		expect(logoElement).toBeInTheDocument();
 		expect(logoElement).toHaveTextContent('Courses');
-	});
-
-	it('should display button and name.', () => {
-		const userNameElement = screen.getByTestId('name');
-		const buttonElement = screen.getByText('Logout');
 		expect(userNameElement).toHaveTextContent(TEST_USER.name);
 		expect(userNameElement).toBeInTheDocument();
-		expect(buttonElement).toBeInTheDocument();
 	});
 });

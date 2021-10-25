@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useState } from 'react';
 
-import SearchBar from './components/SearchBar/SearchBar';
-import Button from 'common/Button/Button';
-import CourseCard from './components/CourseCard/CourseCard';
+import { CourseCard, SearchBar } from 'components';
+import { Button } from 'common';
 
 const Courses = ({ courses: allCourses, authors, user }) => {
 	const [courses, setCourses] = useState(allCourses);
@@ -44,7 +43,7 @@ const Courses = ({ courses: allCourses, authors, user }) => {
 					</div>
 				</div>
 			</div>
-			<div className='row'>
+			<div data-testid='cards' className='row'>
 				{courses.map((course) => {
 					return (
 						<CourseCard
