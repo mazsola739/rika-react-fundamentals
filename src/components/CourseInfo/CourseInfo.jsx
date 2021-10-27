@@ -5,6 +5,13 @@ import PropTypes from 'prop-types';
 
 import { Button } from 'common';
 import { displayDate, pipeDuration, showAuthor } from 'helpers';
+import {
+	AUTHORS,
+	BACK_TO_THE_COURSE,
+	CREATED,
+	DURATION_,
+	ID,
+} from '../../constants';
 
 const CourseInfo = ({ courses, authors }) => {
 	const pathParam = useParams();
@@ -17,7 +24,7 @@ const CourseInfo = ({ courses, authors }) => {
 				<Button
 					size={{ width: '200px' }}
 					clickHandler={undefined}
-					text='&lt; Back to courses'
+					text={BACK_TO_THE_COURSE}
 					icon={undefined}
 				/>
 			</Link>
@@ -30,19 +37,19 @@ const CourseInfo = ({ courses, authors }) => {
 				</div>
 				<div className='col alert alert-info mx-3'>
 					<p>
-						<b>ID: </b>
+						<b>{ID}</b>
 						{thisCourse.id}
 					</p>
 					<p>
-						<b>Duration: </b>
+						<b>{DURATION_}</b>
 						{pipeDuration(thisCourse.duration)}
 					</p>
 					<p>
-						<b>Created: </b>
+						<b>{CREATED}</b>
 						{displayDate(thisCourse.creationDate)}
 					</p>
 					<p>
-						<b>Authors: </b>
+						<b>{AUTHORS}</b>
 						{showAuthor(thisCourse.authors, authors)}
 					</p>
 				</div>

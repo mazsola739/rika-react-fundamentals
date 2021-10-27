@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'common';
+import { ADD_AUTHOR, DELETE_AUTHOR } from '../../constants';
 
 export const AuthorList = ({ authors, courseAuthor, setCourseAuthor }) => {
 	//const addNewAuthorToCourse = ;
@@ -17,7 +18,7 @@ export const AuthorList = ({ authors, courseAuthor, setCourseAuthor }) => {
 			</div>
 			<div data-testid={id} className='start col'>
 				<Button
-					text='Add Author'
+					text={ADD_AUTHOR}
 					clickHandler={() => {
 						setCourseAuthor((authors) => [...authors, { name: name, id: id }]);
 						authors.filter((author) => courseAuthor.includes(author.id));
@@ -40,7 +41,7 @@ export const CourseAuthorList = ({ courseAuthor, setCourseAuthor }) => {
 				</div>
 				<div data-testid={name} className='start col'>
 					<Button
-						text='Delete Author'
+						text={DELETE_AUTHOR}
 						clickHandler={() => {
 							setCourseAuthor((prevCourseAuthors) =>
 								prevCourseAuthors.filter((item) => id !== item.id)

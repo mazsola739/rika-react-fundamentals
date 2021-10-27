@@ -6,6 +6,7 @@ import { connect, useDispatch } from 'react-redux';
 import Logo from './components/Logo/Logo';
 import { Button } from 'common';
 import { userLogout } from 'store/user/actionCreators';
+import { LOGOUT } from '../../constants';
 
 const Header = ({ user }) => {
 	const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const Header = ({ user }) => {
 						<div className='col d-flex justify-content-end'>
 							<Link to='/login'>
 								<Button
-									text='Logout'
+									text={LOGOUT}
 									clickHandler={logoutSubmit}
 									icon={undefined}
 								/>

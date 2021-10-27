@@ -4,6 +4,17 @@ import { Link, Redirect } from 'react-router-dom';
 
 import { Button, Input } from 'common';
 import { registerThunk } from 'store/user/thunk';
+import {
+	EMAIL,
+	EMAIL_PLACEHOLDER,
+	LOGIN_,
+	NAME,
+	NAME_PLACEHOLDER,
+	PASSWORD,
+	PASSWORD_PLACEHOLDER,
+	REGISTRATION,
+	REGISTRATION_PAGE,
+} from '../../constants';
 
 const Registration = () => {
 	const [newUser, setNewUser] = useState(false);
@@ -28,22 +39,22 @@ const Registration = () => {
 			<div className='d-flex justify-content-center'>
 				<form onSubmit={formOnSubmit}>
 					<Input
-						text='Name'
-						placeholderText='Enter name'
+						text={NAME}
+						placeholderText={NAME_PLACEHOLDER}
 						defaultValue={undefined}
 						changeHandler={undefined}
 						name='name'
 					/>
 					<Input
-						text='Email'
-						placeholderText='Enter email'
+						text={EMAIL}
+						placeholderText={EMAIL_PLACEHOLDER}
 						defaultValue={undefined}
 						changeHandler={undefined}
 						name='email'
 					/>
 					<Input
-						text='Password'
-						placeholderText='Enter password'
+						text={PASSWORD}
+						placeholderText={PASSWORD_PLACEHOLDER}
 						defaultValue={undefined}
 						changeHandler={undefined}
 						name='password'
@@ -53,15 +64,14 @@ const Registration = () => {
 					<br />
 					<div className='d-flex justify-content-center'>
 						<Button
-							text='Registration'
+							text={REGISTRATION}
 							clickHandler={undefined}
 							icon={undefined}
 						/>
 					</div>
 					<br />
 					<div className='col btn bg-info rounded-1'>
-						If you do have an account you can{' '}
-						<Link to='/login'>login &gt;</Link>.
+						{REGISTRATION_PAGE} <Link to='/login'>{LOGIN_}</Link>.
 					</div>
 				</form>
 			</div>

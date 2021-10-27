@@ -11,6 +11,22 @@ import { addCourse, updateCourse } from 'store/courses/actionCreators';
 import { addAuthor } from 'store/authors/actionCreators';
 import { AuthorList, CourseAuthorList } from './AuthorList';
 
+import {
+	BACK_TO_THE_COURSE,
+	TITLE_PLACEHOLDER,
+	TITLE,
+	UPDATE_COURSE,
+	CREATE_COURSE,
+	DESCRIPTION_PLACEHOLDER,
+	HEADER_ADD_AUTHORS,
+	AUTHOR_NAME_PLACEHOLDER,
+	CREATE_AUTHOR,
+	HEADER_AUTHORS,
+	DURATION,
+	DURATION_PLACEHOLDER,
+	HEADER_COURSE_AUTHORS,
+} from '../../constants';
+
 const CourseForm = ({ courses, authors, key }) => {
 	const [finished, setFinished] = useState(false);
 
@@ -34,6 +50,7 @@ const CourseForm = ({ courses, authors, key }) => {
 	const authorInput = useRef(null);
 
 	const saveAuthorClickHandler = (e) => {
+		debugger;
 		e.preventDefault();
 		const author = authorInput.current.value;
 
@@ -100,7 +117,7 @@ const CourseForm = ({ courses, authors, key }) => {
 						<Button
 							size={{ width: '200px' }}
 							clickHandler={undefined}
-							text='&lt; Back to courses'
+							text={BACK_TO_THE_COURSE}
 							icon={undefined}
 						/>
 					</Link>
@@ -108,17 +125,17 @@ const CourseForm = ({ courses, authors, key }) => {
 				<div className='col'>
 					<Input
 						ref={titleInput}
-						placeholderText='Enter title...'
+						placeholderText={TITLE_PLACEHOLDER}
 						changeHandler={undefined}
 						defaultValue={editCourse ? editCourse.title : ''}
 						name={undefined}
-						text='Title'
+						text={TITLE}
 					/>
 				</div>
 				<div className='col d-flex justify-content-end'>
 					<Button
 						clickHandler={saveCourseClickHandler}
-						text={editCourse ? 'Update course' : 'Create course'}
+						text={editCourse ? UPDATE_COURSE : CREATE_COURSE}
 						icon={undefined}
 					/>
 				</div>
@@ -130,26 +147,26 @@ const CourseForm = ({ courses, authors, key }) => {
 					defaultValue={editCourse ? editCourse.description : ''}
 					style={{ height: '100px' }}
 					className='border border-secondary border-1 form-control'
-					placeholder='Enter description'
+					placeholder={DESCRIPTION_PLACEHOLDER}
 				/>
 			</div>
 			<div className='bg-light border border-dark border-1 rounded-1 p-4 mx-2'>
 				<div className='row'>
-					<div className='col'>
+					<div className='col' data-testid='addAuthor'>
 						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2 mb-3'>
-							Add Authors
+							{HEADER_ADD_AUTHORS}
 						</h5>
 						<Input
 							ref={authorInput}
-							placeholderText='Enter author name...'
-							changeHandler={undefined}
+							placeholderText={AUTHOR_NAME_PLACEHOLDER}
 							defaultValue={''}
-							name={undefined}
-							text='Author name'
+							name='author_input'
+							changeHandler={undefined}
+							text={undefined}
 						/>
 						<div data-testid='addNewAuthor' className='col p-2 text-center'>
 							<Button
-								text='Create author'
+								text={CREATE_AUTHOR}
 								clickHandler={saveAuthorClickHandler}
 								icon={undefined}
 							/>
@@ -157,7 +174,7 @@ const CourseForm = ({ courses, authors, key }) => {
 					</div>
 					<div data-testid='authorList' className='col'>
 						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2'>
-							Authors
+							{HEADER_AUTHORS}
 						</h5>
 						<div className='p-2'>
 							<AuthorList
@@ -171,24 +188,24 @@ const CourseForm = ({ courses, authors, key }) => {
 				<div className='row'>
 					<div className='col'>
 						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2 mb-3'>
-							Duration
+							{DURATION}
 						</h5>
 						<Input
 							ref={durationInput}
 							type='number'
 							defaultValue={editCourse ? `${editCourse.duration}` : ''}
 							changeHandler={durationHandleChanger}
-							placeholderText='Enter duration in minutes...'
+							placeholderText={DURATION_PLACEHOLDER}
 							name={undefined}
-							text='Duration'
+							text={DURATION}
 						/>
 						<h4 className='text-center'>
-							Duration {pipeDuration(+durationValue)}
+							{DURATION} {pipeDuration(+durationValue)}
 						</h4>
 					</div>
 					<div className='col'>
 						<h5 className='text-center bg-info bg-opacity-20 rounded-1 p-2'>
-							Course authors
+							{HEADER_COURSE_AUTHORS}
 						</h5>
 						<div>
 							<CourseAuthorList
@@ -204,6 +221,7 @@ const CourseForm = ({ courses, authors, key }) => {
 };
 
 CourseForm.propTypes = {
+	courses: PropTypes.array,
 	authors: PropTypes.array,
 	key: PropTypes.any,
 };

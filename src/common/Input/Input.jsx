@@ -11,6 +11,7 @@ const Input = (
 				{text}
 			</div>
 			<input
+				data-testid='input'
 				ref={ref}
 				name={name}
 				defaultValue={defaultValue}

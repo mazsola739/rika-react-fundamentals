@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Button, Input } from 'common';
+import { SEARCH } from '../../../../constants';
 
 const isCourseMatch = (course, filterText) =>
 	course.toUpperCase().indexOf(filterText) >= 0;
@@ -39,13 +40,13 @@ const Search = ({ courses, getFilteredCourses }) => {
 					placeholderText='Enter course name or id...'
 					changeHandler={searchChangeHandler}
 					defaultValue={searchValue}
-					text='Search'
+					text={SEARCH}
 					name={undefined}
 				/>
 			</div>
 			<div className='col'>
 				<Button
-					text='Search'
+					text={SEARCH}
 					clickHandler={searchClickHandler}
 					icon={undefined}
 				/>

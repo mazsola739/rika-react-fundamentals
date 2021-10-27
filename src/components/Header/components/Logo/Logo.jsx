@@ -1,3 +1,4 @@
+import { COURSES } from '../../../../constants';
 import React from 'react';
 
 const Logo = () => {
@@ -7,7 +8,7 @@ const Logo = () => {
 			className='col fa fa-laptop'
 			style={{ fontSize: '48px' }}
 		>
-			Courses
+			{COURSES}
 		</div>
 	);
 };

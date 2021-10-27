@@ -5,6 +5,15 @@ import { connect, useDispatch } from 'react-redux';
 
 import { Button, Input } from 'common';
 import { loginThunk } from 'store/user/thunk';
+import {
+	EMAIL,
+	EMAIL_PLACEHOLDER,
+	LOGIN,
+	LOGIN_PAGE,
+	PASSWORD,
+	PASSWORD_PLACEHOLDER,
+	REGISTRATION_,
+} from '../../constants';
 
 const Login = ({ user }) => {
 	const dispatch = useDispatch();
@@ -29,15 +38,15 @@ const Login = ({ user }) => {
 			<div className='d-flex justify-content-center'>
 				<form onSubmit={formOnSubmit}>
 					<Input
-						text='Email'
-						placeholderText='Enter email'
+						text={EMAIL}
+						placeholderText={EMAIL_PLACEHOLDER}
 						changeHandler={undefined}
 						defaultValue={undefined}
 						name='email'
 					/>
 					<Input
-						text='Password'
-						placeholderText='Enter password'
+						text={PASSWORD}
+						placeholderText={PASSWORD_PLACEHOLDER}
 						type='password'
 						changeHandler={undefined}
 						defaultValue={undefined}
@@ -45,14 +54,13 @@ const Login = ({ user }) => {
 					/>
 					<br />
 					<div className='d-flex justify-content-center'>
-						<Button text='Login' clickHandler={undefined} icon={undefined} />
+						<Button text={LOGIN} clickHandler={undefined} icon={undefined} />
 					</div>
 
 					<br />
 
 					<div className='col btn bg-info rounded-1'>
-						If you not have an account you can register:{' '}
-						<Link to='/registration'>Registration &gt;</Link>
+						{LOGIN_PAGE} <Link to='/registration'>{REGISTRATION_}</Link>
 					</div>
 				</form>
 			</div>

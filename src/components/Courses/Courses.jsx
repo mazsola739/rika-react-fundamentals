@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 import { CourseCard, SearchBar } from 'components';
 import { Button } from 'common';
+import { ADD_NEW_COURSE } from '../../constants';
 
 const Courses = ({ courses: allCourses, authors, user }) => {
 	const [courses, setCourses] = useState(allCourses);
@@ -31,7 +32,7 @@ const Courses = ({ courses: allCourses, authors, user }) => {
 							<div data-testid='addCourseButton'>
 								<Link to='/courses/add'>
 									<Button
-										text='Add new course'
+										text={ADD_NEW_COURSE}
 										icon={undefined}
 										clickHandler={undefined}
 									/>

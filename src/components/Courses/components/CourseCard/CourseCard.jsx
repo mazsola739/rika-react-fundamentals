@@ -8,6 +8,12 @@ import { Button } from 'common';
 
 import { deleteCourse } from 'store/courses/actionCreators';
 import { displayDate, pipeDuration, showAuthor } from 'helpers';
+import {
+	AUTHORS,
+	CREATED,
+	DURATION_,
+	SHOW_COURSE,
+} from '../../../../constants';
 
 const CourseCard = ({
 	id,
@@ -53,25 +59,25 @@ const CourseCard = ({
 							className='author'
 							title={`${showAuthor(authors, authorNames)}`}
 						>
-							<b>Authors: </b> {showAuthor(authors, authorNames)}
+							<b>{AUTHORS}</b> {showAuthor(authors, authorNames)}
 						</span>
 					</div>
 					<div className='row p-1'>
 						<span data-testid='duration'>
-							<b>Duration: </b>
+							<b>{DURATION_}</b>
 							{pipeDuration(duration)}
 						</span>
 					</div>
 					<div className='row p-1'>
 						<span data-testid='created'>
-							<b>Created: </b>
+							<b>{CREATED}</b>
 							{displayDate(creationDate)}
 						</span>
 					</div>
 					<div className='col p-1' key={id}>
 						<Link to={`/courses/${id}`}>
 							<Button
-								text='Show course'
+								text={SHOW_COURSE}
 								clickHandler={undefined}
 								icon={undefined}
 							/>
