@@ -13,7 +13,11 @@ export const createService = (resource) => {
 		login: async (userData) => {
 			const { data: answer } = await apiService.post(`/login`, userData);
 			localStorage.setItem('token', answer.result);
+			const { data: userRole } = await apiService.get('/users/me', {
+				headers: { Authorization: getToken() },
+			});
 			apiService = getApiService(resource, answer.result);
+			answer.user.role = userRole.result.role;
 			return answer;
 		},
 		logout: async () =>

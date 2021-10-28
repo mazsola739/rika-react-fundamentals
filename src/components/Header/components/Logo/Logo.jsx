@@ -1,4 +1,4 @@
-import { COURSES } from '../../../../constants';
+import { COURSES } from '../../../../utils/constants';
 import React from 'react';
 
 const Logo = () => {

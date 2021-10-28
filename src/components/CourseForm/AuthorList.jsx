@@ -1,15 +1,20 @@
 import React from 'react';
 import { Button } from 'common';
-import { ADD_AUTHOR, DELETE_AUTHOR } from '../../constants';
+import { ADD_AUTHOR, DELETE_AUTHOR } from '../../utils/constants';
 
 export const AuthorList = ({ authors, courseAuthor, setCourseAuthor }) => {
-	//const addNewAuthorToCourse = ;
+	/* const addNewAuthorToCourse = () => {
+		setCourseAuthor((authors) => [...authors, { name: name, id: id }]);
+		authors.filter((author) => courseAuthor.includes(author.id));
+	}; */
 
-	const allAuthors = (authorList) => {
-		return authorList.filter(
-			(author) => !courseAuthor.some((item) => author.id === item.id)
-		);
-	};
+	const selectAuthor = (author) =>
+		courseAuthor.some((auth) => author.id === auth.id);
+	const allAuthors = (authorList) =>
+		authorList.filter((author) => !selectAuthor(author));
+
+	const filteredAuthors = (authors) =>
+		authors.filter((author) => courseAuthor.includes(author.id));
 
 	return allAuthors(authors).map(({ name, id }) => (
 		<div className='row p-1' key={id}>
@@ -21,7 +26,7 @@ export const AuthorList = ({ authors, courseAuthor, setCourseAuthor }) => {
 					text={ADD_AUTHOR}
 					clickHandler={() => {
 						setCourseAuthor((authors) => [...authors, { name: name, id: id }]);
-						authors.filter((author) => courseAuthor.includes(author.id));
+						filteredAuthors(authors);
 					}}
 					icon={undefined}
 				/>
@@ -31,7 +36,11 @@ export const AuthorList = ({ authors, courseAuthor, setCourseAuthor }) => {
 };
 
 export const CourseAuthorList = ({ courseAuthor, setCourseAuthor }) => {
-	//const deleteAuthorFromCourse = ;
+	/* const deleteAuthorFromCourse = () => {
+		setCourseAuthor((prevCourseAuthors) =>
+			prevCourseAuthors.filter((item) => id !== item.id)
+		);
+	}; */
 
 	return courseAuthor.length ? (
 		courseAuthor.map(({ name, id }) => (

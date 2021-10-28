@@ -6,11 +6,11 @@ import { useState } from 'react';
 
 import { CourseCard, SearchBar } from 'components';
 import { Button } from 'common';
-import { ADD_NEW_COURSE } from '../../constants';
+import { ADD_NEW_COURSE } from '../../utils/constants';
 
 const Courses = ({ courses: allCourses, authors, user }) => {
 	const [courses, setCourses] = useState(allCourses);
-	const isAdmin = user.email === 'admin@email.com';
+	const isAdmin = user.role === 'admin';
 
 	useEffect(() => {
 		setCourses(allCourses);

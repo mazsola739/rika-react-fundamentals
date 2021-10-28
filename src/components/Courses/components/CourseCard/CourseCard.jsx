@@ -13,7 +13,7 @@ import {
 	CREATED,
 	DURATION_,
 	SHOW_COURSE,
-} from '../../../../constants';
+} from '../../../../utils/constants';
 
 const CourseCard = ({
 	id,

@@ -6,7 +6,7 @@ import { connect, useDispatch } from 'react-redux';
 import Logo from './components/Logo/Logo';
 import { Button } from 'common';
 import { userLogout } from 'store/user/actionCreators';
-import { LOGOUT } from '../../constants';
+import { LOGOUT } from '../../utils/constants';
 
 const Header = ({ user }) => {
 	const dispatch = useDispatch();

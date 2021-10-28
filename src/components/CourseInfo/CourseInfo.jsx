@@ -11,7 +11,7 @@ import {
 	CREATED,
 	DURATION_,
 	ID,
-} from '../../constants';
+} from '../../utils/constants';
 
 const CourseInfo = ({ courses, authors }) => {
 	const pathParam = useParams();

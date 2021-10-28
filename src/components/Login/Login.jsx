@@ -13,7 +13,7 @@ import {
 	PASSWORD,
 	PASSWORD_PLACEHOLDER,
 	REGISTRATION_,
-} from '../../constants';
+} from '../../utils/constants';
 
 const Login = ({ user }) => {
 	const dispatch = useDispatch();

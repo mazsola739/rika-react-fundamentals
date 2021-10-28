@@ -25,7 +25,7 @@ import {
 	DURATION,
 	DURATION_PLACEHOLDER,
 	HEADER_COURSE_AUTHORS,
-} from '../../constants';
+} from '../../utils/constants';
 
 const CourseForm = ({ courses, authors, key }) => {
 	const [finished, setFinished] = useState(false);
@@ -50,8 +50,8 @@ const CourseForm = ({ courses, authors, key }) => {
 	const authorInput = useRef(null);
 
 	const saveAuthorClickHandler = (e) => {
-		debugger;
 		e.preventDefault();
+
 		const author = authorInput.current.value;
 
 		if (author.length >= 2) {
@@ -61,6 +61,7 @@ const CourseForm = ({ courses, authors, key }) => {
 			dispatch(addAuthor(newAuthor));
 		}
 	};
+
 	const saveCourseClickHandler = (e) => {
 		e.preventDefault();
 		const title = titleInput.current.value;
@@ -94,6 +95,7 @@ const CourseForm = ({ courses, authors, key }) => {
 			setFinished(true);
 		}
 	};
+
 	const [durationValue, setDurationValue] = useState(
 		editCourse ? editCourse.duration : ''
 	);

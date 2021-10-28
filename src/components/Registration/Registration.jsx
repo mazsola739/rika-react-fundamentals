@@ -14,7 +14,7 @@ import {
 	PASSWORD_PLACEHOLDER,
 	REGISTRATION,
 	REGISTRATION_PAGE,
-} from '../../constants';
+} from '../../utils/constants';
 
 const Registration = () => {
 	const [newUser, setNewUser] = useState(false);

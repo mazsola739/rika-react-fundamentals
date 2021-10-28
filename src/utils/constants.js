@@ -41,5 +41,3 @@ export const LOGIN_PAGE = 'If you not have an account you can register:';
 export const REGISTRATION_ = 'Registration >';
 export const REGISTRATION_PAGE = 'If you do have an account you can';
 export const LOGIN_ = 'login >';
-
-const getCourses = (state) => state.courses;

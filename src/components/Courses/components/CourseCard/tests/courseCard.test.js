@@ -1,55 +1,28 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { displayDate, pipeDuration } from 'helpers';
 
-import PrivateRoute from 'components/PrivateRouter/PrivateRouter';
-import { createStoreForTesting } from 'App';
 import { Courses } from 'components';
+import { mockedStore } from 'utils/forTesting';
+import { BrowserRouter, Route } from 'react-router-dom';
 
-const TEST_USER = {
-	isAuth: true,
-	name: 'Admin',
-	email: 'admin@email.com',
-	token: 'test-token',
+const testRendering = (mockedStore) => {
+	render(
+		<Provider store={mockedStore}>
+			<BrowserRouter>
+				<Route component={Courses} />
+			</BrowserRouter>
+		</Provider>
+	);
 };
-const TEST_COURSE1 = {
-	id: 'courseId1',
-	title: 'courseTitle',
-	creationDate: 'courseCreationDate',
-	description: 'courseDescription',
-	authors: ['authorId1', 'authorId2'],
-	duration: 42,
-};
-const TEST_AUTHOR1 = {
-	name: 'author1',
-	id: 'authorId1',
-};
-const TEST_AUTHOR2 = {
-	name: 'author2',
-	id: 'authorId2',
-};
-
-const store = createStoreForTesting({
-	user: TEST_USER,
-	authors: [TEST_AUTHOR1, TEST_AUTHOR2],
-	courses: [TEST_COURSE1],
-});
 
 describe('CourseCard', () => {
 	beforeEach(() => {
-		const isAuthenticated = () => true;
-		render(
-			<Provider store={store}>
-				<BrowserRouter>
-					<PrivateRoute component={Courses} isAuthenticated={isAuthenticated} />
-				</BrowserRouter>
-			</Provider>
-		);
+		testRendering(mockedStore);
 	});
 
 	it('should display title', () => {

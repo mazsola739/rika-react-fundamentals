@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Button, Input } from 'common';
-import { SEARCH } from '../../../../constants';
+import { SEARCH } from '../../../../utils/constants';
 
 const isCourseMatch = (course, filterText) =>
 	course.toUpperCase().indexOf(filterText) >= 0;
