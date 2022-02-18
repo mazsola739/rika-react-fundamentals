@@ -25,8 +25,7 @@ describe('CourseForm', () => {
 		render(
 			<Provider
 				// @ts-ignore
-				store={mockedStore}
-			>
+				store={mockedStore}>
 				<BrowserRouter>
 					<PrivateRoute component={CourseForm} isAdmin={isAdmin} />
 				</BrowserRouter>
