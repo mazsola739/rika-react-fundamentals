@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router'
 import { getBrowserApi } from '../api/client.ts'
+import { ExternalLink } from '../common/ExternalLink.tsx'
 import { PORTFOLIO_URL, REPO_URL, SERVER_URL } from '../site.ts'
 import { fetchAuthors } from '../store/authorsSlice.ts'
 import { fetchCourses } from '../store/coursesSlice.ts'
@@ -29,12 +30,12 @@ export function Footer() {
         <Link to="/about" className={linkClass}>
           About
         </Link>
-        <a href={REPO_URL} className={linkClass}>
+        <ExternalLink href={REPO_URL} className={linkClass}>
           Code
-        </a>
-        <a href={PORTFOLIO_URL} className={linkClass}>
+        </ExternalLink>
+        <ExternalLink href={PORTFOLIO_URL} className={linkClass}>
           Portfolio
-        </a>
+        </ExternalLink>
         {!SERVER_URL && (
           <button type="button" onClick={resetData} className={`cursor-pointer ${linkClass}`}>
             Reset demo data

@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { ExternalLink } from '../common/ExternalLink.tsx'
 import { Panel } from '../common/ui.tsx'
 import { DEMO_ACCOUNTS, PORTFOLIO_URL, REPO_URL, taskSheetUrl } from '../site.ts'
 
@@ -103,13 +104,13 @@ export function About() {
                   <ul className="flex flex-wrap gap-x-3">
                     {sheets.map(([label, file]) => (
                       <li key={file}>
-                        <a
+                        <ExternalLink
                           href={taskSheetUrl(file)}
                           className={linkClass}
                           aria-label={`Week ${week} ${label} (PDF)`}
                         >
                           {label}
-                        </a>
+                        </ExternalLink>
                       </li>
                     ))}
                   </ul>
@@ -138,15 +139,15 @@ export function About() {
       </ul>
 
       <p className="flex flex-wrap gap-x-6 gap-y-1">
-        <a href={REPO_URL} className={linkClass}>
+        <ExternalLink href={REPO_URL} className={linkClass}>
           Code on GitHub
-        </a>
-        <a href={`${REPO_URL}/tree/v2021`} className={linkClass}>
+        </ExternalLink>
+        <ExternalLink href={`${REPO_URL}/tree/v2021`} className={linkClass}>
           The code as I handed it in (2021)
-        </a>
-        <a href={PORTFOLIO_URL} className={linkClass}>
+        </ExternalLink>
+        <ExternalLink href={PORTFOLIO_URL} className={linkClass}>
           My portfolio
-        </a>
+        </ExternalLink>
       </p>
     </Panel>
   )

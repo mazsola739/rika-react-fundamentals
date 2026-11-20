@@ -137,10 +137,24 @@ describe('the courses app', () => {
   it('shows the About page without a login, and a 404 page for unknown addresses', async () => {
     const { router } = renderApp('/about')
     expect(await screen.findByRole('heading', { name: 'About this app' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Week 4 Task (PDF)' })).toHaveAttribute(
+    expect(
+      screen.getByRole('link', { name: 'Week 4 Task (PDF), opens in a new tab' }),
+    ).toHaveAttribute(
       'href',
       'https://github.com/mazsola739/rika-react-fundamentals/blob/main/course-tasks/week-4-task.pdf',
     )
+
+    // 12 task sheets, 3 links under the table and 2 in the footer: all of them open a new tab.
+    const external = screen
+      .getAllByRole('link')
+      .filter((link) => link.getAttribute('href')?.startsWith('http'))
+    expect(external).toHaveLength(17)
+    for (const link of external) {
+      expect(link).toHaveAttribute('target', '_blank')
+      expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+    }
+    expect(screen.getByRole('link', { name: 'Code (opens in a new tab)' })).toBeInTheDocument()
+
     await router.navigate('/nowhere')
     expect(await screen.findByText('This page does not exist.')).toBeInTheDocument()
   })
