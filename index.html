@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="My courses app from the EPAM React Fundamentals course (2021): log in, browse, search, add and edit courses. Rebuilt with React 19, Redux Toolkit and a backend of my own that runs in the browser."
+    />
+    <title>Courses – React Fundamentals</title>
+    <script>
+      // Pick the theme before the first paint, so the page never flashes the wrong colors:
+      // the visitor's saved choice, light by default. The key is this site's own: every project
+      // page on mazsola739.github.io shares one localStorage.
+      ;(() => {
+        let theme
+        try {
+          theme = localStorage.getItem('rika-react-fundamentals:theme')
+        } catch {}
+        document.documentElement.dataset.theme = theme === 'dark' ? 'dark' : 'light'
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

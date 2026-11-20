@@ -1,64 +1,45 @@
 {
-  "name": "courses-app",
-  "version": "0.1.0",
+  "name": "rika-react-fundamentals",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/user-event": "^12.8.3",
-    "axios": "^0.21.4",
-    "i": "^0.3.7",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-redux": "^7.2.5",
-    "react-router-dom": "^5.3.0",
-    "react-scripts": "^4.0.3",
-    "redux": "^4.1.1",
-    "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.3.0",
-    "web-vitals": "^1.1.2"
-  },
+  "version": "2.0.0",
+  "type": "module",
+  "description": "My courses app from the EPAM React Fundamentals course (2021), rebuilt with React 19, Redux Toolkit and a backend of my own",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
-    "eject": "react-scripts eject",
-    "eslint": "eslint --ext .js --ext .jsx src",
-    "eslint:fix": "eslint --fix --ext .js --ext .jsx src",
-    "test:nowatch": "react-scripts test --watchAll=false",
-    "prepare": "husky install",
-    "prepublish": "npm run eslint:fix && npm run test:nowatch"
+    "dev": "vite",
+    "dev:server": "vite --mode server",
+    "server": "bun --watch server/main.ts",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -b",
+    "lint": "biome check .",
+    "lint:ci": "biome ci .",
+    "format": "biome check --write ."
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@fontsource-variable/roboto": "^5.3.0",
+    "@reduxjs/toolkit": "^2.15.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-redux": "^9.3.1",
+    "react-router": "^7.18.5"
   },
   "devDependencies": {
-    "@testing-library/react": "^12.1.2",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.26.1",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^7.0.2",
-    "prettier": "^2.4.1"
+    "@biomejs/biome": "^2.6.7",
+    "@tailwindcss/vite": "^4.3.5",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.10",
+    "@types/bun": "^1.4.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "happy-dom": "^21.0.4",
+    "tailwindcss": "^4.3.5",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
   }
 }

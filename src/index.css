@@ -1,13 +1,67 @@
-body {
-	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-		sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+@import "tailwindcss";
+
+/* Dark mode follows the data-theme attribute that index.html and the ThemeToggle set. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * The 2021 look: Bootstrap 5's "info" cyan on a pale blue page, thin dark borders and small radii,
+ * as semantic tokens, with a night version of the same colors.
+ */
+:root {
+  --page: #ecf6f8;
+  --surface: #ffffff;
+  --tint: #cff4fc;
+  --tint-line: #9eeaf9;
+  --bar: #a8ecfa;
+  --button: #86e5f8;
+  --button-hover: #0dcaf0;
+  --ink: #212529;
+  --muted: #495057;
+  --line: #212529;
+  --accent: #055160;
+  --danger: #b02a37;
+  color-scheme: light;
 }
 
-code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-		monospace;
+[data-theme="dark"] {
+  --page: #0b1a1e;
+  --surface: #11262c;
+  --tint: #0f3540;
+  --tint-line: #1d6a7c;
+  --bar: #135565;
+  --button: #0e6b80;
+  --button-hover: #1290ab;
+  --ink: #e4f5f9;
+  --muted: #a3c3ca;
+  --line: #4e8391;
+  --accent: #6edff6;
+  --danger: #ff8a95;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: "Roboto Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-tint: var(--tint);
+  --color-tint-line: var(--tint-line);
+  --color-bar: var(--bar);
+  --color-button: var(--button);
+  --color-button-hover: var(--button-hover);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-danger: var(--danger);
+}
+
+@layer base {
+  body {
+    @apply bg-page font-sans text-ink antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
 }
