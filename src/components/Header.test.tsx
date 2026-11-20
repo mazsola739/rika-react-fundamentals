@@ -18,13 +18,4 @@ describe('Header', () => {
     expect(screen.queryByText('Admin')).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Logout' })).not.toBeInTheDocument()
   })
-
-  it('switches to the dark theme and remembers it', async () => {
-    const { user } = renderWithStore(<Header />)
-    await user.click(screen.getByRole('button', { name: 'Switch to dark mode' }))
-    expect(document.documentElement.dataset.theme).toBe('dark')
-    expect(localStorage.getItem('rika-react-fundamentals:theme')).toBe('dark')
-    await user.click(screen.getByRole('button', { name: 'Switch to light mode' }))
-    expect(document.documentElement.dataset.theme).toBe('light')
-  })
 })

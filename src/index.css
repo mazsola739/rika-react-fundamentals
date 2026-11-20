@@ -1,11 +1,8 @@
 @import "tailwindcss";
 
-/* Dark mode follows the data-theme attribute that index.html and the ThemeToggle set. */
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 /*
  * The 2021 look: Bootstrap 5's "info" cyan on a pale blue page, thin dark borders and small radii,
- * as semantic tokens, with a night version of the same colors.
+ * as semantic tokens.
  */
 :root {
   --page: #ecf6f8;
@@ -21,22 +18,6 @@
   --accent: #055160;
   --danger: #b02a37;
   color-scheme: light;
-}
-
-[data-theme="dark"] {
-  --page: #0b1a1e;
-  --surface: #11262c;
-  --tint: #0f3540;
-  --tint-line: #1d6a7c;
-  --bar: #135565;
-  --button: #0e6b80;
-  --button-hover: #1290ab;
-  --ink: #e4f5f9;
-  --muted: #a3c3ca;
-  --line: #4e8391;
-  --accent: #6edff6;
-  --danger: #ff8a95;
-  color-scheme: dark;
 }
 
 @theme inline {

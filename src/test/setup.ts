@@ -14,5 +14,4 @@ afterEach(() => {
   cleanup()
   localStorage.clear()
   setBrowserApi(null)
-  document.documentElement.dataset.theme = 'light'
 })

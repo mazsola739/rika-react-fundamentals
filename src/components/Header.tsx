@@ -3,7 +3,6 @@ import { Button } from '../common/Button.tsx'
 import { LaptopIcon } from '../common/icons.tsx'
 import { selectUser, useAppDispatch, useAppSelector } from '../store/hooks.ts'
 import { logout } from '../store/userSlice.ts'
-import { ThemeToggle } from './ThemeToggle.tsx'
 
 /** The logo of 2021: Font Awesome's laptop and the word Courses. */
 export function Logo() {
@@ -15,7 +14,7 @@ export function Logo() {
   )
 }
 
-/** Logo, the logged-in user's name and Logout; the theme switch is my 2026 addition. */
+/** Logo, the logged-in user's name and Logout. */
 export function Header() {
   const { isAuth, name, email } = useAppSelector(selectUser)
   const dispatch = useAppDispatch()
@@ -44,7 +43,6 @@ export function Header() {
             <Button onClick={onLogout}>Logout</Button>
           </>
         )}
-        <ThemeToggle />
       </nav>
     </header>
   )

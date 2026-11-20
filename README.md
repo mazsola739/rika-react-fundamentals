@@ -30,7 +30,7 @@ delete freely: **Reset demo data** in the footer brings back the courses of 2021
 - **Admin only**: a form to create and update courses (create authors, add them to the course or take
   them off, duration preview) and a delete button; the routes are guarded, a student is sent back to
   the courses
-- Light and dark theme, works on phones, keyboard and screen reader friendly
+- Works on phones, keyboard and screen reader friendly
 - **About page** with the five weeks and EPAM's task sheets, and a 404 page
 
 ## The backend is mine
@@ -73,18 +73,18 @@ message or a list of `errors`.
 
 ## What changed since 2021
 
-| 2021                                          | 2026                                                                                |
-| --------------------------------------------- | ----------------------------------------------------------------------------------- |
-| Create React App 4, npm                       | Vite 8, Bun                                                                         |
-| React 17, JavaScript, PropTypes               | React 19, TypeScript                                                                |
-| Redux 4 and redux-thunk, action types by hand | Redux Toolkit: slices and `createAsyncThunk`                                        |
-| React Router 5                                | React Router 7, hash routing for GitHub Pages                                       |
-| Bootstrap 5 and Font Awesome from CDNs        | Tailwind CSS 4 with the same cyan look, a dark theme, SVG icons, self-hosted Roboto |
-| EPAM's NestJS backend on `localhost:3000`     | My own backend: a Bun server, or the same code in the browser                       |
-| Passwords in plain text in a JSON file        | PBKDF2 hashes, expiring tokens                                                      |
-| `alert('Please, fill in all fields')`         | The form lists what is missing                                                      |
-| Jest and Testing Library                      | Vitest and Testing Library: 62 tests, 19 of them for the backend                    |
-| ESLint, Prettier, Husky                       | Biome, GitHub Actions deploy to GitHub Pages                                        |
+| 2021                                          | 2026                                                                        |
+| --------------------------------------------- | --------------------------------------------------------------------------- |
+| Create React App 4, npm                       | Vite 8, Bun                                                                 |
+| React 17, JavaScript, PropTypes               | React 19, TypeScript                                                        |
+| Redux 4 and redux-thunk, action types by hand | Redux Toolkit: slices and `createAsyncThunk`                                |
+| React Router 5                                | React Router 7, hash routing for GitHub Pages                               |
+| Bootstrap 5 and Font Awesome from CDNs        | Tailwind CSS 4 with the same light cyan look, SVG icons, self-hosted Roboto |
+| EPAM's NestJS backend on `localhost:3000`     | My own backend: a Bun server, or the same code in the browser               |
+| Passwords in plain text in a JSON file        | PBKDF2 hashes, expiring tokens                                              |
+| `alert('Please, fill in all fields')`         | The form lists what is missing                                              |
+| Jest and Testing Library                      | Vitest and Testing Library: 61 tests, 19 of them for the backend            |
+| ESLint, Prettier, Husky                       | Biome, GitHub Actions deploy to GitHub Pages                                |
 
 The courses are the ones I made up in 2021: Zombie, DeLorean, Cat, Hodor, Far far away and Cupcake
 ipsum, with superheroes and Game of Thrones characters as authors.
