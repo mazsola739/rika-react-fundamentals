@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router'
 import { getBrowserApi } from '../api/client.ts'
 import { ExternalLink } from '../common/ExternalLink.tsx'
-import { PORTFOLIO_URL, REPO_URL, SERVER_URL } from '../site.ts'
+import { ANGULAR_APP_URL, PORTFOLIO_URL, REPO_URL, SERVER_URL } from '../site.ts'
 import { fetchAuthors } from '../store/authorsSlice.ts'
 import { fetchCourses } from '../store/coursesSlice.ts'
 import { useAppDispatch } from '../store/hooks.ts'
@@ -32,6 +32,9 @@ export function Footer() {
         </Link>
         <ExternalLink href={REPO_URL} className={linkClass}>
           Code
+        </ExternalLink>
+        <ExternalLink href={ANGULAR_APP_URL} className={linkClass}>
+          Angular version
         </ExternalLink>
         <ExternalLink href={PORTFOLIO_URL} className={linkClass}>
           Portfolio

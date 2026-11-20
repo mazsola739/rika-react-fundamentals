@@ -143,11 +143,12 @@ describe('the courses app', () => {
     const { router, user } = renderApp('/about')
     expect(await screen.findByRole('heading', { name: 'About this app' })).toBeInTheDocument()
 
-    // GitHub and the portfolio open a new tab: 3 links under the table and 2 in the footer.
+    // GitHub, the Angular version and the portfolio open a new tab: 4 links under the table and
+    // 3 in the footer.
     const external = screen
       .getAllByRole('link')
       .filter((link) => link.getAttribute('href')?.startsWith('http'))
-    expect(external).toHaveLength(5)
+    expect(external).toHaveLength(7)
     for (const link of external) {
       expect(link).toHaveAttribute('target', '_blank')
       expect(link).toHaveAttribute('rel', 'noopener noreferrer')

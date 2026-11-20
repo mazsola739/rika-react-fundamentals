@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { ExternalLink } from '../common/ExternalLink.tsx'
 import { Panel } from '../common/ui.tsx'
-import { DEMO_ACCOUNTS, PORTFOLIO_URL, REPO_URL } from '../site.ts'
+import { ANGULAR_APP_URL, DEMO_ACCOUNTS, PORTFOLIO_URL, REPO_URL } from '../site.ts'
 import { WEEKS } from '../taskSheets.ts'
 
 const linkClass = 'font-medium text-accent underline underline-offset-2'
@@ -94,6 +94,9 @@ export function About() {
         </ExternalLink>
         <ExternalLink href={`${REPO_URL}/tree/v2021`} className={linkClass}>
           The code as I handed it in (2021)
+        </ExternalLink>
+        <ExternalLink href={ANGULAR_APP_URL} className={linkClass}>
+          The same app in Angular
         </ExternalLink>
         <ExternalLink href={PORTFOLIO_URL} className={linkClass}>
           My portfolio

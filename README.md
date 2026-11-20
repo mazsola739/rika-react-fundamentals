@@ -2,7 +2,7 @@
 
 A courses app: log in, browse and search the courses; admins add, update and delete them.
 
-**Live:** <https://mazsola739.github.io/rika-react-fundamentals/> · **Portfolio:** <https://mazsola739.github.io/mazsola739/>
+**Live:** <https://mazsola739.github.io/rika-react-fundamentals/> · **Portfolio:** <https://mazsola739.github.io/mazsola739/> · **The same app in Angular:** <https://mazsola739.github.io/rika-angular-fundamentals/>
 
 It was my homework for the **React Fundamentals** course of EPAM's junior program, in autumn 2021:
 five modules in five weeks, and every week the same app grew: components, routing, Redux, async Redux
