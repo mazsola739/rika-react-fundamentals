@@ -1,11 +1,16 @@
 import { screen, waitFor, within } from '@testing-library/react'
 import type userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { services } from './api/services.ts'
 import { TOKEN_KEY } from './store/userSlice.ts'
 import { renderApp } from './test/render.tsx'
 
 /** The whole app against the backend that runs in the browser, with the seed data of 2021. */
+
+// pdf.js needs a real canvas; the task sheet pages are tested without it.
+vi.mock('./components/PdfPages.tsx', () => ({
+  default: ({ title }: { title: string }) => <p>The pages of {title}</p>,
+}))
 
 type User = ReturnType<typeof userEvent.setup>
 
@@ -134,28 +139,47 @@ describe('the courses app', () => {
     expect(localStorage.getItem(TOKEN_KEY)).toBeNull()
   })
 
-  it('shows the About page without a login, and a 404 page for unknown addresses', async () => {
-    const { router } = renderApp('/about')
+  it('shows the About page and the task sheets without a login', async () => {
+    const { router, user } = renderApp('/about')
     expect(await screen.findByRole('heading', { name: 'About this app' })).toBeInTheDocument()
-    expect(
-      screen.getByRole('link', { name: 'Week 4 Task (PDF), opens in a new tab' }),
-    ).toHaveAttribute(
-      'href',
-      'https://github.com/mazsola739/rika-react-fundamentals/blob/main/course-tasks/week-4-task.pdf',
-    )
 
-    // 12 task sheets, 3 links under the table and 2 in the footer: all of them open a new tab.
+    // GitHub and the portfolio open a new tab: 3 links under the table and 2 in the footer.
     const external = screen
       .getAllByRole('link')
       .filter((link) => link.getAttribute('href')?.startsWith('http'))
-    expect(external).toHaveLength(17)
+    expect(external).toHaveLength(5)
     for (const link of external) {
       expect(link).toHaveAttribute('target', '_blank')
       expect(link).toHaveAttribute('rel', 'noopener noreferrer')
     }
     expect(screen.getByRole('link', { name: 'Code (opens in a new tab)' })).toBeInTheDocument()
 
-    await router.navigate('/nowhere')
+    // The task sheets open inside the app.
+    await user.click(screen.getByRole('link', { name: 'Week 4 Task' }))
+    expect(router.state.location.pathname).toBe('/tasks/week-4-task')
+    expect(
+      await screen.findByRole('heading', { name: 'Week 4: Async Redux – Task' }),
+    ).toBeInTheDocument()
+    expect(await screen.findByText('The pages of Week 4: Async Redux – Task')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Open the PDF (opens in a new tab)' })).toHaveAttribute(
+      'href',
+      expect.stringContaining('week-4-task'),
+    )
+
+    await user.click(screen.getByRole('link', { name: 'Components' }))
+    expect(
+      await screen.findByRole('heading', { name: 'Week 4: Async Redux – Components' }),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Components' })).toHaveAttribute('aria-current', 'page')
+
+    await user.click(screen.getByRole('link', { name: '← Back to About' }))
+    expect(await screen.findByRole('heading', { name: 'About this app' })).toBeInTheDocument()
+  })
+
+  it('shows a 404 page for unknown addresses and task sheets', async () => {
+    const { router } = renderApp('/nowhere')
     expect(await screen.findByText('This page does not exist.')).toBeInTheDocument()
+    await router.navigate('/tasks/week-9-task')
+    expect(await screen.findByText('There is no task sheet with this name.')).toBeInTheDocument()
   })
 })

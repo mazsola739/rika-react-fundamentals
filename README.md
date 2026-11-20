@@ -31,7 +31,8 @@ delete freely: **Reset demo data** in the footer brings back the courses of 2021
   them off, duration preview) and a delete button; the routes are guarded, a student is sent back to
   the courses
 - Works on phones, keyboard and screen reader friendly
-- **About page** with the five weeks and EPAM's task sheets, and a 404 page
+- **About page** with the five weeks; EPAM's task sheets open inside the app (drawn with pdf.js, so
+  they work on phones too), and a 404 page
 
 ## The backend is mine
 
@@ -83,7 +84,7 @@ message or a list of `errors`.
 | EPAM's NestJS backend on `localhost:3000`     | My own backend: a Bun server, or the same code in the browser               |
 | Passwords in plain text in a JSON file        | PBKDF2 hashes, expiring tokens                                              |
 | `alert('Please, fill in all fields')`         | The form lists what is missing                                              |
-| Jest and Testing Library                      | Vitest and Testing Library: 61 tests, 19 of them for the backend            |
+| Jest and Testing Library                      | Vitest and Testing Library: 64 tests, 19 of them for the backend            |
 | ESLint, Prettier, Husky                       | Biome, GitHub Actions deploy to GitHub Pages                                |
 
 The courses are the ones I made up in 2021: Zombie, DeLorean, Cat, Hodor, Far far away and Cupcake
@@ -93,7 +94,7 @@ ipsum, with superheroes and Game of Thrones characters as authors.
 
 React 19 · TypeScript · [Redux Toolkit](https://redux-toolkit.js.org) ·
 [React Router 7](https://reactrouter.com) · [Tailwind CSS 4](https://tailwindcss.com) ·
-[Vite](https://vite.dev) · [Vitest](https://vitest.dev) + Testing Library ·
+[pdf.js](https://mozilla.github.io/pdf.js/) · [Vite](https://vite.dev) · [Vitest](https://vitest.dev) + Testing Library ·
 [Biome](https://biomejs.dev) · [Bun](https://bun.sh)
 
 ## Run locally
@@ -132,9 +133,10 @@ src/
   api/          the request function and services.ts, every call to the backend
   store/        Redux Toolkit: user, courses and authors slices, typed hooks and selectors
   components/   Header, Courses, CourseCard, SearchBar, CourseInfo, CourseForm, Login,
-                Registration, About, the route guards, with their tests
+                Registration, About, the task sheet page, the route guards, with their tests
   common/       Button, Input, icons and small UI pieces
   helpers/      duration, date and author name formatting
+  taskSheets.ts the five weeks and their task sheets
 course-tasks/   EPAM's task sheets of the five weeks (PDF)
 ```
 
@@ -147,4 +149,5 @@ Actions**.
 ## Course material
 
 The task sheets in [`course-tasks/`](course-tasks) are EPAM's material from the course (October 2021);
-the solutions are mine.
+the solutions are mine. The build includes them, and each one has a page in the app, e.g.
+[`#/tasks/week-4-task`](https://mazsola739.github.io/rika-react-fundamentals/#/tasks/week-4-task).

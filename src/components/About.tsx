@@ -1,58 +1,8 @@
 import { Link } from 'react-router'
 import { ExternalLink } from '../common/ExternalLink.tsx'
 import { Panel } from '../common/ui.tsx'
-import { DEMO_ACCOUNTS, PORTFOLIO_URL, REPO_URL, taskSheetUrl } from '../site.ts'
-
-/** The five weeks of the course, with EPAM's task sheets in course-tasks/. */
-const WEEKS = [
-  {
-    week: 1,
-    topic: 'Components, state and props',
-    got: 'Header, course cards, search bar and the new course form, with mocked data',
-    sheets: [
-      ['Task', 'week-1-task.pdf'],
-      ['Components', 'week-1-components.pdf'],
-      ['ESLint', 'week-1-eslint.pdf'],
-      ['Pre-commit', 'week-1-pre-commit.pdf'],
-    ],
-  },
-  {
-    week: 2,
-    topic: 'React Router',
-    got: 'Login, registration and the course page, the first calls to the backend',
-    sheets: [
-      ['Task', 'week-2-task.pdf'],
-      ['Components', 'week-2-components.pdf'],
-    ],
-  },
-  {
-    week: 3,
-    topic: 'Redux',
-    got: 'A store with user, courses and authors, filled from the backend',
-    sheets: [
-      ['Task', 'week-3-task.pdf'],
-      ['Components', 'week-3-components.pdf'],
-    ],
-  },
-  {
-    week: 4,
-    topic: 'Async Redux',
-    got: 'Thunks, the admin role, private routes, updating and deleting courses',
-    sheets: [
-      ['Task', 'week-4-task.pdf'],
-      ['Components', 'week-4-components.pdf'],
-    ],
-  },
-  {
-    week: 5,
-    topic: 'Tests',
-    got: 'Tests for the header, the cards, the course list, the form and a reducer',
-    sheets: [
-      ['Task', 'week-5-task.pdf'],
-      ['Instructions', 'week-5-instructions.pdf'],
-    ],
-  },
-] as const
+import { DEMO_ACCOUNTS, PORTFOLIO_URL, REPO_URL } from '../site.ts'
+import { WEEKS } from '../taskSheets.ts'
 
 const linkClass = 'font-medium text-accent underline underline-offset-2'
 
@@ -102,15 +52,15 @@ export function About() {
                 <td className="px-3 py-2">{got}</td>
                 <td className="px-3 py-2">
                   <ul className="flex flex-wrap gap-x-3">
-                    {sheets.map(([label, file]) => (
-                      <li key={file}>
-                        <ExternalLink
-                          href={taskSheetUrl(file)}
+                    {sheets.map(({ label, slug }) => (
+                      <li key={slug}>
+                        <Link
+                          to={`/tasks/${slug}`}
                           className={linkClass}
-                          aria-label={`Week ${week} ${label} (PDF)`}
+                          aria-label={`Week ${week} ${label}`}
                         >
                           {label}
-                        </ExternalLink>
+                        </Link>
                       </li>
                     ))}
                   </ul>

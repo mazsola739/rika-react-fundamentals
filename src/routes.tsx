@@ -7,8 +7,9 @@ import { GuestOnly, Home, Layout, PrivateRoute, RequireAuth } from './components
 import { Login } from './components/Login.tsx'
 import { NotFound } from './components/NotFound.tsx'
 import { Registration } from './components/Registration.tsx'
+import { TaskSheetPage } from './components/TaskSheetPage.tsx'
 
-/** The routes of the course, plus an About page and a 404 page. */
+/** The routes of the course, plus an About page, the task sheets and a 404 page. */
 export const routes: RouteObject[] = [
   {
     element: <Layout />,
@@ -31,6 +32,7 @@ export const routes: RouteObject[] = [
         ),
       },
       { path: 'about', element: <About /> },
+      { path: 'tasks/:sheet', element: <TaskSheetPage /> },
       {
         element: <RequireAuth />,
         children: [
