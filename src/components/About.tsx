@@ -99,7 +99,7 @@ export function About() {
           The same app in Angular
         </ExternalLink>
         <ExternalLink href={PORTFOLIO_URL} className={linkClass}>
-          My portfolio
+          Portfolio
         </ExternalLink>
       </p>
     </Panel>

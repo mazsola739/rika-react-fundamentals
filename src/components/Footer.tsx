@@ -37,7 +37,7 @@ export function Footer() {
           Angular version
         </ExternalLink>
         <ExternalLink href={PORTFOLIO_URL} className={linkClass}>
-          Portfolio
+          mazsola739
         </ExternalLink>
         {!SERVER_URL && (
           <button type="button" onClick={resetData} className={`cursor-pointer ${linkClass}`}>
