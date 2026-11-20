@@ -6,7 +6,7 @@ A courses app: log in, browse and search the courses; admins add, update and del
 
 It was my homework for the **React Fundamentals** course of EPAM's junior program, in autumn 2021:
 five modules in five weeks, and every week the same app grew: components, routing, Redux, async Redux
-with thunks, and tests. EPAM gave the task sheets and a NestJS backend to run on localhost. In 2026 I
+with thunks, and tests. The course gave the task sheets and a NestJS backend to run on localhost. In 2026 I
 rebuilt the app with today's tools and wrote the backend myself, so the whole thing runs on GitHub Pages.
 The commits from 2021 are still here; the state I handed in is tagged [`v2021`](../../tree/v2021).
 
@@ -31,12 +31,12 @@ delete freely: **Reset demo data** in the footer brings back the courses of 2021
   them off, duration preview) and a delete button; the routes are guarded, a student is sent back to
   the courses
 - Works on phones, keyboard and screen reader friendly
-- **About page** with the five weeks; EPAM's task sheets open inside the app (drawn with pdf.js, so
+- **About page** with the five weeks; the course's task sheets open inside the app (drawn with pdf.js, so
   they work on phones too), and a 404 page
 
 ## The backend is mine
 
-The course came with EPAM's NestJS backend that stored its data in JSON files. For the renovation I
+The course came with a NestJS backend that stored its data in JSON files. For the renovation I
 wrote my own in [`server/`](server): the same endpoints and the same answers, so the app's requests did
 not have to change, but no framework, only the web platform's `Request` and `Response`.
 
@@ -81,7 +81,7 @@ message or a list of `errors`.
 | Redux 4 and redux-thunk, action types by hand | Redux Toolkit: slices and `createAsyncThunk`                                |
 | React Router 5                                | React Router 7, hash routing for GitHub Pages                               |
 | Bootstrap 5 and Font Awesome from CDNs        | Tailwind CSS 4 with the same light cyan look, SVG icons, self-hosted Roboto |
-| EPAM's NestJS backend on `localhost:3000`     | My own backend: a Bun server, or the same code in the browser               |
+| A NestJS backend on `localhost:3000`          | My own backend: a Bun server, or the same code in the browser               |
 | Passwords in plain text in a JSON file        | PBKDF2 hashes, expiring tokens                                              |
 | `alert('Please, fill in all fields')`         | The form lists what is missing                                              |
 | Jest and Testing Library                      | Vitest and Testing Library: 64 tests, 19 of them for the backend            |
@@ -137,7 +137,7 @@ src/
   common/       Button, Input, icons and small UI pieces
   helpers/      duration, date and author name formatting
   taskSheets.ts the five weeks and their task sheets
-course-tasks/   EPAM's task sheets of the five weeks (PDF)
+course-tasks/   the course's task sheets of the five weeks (PDF)
 ```
 
 ## Deployment

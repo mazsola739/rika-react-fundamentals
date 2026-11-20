@@ -3,7 +3,7 @@
   "private": true,
   "version": "2.0.0",
   "type": "module",
-  "description": "My courses app from the EPAM React Fundamentals course (2021), rebuilt with React 19, Redux Toolkit and a backend of my own",
+  "description": "My courses app from a React Fundamentals course (2021), rebuilt with React 19, Redux Toolkit and a backend of my own",
   "scripts": {
     "dev": "vite",
     "dev:server": "vite --mode server",

@@ -25,7 +25,7 @@ export function Footer() {
 
   return (
     <footer className="mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-line/30 pt-4 text-sm text-muted">
-      <p>EPAM React Fundamentals homework, 2021 · renovated in 2026</p>
+      <p>React Fundamentals homework, 2021 · renovated in 2026</p>
       <nav aria-label="Project" className="flex flex-wrap items-center gap-x-4 gap-y-1">
         <Link to="/about" className={linkClass}>
           About

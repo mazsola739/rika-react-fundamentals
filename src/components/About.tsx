@@ -13,10 +13,10 @@ export function About() {
         About this app
       </h1>
       <p>
-        This courses app is my homework from the <b>React Fundamentals</b> course of EPAM's junior
-        program, in autumn 2021. The course had five modules, one a week, and every week the same
-        app grew: components first, then routing, Redux, async Redux and tests. EPAM gave the task
-        sheets and a NestJS backend to run on localhost; the solutions were mine.
+        This courses app is my homework from a <b>React Fundamentals</b> course in autumn 2021. The
+        course had five modules, one a week, and every week the same app grew: components first,
+        then routing, Redux, async Redux and tests. The course gave the task sheets and a NestJS
+        backend to run on localhost; the solutions were mine.
       </p>
       <p>
         In 2026 I renovated it with React 19, TypeScript and Redux Toolkit, and wrote the backend
